@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import { useTheme, Text,TextInput,Button} from 'react-native-paper';
 
-export default function Register() {
+export default function Register({navigation}) {
   const theme = useTheme();
   return (
     <KeyboardAvoidingView
@@ -14,7 +14,7 @@ export default function Register() {
       <TextInput left={<TextInput.Icon icon="account-outline" />} icon="account-outline" placeholder="Enter your name" label="Name" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
       <TextInput left={<TextInput.Icon icon="email-outline" />}  placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
 
-      <Button onPress={() => navigation.navigate('Register')} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
+      <Button onPress={() => navigation.navigate('Password')} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
         Next
       </Button>
     </KeyboardAvoidingView>
