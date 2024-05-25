@@ -10,28 +10,29 @@ export default function Login({navigation}) {
     const [state, setState] = useState({
         error: false,
         visible: false,
-        email: "test@gmail.com",
-        password: "test123",
+        email: "fagner",
+        password: "fagner",
         userEmail: "",
+        userPassword: "",
         hideModal: false,
         message: "Please enter your email and password"
     });
 
+    // Function to login
     const login = () => {
-        console.log("aa");
-        if (state.email !== "teswt@gmail.com" || state.password !== "testr123") {
-            setState({ ...state, error: true,visible: true});
+        // Check if the email and password are correct
+        if (state.email == state.userEmail && state.password == state.userPassword) {
+            setState({ ...state, error: false}); // Set the error to false
+            navigation.navigate('Register') // Navigate to the Register screen
 
-        } else {
-           
+        } else {// If the email and password are incorrect
+            setState({ ...state, error: true,visible: true});// Set the error to true
         }
     };
 
-    const hideModal = () => {
-        console.log("bb");
-        setState({ ...state, error: false,visible: false});
-
-        navigation.navigate('Register')
+    const hideModal = () => { // Function to hide the modal
+       
+        setState({ ...state, visible: false}); // Set the visible to false
     }
     return(
         <KeyboardAvoidingView
@@ -41,7 +42,7 @@ export default function Login({navigation}) {
             <Text variant="displaySmall">your account</Text>     
             <Text variant="titleMedium" style={{marginBottom:"15%"}}>Please, enter your details</Text>      
             <TextInput onChangeText = {(text)=>{setState({...state,userEmail:text})}} error={state.error} left={<TextInput.Icon icon="email-outline" />} icon="account-outline" placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
-            <TextInput left={<TextInput.Icon icon="lock-outline" />}  placeholder="Enter your password" label="Password" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
+            <TextInput onChange={((text)=>{setState({...state,userPassword:text})})}  error={state.error} left={<TextInput.Icon icon="lock-outline" />}  placeholder="Enter your password" label="Password" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
 
             <Button dark={true} onPress={login} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
                 Next
@@ -49,8 +50,9 @@ export default function Login({navigation}) {
 
 
         <Portal>
-            <Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center"}} >
-            <Text>{state.message}</Text>
+            <Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
+            <Text variant="displaySmall" style={{marginBottom:"15%"}}>Error</Text>
+            <Text variant="titleMedium" style={{marginBottom:"15%"}}>{state.message}</Text>     
             </Modal>
       </Portal>
         </KeyboardAvoidingView>    
