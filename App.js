@@ -10,6 +10,7 @@ import Screen1 from './screens/beforeLogin/LoginOrRegister';
 import Register from './screens/beforeLogin/Register';
 import Login from './screens/beforeLogin/Login';
 import Password from './screens/beforeLogin/Password';
+import EmailVerification from './screens/beforeLogin/EmailVerification';
 
 
 const Stack = createNativeStackNavigator();
@@ -18,9 +19,10 @@ export default function App() {
   return (
     <PaperProvider >
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Password">
+      <Stack.Navigator initialRouteName="EmailVerification">
         <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+        <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
         <Stack.Screen name="Password" component={Password} options={{ headerShown: false }}/>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
       </Stack.Navigator>
