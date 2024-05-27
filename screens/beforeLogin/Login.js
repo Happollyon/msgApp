@@ -55,6 +55,14 @@ export default function Login({navigation}) {
             <Text variant="titleMedium" style={{marginBottom:"15%"}}>{state.message}</Text>     
             </Modal>
       </Portal>
+      <Portal>
+            <Modal visible={"visible"} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
+                <Text variant="headlineLarge" style={{marginBottom:"15%"}}>2 Steps Verification</Text>
+                <Text variant="titleMedium" style={{marginBottom:"15%"}}>Enter the code below</Text>
+                <Text variant="titleMedium" style={{marginBottom:"15%"}}>in the verification app</Text>   
+                <Text variant="displaySmall" style={{marginBottom:"15%"}}>55</Text>     
+            </Modal>
+      </Portal>
         </KeyboardAvoidingView>    
     )
 }

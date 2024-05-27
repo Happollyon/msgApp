@@ -19,7 +19,7 @@ export default function App() {
   return (
     <PaperProvider >
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="EmailVerification">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
         <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
