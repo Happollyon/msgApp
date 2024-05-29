@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Login.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Login.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
+import * as React from 'react';
+import { Platform,Image,KeyboardAvoidingView } from 'react-native';
+import {useTheme, Text,TextInput,Button,Portal,Modal} from 'react-native-paper';
+
+
+/**
+ * Login component.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.navigation - Navigation object from react-navigation.
+ * @returns {React.Element} Rendered component.
+ */
+
+export default function Login({navigation}) {
+
+    const theme = useTheme();
+
+     /**
+     * State for the component.
+     * @type {Object}
+     */
+    const [state, setState] = useState({
+        error: false,
+        visible: false,
+        email: "fagner",
+        password: "fagner",
+        userEmail: "",
+        userPassword: "",
+        hideModal: false,
+        message: "Please enter your email and password"
+    });
+
+    /**
+     * Function to login.
+     */
+    const login = () => {
+        // Check if the email and password are correct
+        if (state.email == state.userEmail &amp;&amp; state.password == state.userPassword) {
+            setState({ ...state, error: false}); // Set the error to false
+            navigation.navigate('Register') // Navigate to the Register screen
+
+        } else {// If the email and password are incorrect
+            setState({ ...state, error: true,visible: true});// Set the error to true
+        }
+    };
+
+     /**
+     * Function to hide the modal.
+     */
+    const hideModal = () => { // Function to hide the modal
+       
+        setState({ ...state, visible: false}); // Set the visible to false
+    }
+    return(
+        &lt;KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center',justifyContent: 'center'}}>
+            &lt;Image style={{marginBottom:"15%"}}source={require('../../assets/logo.png')} />
+            &lt;Text variant="displaySmall">Login into&lt;/Text>
+            &lt;Text variant="displaySmall">your account&lt;/Text>     
+            &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>Please, enter your details&lt;/Text>      
+            &lt;TextInput onChangeText = {(text)=>{setState({...state,userEmail:text})}} error={state.error} left={&lt;TextInput.Icon icon="email-outline" />} icon="account-outline" placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
+            &lt;TextInput onChange={((text)=>{setState({...state,userPassword:text})})}  error={state.error} left={&lt;TextInput.Icon icon="lock-outline" />}  placeholder="Enter your password" label="Password" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
+
+            &lt;Button dark={true} onPress={login} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
+                Next
+            &lt;/Button>
+
+
+        &lt;Portal>
+            &lt;Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
+            &lt;Text variant="displaySmall" style={{marginBottom:"15%"}}>Error&lt;/Text>
+            &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>{state.message}&lt;/Text>     
+            &lt;/Modal>
+      &lt;/Portal>
+      &lt;Portal>
+            &lt;Modal visible={"visible"} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
+                &lt;Text variant="headlineLarge" style={{marginBottom:"15%"}}>2 Steps Verification&lt;/Text>
+                &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>Enter the code below&lt;/Text>
+                &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>in the verification app&lt;/Text>   
+                &lt;Text variant="displaySmall" style={{marginBottom:"15%"}}>55&lt;/Text>     
+            &lt;/Modal>
+      &lt;/Portal>
+        &lt;/KeyboardAvoidingView>    
+    )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed May 29 2024 08:32:35 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

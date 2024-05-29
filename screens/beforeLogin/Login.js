@@ -3,10 +3,23 @@ import * as React from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import {useTheme, Text,TextInput,Button,Portal,Modal} from 'react-native-paper';
 
+
+/**
+ * Login component.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.navigation - Navigation object from react-navigation.
+ * @returns {React.Element} Rendered component.
+ */
+
 export default function Login({navigation}) {
 
     const theme = useTheme();
 
+     /**
+     * State for the component.
+     * @type {Object}
+     */
     const [state, setState] = useState({
         error: false,
         visible: false,
@@ -18,7 +31,9 @@ export default function Login({navigation}) {
         message: "Please enter your email and password"
     });
 
-    // Function to login
+    /**
+     * Function to login.
+     */
     const login = () => {
         // Check if the email and password are correct
         if (state.email == state.userEmail && state.password == state.userPassword) {
@@ -30,6 +45,9 @@ export default function Login({navigation}) {
         }
     };
 
+     /**
+     * Function to hide the modal.
+     */
     const hideModal = () => { // Function to hide the modal
        
         setState({ ...state, visible: false}); // Set the visible to false
