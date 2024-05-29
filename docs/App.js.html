@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>App.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,31 +37,59 @@
 
 <div id="main">
     
+    <h1 class="page-title">App.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { PaperProvider } from 'react-native-paper';
 
 
-    <section class="package">
-        <h3> </h3>		
+// ################### Screen Imports before Login ###################
+import Screen1 from './screens/beforeLogin/LoginOrRegister';
+import Register from './screens/beforeLogin/Register';
+import Login from './screens/beforeLogin/Login';
+import Password from './screens/beforeLogin/Password';
+import EmailVerification from './screens/beforeLogin/EmailVerification';
+
+
+const Stack = createNativeStackNavigator();
+/**
+ * @module App
+ * @description This is the App component. It is the root component of the app.
+ * @author Fagner Nunes
+ * @returns {React.Element} Rendered component.
+ */
+export default function App() {
+ 
+  
+  return (
+    &lt;PaperProvider >
+    &lt;NavigationContainer>
+      &lt;Stack.Navigator initialRouteName="Login">
+        &lt;Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
+        &lt;Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+        &lt;Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
+        &lt;Stack.Screen name="Password" component={Password} options={{ headerShown: false }}/>
+        &lt;Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+      &lt;/Stack.Navigator>
+    &lt;/NavigationContainer>
+    &lt;/PaperProvider>
+  );
+}
+
+</code></pre>
+        </article>
     </section>
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
 
 
 

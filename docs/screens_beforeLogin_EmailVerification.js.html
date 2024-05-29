@@ -1,4 +1,53 @@
-import { useState,useRef} from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>screens/beforeLogin/EmailVerification.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">screens/beforeLogin/EmailVerification.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState,useRef} from "react";
 import * as React from "react";
 import { View, Platform, Image, KeyboardAvoidingView } from "react-native";
 import { useTheme, Text, TextInput, Button, Portal, Modal } from "react-native-paper";
@@ -88,71 +137,96 @@ export default function EmailVerification({ navigation }) {
      * 
      */
     const verifyCode = () => { // Function to verify the code
-        if(state.number1 == "1" && state.number2 == "2" && state.number3 == "3" && state.number4 == "4"){
+        if(state.number1 == "1" &amp;&amp; state.number2 == "2" &amp;&amp; state.number3 == "3" &amp;&amp; state.number4 == "4"){
             navigation.navigate('Register') // Navigate to the Register screen if the code is correct
         }else{
             setState({...state, visible: true, message: "The code is incorrect"}) // Set the visible to true and the message to "The code is incorrect"
         }
     }
-    
     const hideModal = () => { // Function to hide the modal
        
         setState({ ...state, visible: false}); // Set the visible to false
     }
 
     return(
-        <KeyboardAvoidingView
+        &lt;KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center',justifyContent: 'center'}}>
-            <Image style={{marginBottom:"15%"}} source={require('../../assets/logo.png')} />
-            <Text variant="displaySmall">Check your email</Text>
-            <Text variant="titleMedium" style={{marginBottom:"15%"}}>We sent a code to fagnernunes@gmail.com</Text>  
-            <View style={{display:"flex", flexDirection:"row",justifyContent:"space-around", width:"80%",marginBottom:"15%"}}>
-                <View style={{ borderBottomWidth:"3px"}}>
-                    <TextInput 
+            &lt;Image style={{marginBottom:"15%"}} source={require('../../assets/logo.png')} />
+            &lt;Text variant="displaySmall">Check your email&lt;/Text>
+            &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>We sent a code to fagnernunes@gmail.com&lt;/Text>  
+            &lt;View style={{display:"flex", flexDirection:"row",justifyContent:"space-around", width:"80%",marginBottom:"15%"}}>
+                &lt;View style={{ borderBottomWidth:"3px"}}>
+                    &lt;TextInput 
                         ref={input1}
                         maxLength={1}
                         keyboardType="numeric"
                         value={state.number1}
                         onChangeText={(text) => enterCode(1,text)}
                     />
-                </View>
-                <View style={{ borderBottomWidth:"3px"}}>
-                    <TextInput
+                &lt;/View>
+                &lt;View style={{ borderBottomWidth:"3px"}}>
+                    &lt;TextInput
                         ref={input2}
                         maxLength={1}
                         keyboardType="numeric"
                         value={state.number2}
                         onChangeText={(text) => enterCode(2,text)}
                     />
-                </View><View style={{ borderBottomWidth:"3px"}}>
-                    <TextInput 
+                &lt;/View>&lt;View style={{ borderBottomWidth:"3px"}}>
+                    &lt;TextInput 
                         ref={input3}
                         maxLength={1}
                         keyboardType="numeric"
                         value={state.number3}
                         onChangeText={(text) => enterCode(3,text)}
                     />
-                </View><View style={{ borderBottomWidth:"3px"}}>
-                    <TextInput 
+                &lt;/View>&lt;View style={{ borderBottomWidth:"3px"}}>
+                    &lt;TextInput 
                         ref={input4}
                         maxLength={1}
                         keyboardType="numeric"
                         value={state.number4}
                         onChangeText={(text) => enterCode(4,text)}
                     />
-                </View>
-            </View>
-            <Button dark={true} onPress={verifyCode}  style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
+                &lt;/View>
+            &lt;/View>
+            &lt;Button dark={true} onPress={verifyCode}  style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
                 Next
-            </Button>
-            <Text variant="titleMedium" style={{marginBottom:"15%"}}>Didn’t receive the code? Click here!</Text>  
+            &lt;/Button>
+            &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>Didn’t receive the code? Click here!&lt;/Text>  
 
-            <Portal>
-                <Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
-                <Text variant="displaySmall" style={{marginBottom:"15%"}}>Error</Text>
-                <Text variant="titleMedium" style={{marginBottom:"15%"}}>{state.message}</Text>     
-                </Modal>
-            </Portal>
-        </KeyboardAvoidingView>
+            &lt;Portal>
+                &lt;Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
+                &lt;Text variant="displaySmall" style={{marginBottom:"15%"}}>Error&lt;/Text>
+                &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>{state.message}&lt;/Text>     
+                &lt;/Modal>
+            &lt;/Portal>
+        &lt;/KeyboardAvoidingView>
     )
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Wed May 29 2024 12:56:08 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

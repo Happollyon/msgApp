@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
+import { Appearance } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { PaperProvider } from 'react-native-paper';
+import { PaperProvider,DefaultTheme, DarkTheme  } from 'react-native-paper';
 
 
 // ################### Screen Imports before Login ###################
@@ -14,12 +15,21 @@ import EmailVerification from './screens/beforeLogin/EmailVerification';
 
 
 const Stack = createNativeStackNavigator();
-export default function App() {
+/**
+ * @module App
+ * @description This is the App component. It is the root component of the app.
+ * @author Fagner Nunes
+ * @returns {React.Element} Rendered component.
+ */
 
+export default function App() {
+  const colorScheme = Appearance.getColorScheme();
+
+  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
   return (
-    <PaperProvider >
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+    <PaperProvider theme={theme} >
+    <NavigationContainer theme={theme}>
+      <Stack.Navigator initialRouteName="LoginOrRegister">
         <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
         <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>screens/beforeLogin/LoginOrRegister.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,31 +37,57 @@
 
 <div id="main">
     
+    <h1 class="page-title">screens/beforeLogin/LoginOrRegister.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from 'react';
+import { View,Image } from 'react-native';
+import { Button,Text} from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 
+/**
+ * @module screens/beforeLogin/LoginOrRegister
+ * @description This is the LoginOrRegister component. It is the screen where the user can choose to login or register.
+ * @author Fagner Nunes
+ * 
+ * @param {Object} param0 - Component props.
+ * @param {Object} param0.navigation - Navigation object from react-navigation.
+ *
+ * @returns {React.Element} Rendered component.
+ */
 
-    <section class="package">
-        <h3> </h3>		
+export default function LoginOrRegister({navigation}) {
+  const theme = useTheme();
+  return (
+    &lt;View style={{ backgroundColor: theme.colors.surface, flex: 1, alignItems: 'center',justifyContent: 'center'}}>
+        &lt;Image style={{marginBottom:"15%"}}source={require('../../assets/logo.png')} />
+        &lt;Text variant="displaySmall">Welcome to&lt;/Text>    
+        &lt;Text variant="displaySmall">StealthComms&lt;/Text> 
+        &lt;Text variant="displaySmall">Where Your Privacy&lt;/Text> 
+        &lt;Text variant="displaySmall">Comes First!  &lt;/Text> 
+        &lt;Text variant="titleMedium">Your messages are encrypted end-to-end&lt;/Text>
+        &lt;Text variant="titleMedium">,ensuring your conversations&lt;/Text>
+        &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>remain yours and yours alone&lt;/Text>
+        &lt;Button style={{width:"80%", marginBottom:"2%"}} mode="contained"  onPress={() => navigation.navigate('Register')} buttonColor = {theme.colors.primary}>
+          Register
+        &lt;/Button>
+        &lt;Button style={{width:"80%"}} mode="contained"  onPress={() => navigation.navigate('Login')} buttonColor = {theme.colors.secondary}>
+          Login
+        &lt;/Button>
+    &lt;/View>
+  );
+}
+
+  </code></pre>
+        </article>
     </section>
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
 
 
 
