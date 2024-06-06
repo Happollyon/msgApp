@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import { useTheme, Text,TextInput,Button} from 'react-native-paper';
+import ModalComp from '../ModalComp';
+
 
 export default function Register({navigation}) {
   const theme = useTheme();
@@ -9,7 +11,9 @@ export default function Register({navigation}) {
     name:"",
     email:"",
     nameerror:false,
-    emailerror:false
+    emailerror:false,
+    message:"",
+    modalVisible:false,
   });
 
   const handleNameChange = (name) => {
@@ -22,10 +26,12 @@ export default function Register({navigation}) {
   const submitNameEmail = () => {
     let nameError = false;
     let emailError = false;
+    let message = "";
+    let modalVisible = false;
   
     if(state.name == ""){
       nameError = true;
-      console.log("name error");
+
     }
     if(state.email == ""){
       emailError = true;
@@ -33,12 +39,15 @@ export default function Register({navigation}) {
     // check if email follows the email pattern
     if(!state.email.includes('@') || !state.email.includes('.')){
       emailError = true;
+      message = "Please enter a valid email";
+      modalVisible = true;
+
     }
     if(state.name != "" && state.email != "" && !emailError && !nameError){
       navigation.navigate('Password');
     }
   
-    setState({...state, nameerror: nameError, emailerror: emailError});
+    setState({...state, nameerror: nameError, emailerror: emailError, message: message,modalVisible: modalVisible});
     console.log(state);
   }
   
@@ -55,6 +64,9 @@ export default function Register({navigation}) {
       <Button onPress={submitNameEmail} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
         Next
       </Button>
+
+      <ModalComp getVisible={() => state.modalVisible} Title="Error" Message="Please enter your email and password"/>
+        
     </KeyboardAvoidingView>
   );
 }

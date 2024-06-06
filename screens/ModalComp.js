@@ -1,17 +1,20 @@
 import {Text,Portal,Modal,useTheme} from 'react-native-paper';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
-export default function ModalComp({navigation,Title, Message}) {
+export default function ModalComp({navigation,Title, Message,getVisible}) {
 
-const [state, setState] = useState({
-       
-        visible: true,
-       
-});
+    const [state, setState] = useState({
+        visible: getVisible(),
+    });
+    
+    useEffect(() => {
+        setState({ ...state, visible: getVisible()});
+    }, [getVisible]); // This tells React to call our effect when `getVisible` changes
 const theme = useTheme();
 const hideModal = () => { // Function to hide the modal
     setState({ ...state, visible: false}); // Set the visible to false
 }
+
 
 return(    
     <Portal>
