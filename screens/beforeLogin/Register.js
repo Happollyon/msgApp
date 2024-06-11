@@ -5,64 +5,122 @@ import { useTheme, Text,TextInput,Button} from 'react-native-paper';
 import ModalComp from '../ModalComp';
 const appConfig = require('../../appConf.json');
 const baseurlBack = appConfig.baseurlBack;
+/**
+ * 
+ *@module screens/beforeLogin/Register
+ *@description This is the Register component. It is the screen where the user begin the registration flow into the app.
+ *@author Fagner Nunes
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.navigation - Navigation object from react-navigation.
+ * @returns {React.Element} Rendered component. 
+ */
 
 export default function Register({navigation}) {
   const theme = useTheme();
+
+  /**
+   * State for the component.
+   * @type {Object}
+   * @property {string} name - The name state. this state is used to store the name that the user typed.
+   * @property {string} email - The email state. this state is used to store the email that the user typed.
+   * @property {boolean} nameerror - The nameerror state. this state is used by the TextInput component to show the error.
+   * @property {boolean} emailerror - The emailerror state. this state is used by the TextInput component to show the error.
+   * @property {string} message - The message state. this state is used to show the message in the modal.
+   * @property {boolean} modalVisible - The modalVisible state. this state is used to show the modal.
+   * 
+   */
   const [state,setState] = useState({
     name:"",
     email:"",
     nameerror:false,
     emailerror:false,
     message:"",
+    messageTitle:"",
     modalVisible:false,
   });
 
+
+
+  /**
+   * @function handleNameChange
+   * @description This function is used to handle the name change.
+   * @param {string} name - The name to be updated.
+   * @returns {void} This function does not return anything.
+   */
   const handleNameChange = (name) => {
     setState({...state,name:name})
   }
+
+  /**
+   * @function handleEmailChange
+   * @description This function is used to handle the email change.
+   * @param {string} email - The email to be updated.
+   * @returns {void} This function does not return anything.
+   */
+  // Function to handle the email change
   const handleEmailChange = (email) => {
     setState({...state,email:email})
   }
 
+  /**
+   * @function submitNameEmail
+   * @description This function is used to submit the name and email to the server and navigate to the code screen. It also validates the name and email.
+   * @returns {void} This function does not return anything.
+   * 
+   */
   const submitNameEmail = async () => {
+    //initialize the variables
     let nameError = false;
     let emailError = false;
     let message = "";
+    let messageTitle = "";
     let modalVisible = false;
   
-    if(state.name == ""){
+    if(state.name == ""){ // check if the name is empty
       nameError = true;
     }
-    if(state.email == ""){
+    if(state.email == ""){// check if the email is empty
       emailError = true;
     }
-    // check if email follows the email pattern
+    // check if email follows the email pattern and update the emailError,message and modalvisible variable
     if(!state.email.includes('@') || !state.email.includes('.')){
       emailError = true;
       message = "Please enter a valid email";
       modalVisible = true;
     }
-    if(state.name != "" && state.email != "" && !emailError && !nameError){
+    if(state.name != "" && state.email != "" && !emailError && !nameError){ // if the name and email are not empty and the email is valid
+      // Fetch the URL
       const url = `${baseurlBack}/register/name-email/${encodeURIComponent(state.name)}/${encodeURIComponent(state.email)}`;
       console.log("Fetching URL:", url);
       try {
-        const response = await fetch(url);
-        console.log("Response:", response);
-        console.log("Response status:", response.status);
-       
+        const response = await fetch(url); // Fetch the URL
 
-        if (response.status == 200) {
-          console.log("success");
-          const data = await response.json();
-          navigation.navigate('Password');
+        if (response.status == 200) { // If the response status is 200 (OK)
+         await response.json().then((data) => {
+            console.log("Data:", data); 
+            if(!data.error){
+              navigation.navigate('Password');
+            }else{
+              console.log("Error:", data.errorMessage);
+              // Update the message and modalVisible based on the error
+              message = data.errorMessage;
+              messageTitle = "Error";
+              modalVisible = true;
+            }
+            
+          });
+          
         } else {
-          console.log("error");
           // Update the message and modalVisible based on the error
           message = "Registration failed. Please try again.";
+          messageTitle = "Error";
           modalVisible = true;
         }
       } catch (error) {
+        // Update the message and modalVisible based on the error
         console.error("Fetch error:", error);
+        messageTitle = "Network error";
         message = "Network error. Please try again.";
         modalVisible = true;
       }
@@ -70,7 +128,8 @@ export default function Register({navigation}) {
       
     }
   
-    setState({...state, nameerror: nameError, emailerror: emailError, message: message,modalVisible: modalVisible});
+    // Update the state
+    setState({...state, nameerror: nameError, emailerror: emailError, message: message,modalVisible: modalVisible, messageTitle: messageTitle});
    
   }
   
@@ -89,8 +148,8 @@ export default function Register({navigation}) {
       </Button>
 
       <ModalComp
-  Title="Example Title"
-  Message="This is an example message."
+  Title={state.messageTitle}
+  Message={state.message}
   getVisible={() => state.modalVisible}
   onHide={() => setState({ modalVisible: false })}
 />  
