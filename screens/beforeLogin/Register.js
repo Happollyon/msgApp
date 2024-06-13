@@ -3,17 +3,21 @@ import { useState } from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import { useTheme, Text,TextInput,Button} from 'react-native-paper';
 import ModalComp from '../ModalComp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const appConfig = require('../../appConf.json');
 const baseurlBack = appConfig.baseurlBack;
+
 /**
  * 
  *@module screens/beforeLogin/Register
  *@description This is the Register component. It is the screen where the user begin the registration flow into the app.
  *@author Fagner Nunes
  *
- * @param {Object} props - Component props.
- * @param {Object} props.navigation - Navigation object from react-navigation.
- * @returns {React.Element} Rendered component. 
+ *@param {Object} props - Component props.
+ *@param {Object} props.navigation - Navigation object from react-navigation.
+ *@returns {React.Element} Rendered component. 
  */
 
 export default function Register({navigation}) {
@@ -92,15 +96,18 @@ export default function Register({navigation}) {
     if(state.name != "" && state.email != "" && !emailError && !nameError){ // if the name and email are not empty and the email is valid
       // Fetch the URL
       const url = `${baseurlBack}/register/name-email/${encodeURIComponent(state.name)}/${encodeURIComponent(state.email)}`;
-      console.log("Fetching URL:", url);
+      
       try {
         const response = await fetch(url); // Fetch the URL
 
         if (response.status == 200) { // If the response status is 200 (OK)
-         await response.json().then((data) => {
+         await response.json().then(async (data) => {
             console.log("Data:", data); 
             if(!data.error){
-              navigation.navigate('Password');
+
+              // save token here to  with user id JWT
+              await AsyncStorage.setItem('stoken', data.token);
+              navigation.navigate('EmailVerification');
             }else{
               console.log("Error:", data.errorMessage);
               // Update the message and modalVisible based on the error

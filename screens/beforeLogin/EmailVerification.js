@@ -2,6 +2,11 @@ import { useState,useRef} from "react";
 import * as React from "react";
 import { View, Platform, Image, KeyboardAvoidingView } from "react-native";
 import { useTheme, Text, TextInput, Button, Portal, Modal } from "react-native-paper";
+import ModalComp from '../ModalComp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const appConfig = require('../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
 
 
 /**
@@ -35,8 +40,9 @@ export default function EmailVerification({ navigation }) {
         number2: '',
         number3: '',
         number4: '',
-        visible: false,
-        message: ""
+        message:"",
+        messageTitle:"",
+        modalVisible:false,
     })
 
     /**
@@ -60,7 +66,6 @@ export default function EmailVerification({ navigation }) {
             if(numb !=""){ // Check if the numb is not empty
             input2.current.focus(); // Focus on the input2
              }
-            
         }
         if(input == 2){// Check if the input is 2
             setState({...state, number2: numb})// Set the number2 to numb
@@ -87,19 +92,36 @@ export default function EmailVerification({ navigation }) {
      * @returns {void} This function does not return anything.
      * 
      */
-    const verifyCode = () => { // Function to verify the code
-        if(state.number1 == "1" && state.number2 == "2" && state.number3 == "3" && state.number4 == "4"){
-            navigation.navigate('Register') // Navigate to the Register screen if the code is correct
+    const verifyCode = async () => { // Function to verify the code
+       
+        let message = "";
+        let messageTitle = "";
+        let modalVisible = false;
+      
+        
+        if(state.number1 == "" || state.number2 == "" || state.number3 == "" || state.number4 == ""){ // Check if the number1 or number2 or number3 or number4 is empty
+            message = "Please enter the 4 digits code"; // Set the message to "Please enter the 4 digits code"
+            messageTitle = "Error"; // Set the messageTitle to "Error"
+            modalVisible = true; // Set the modalVisible to true
+          
         }else{
-            setState({...state, visible: true, message: "The code is incorrect"}) // Set the visible to true and the message to "The code is incorrect"
-        }
+            const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
+            const url = `${baseurlBack}/register/verify-code/${state.number1}${state.number2}${state.number3}${state.number4}`; // Set the url to the baseurlBack/register/verify-code/number1number2number3number4
+            // fetch url and add token
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "authorization":token
+                }
+        }).then(response => response.json())
+        console.log("here")
+    }
+       
+        setState({...state, modalVisible:modalVisible,messageTitle:messageTitle, message: message})
+        
     }
     
-    const hideModal = () => { // Function to hide the modal
-       
-        setState({ ...state, visible: false}); // Set the visible to false
-    }
-
     return(
         <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center',justifyContent: 'center'}}>
@@ -148,10 +170,12 @@ export default function EmailVerification({ navigation }) {
             <Text variant="titleMedium" style={{marginBottom:"15%"}}>Didn’t receive the code? Click here!</Text>  
 
             <Portal>
-                <Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
-                <Text variant="displaySmall" style={{marginBottom:"15%"}}>Error</Text>
-                <Text variant="titleMedium" style={{marginBottom:"15%"}}>{state.message}</Text>     
-                </Modal>
+            <ModalComp
+                Title={state.messageTitle}
+                Message={state.message}
+                getVisible={() => state.modalVisible}
+                onHide={() => setState({ ...state, modalVisible: false })}
+/>  
             </Portal>
         </KeyboardAvoidingView>
     )
