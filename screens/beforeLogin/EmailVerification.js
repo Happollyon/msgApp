@@ -140,6 +140,44 @@ export default function EmailVerification({ navigation }) {
         setState({...state, modalVisible:modalVisible,messageTitle:messageTitle, message: message})
         
     }
+
+    const resendcode = async () => {
+
+        let message = "";
+        let messageTitle = "";
+        let modalVisible = false;
+
+        console.log("Resend code")
+        const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
+        const url = `${baseurlBack}/register/resend-code`; // Set the url to the baseurlBack/register/resend-code
+
+        // fetch url and add token
+        await fetch(url, {
+            method: 'GET',
+            headers: {'Authorization': `Bearer ${token}`}
+        
+        }).then( async response => {
+            if(response.status ==200){
+                await response.json().then(data => {
+                    console.log(data)
+                    if(data.error){ // Check if there is an error
+                        message = data.errorMessage; // Set the message to data.errorMessage
+                        messageTitle = "Error"; // Set the messageTitle to "Error"
+                        modalVisible = true; // Set the modalVisible to true
+                    }else{
+                        message = "Code sent successfully"; // Set the message to "Code sent successfully"
+                        messageTitle = "Success"; // Set the messageTitle to "Success"
+                        modalVisible = true; // Set the modalVisible to true
+                    }
+                })
+            }else{
+                message = "A network error occurred. Please Try again. "; // Set the message to "An error occurred"
+                messageTitle = "Error"; // Set the messageTitle to "Error"
+                modalVisible = true; // Set the modalVisible to true
+            }
+        })
+        setState({...state, modalVisible:modalVisible,messageTitle:messageTitle, message: message})
+    }
     
     return(
         <KeyboardAvoidingView
@@ -186,7 +224,7 @@ export default function EmailVerification({ navigation }) {
             <Button dark={true} onPress={verifyCode}  style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
                 Next
             </Button>
-            <Text variant="titleMedium" style={{marginBottom:"15%"}}>Didn’t receive the code? Click here!</Text>  
+            <Text variant="titleMedium" style={{marginBottom:"15%"}}>Didn’t receive the code? <Text onPress={resendcode} variant="titleMedium" style={{fontWeight:"bold",color:theme.colors.primary}}>Click here!</Text></Text>  
 
             <Portal>
             <ModalComp
