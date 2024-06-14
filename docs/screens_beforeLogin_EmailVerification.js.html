@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
     
 </nav>
 
@@ -51,6 +51,11 @@
 import * as React from "react";
 import { View, Platform, Image, KeyboardAvoidingView } from "react-native";
 import { useTheme, Text, TextInput, Button, Portal, Modal } from "react-native-paper";
+import ModalComp from '../ModalComp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const appConfig = require('../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
 
 
 /**
@@ -75,8 +80,9 @@ export default function EmailVerification({ navigation }) {
      * @property {string} number2 - The number2 state. this state is used to store the second number that the user typed.
      * @property {string} number3 - The number3 state. this state is used to store the third number that the user typed.
      * @property {string} number4 - The number4 state. this state is used to store the fourth number that the user typed.
-     * @property {boolean} visible - The visible state. this state is used by the Modal component to show the modal.
+     * @property {boolean} modalVisible - The modalVisible state. this state is used by the Modal component to show the modal.
      * @property {string} message - The message state. this state is used to show the message in the modal.
+     * @property {string} messageTitle - The messageTitle state. this state is used to show the message title in the modal.
      */
     const theme = useTheme();
     const [state, setState] = useState({
@@ -84,8 +90,9 @@ export default function EmailVerification({ navigation }) {
         number2: '',
         number3: '',
         number4: '',
-        visible: false,
-        message: ""
+        message:"",
+        messageTitle:"",
+        modalVisible:false,
     })
 
     /**
@@ -109,7 +116,6 @@ export default function EmailVerification({ navigation }) {
             if(numb !=""){ // Check if the numb is not empty
             input2.current.focus(); // Focus on the input2
              }
-            
         }
         if(input == 2){// Check if the input is 2
             setState({...state, number2: numb})// Set the number2 to numb
@@ -136,18 +142,41 @@ export default function EmailVerification({ navigation }) {
      * @returns {void} This function does not return anything.
      * 
      */
-    const verifyCode = () => { // Function to verify the code
-        if(state.number1 == "1" &amp;&amp; state.number2 == "2" &amp;&amp; state.number3 == "3" &amp;&amp; state.number4 == "4"){
-            navigation.navigate('Register') // Navigate to the Register screen if the code is correct
-        }else{
-            setState({...state, visible: true, message: "The code is incorrect"}) // Set the visible to true and the message to "The code is incorrect"
-        }
-    }
-    const hideModal = () => { // Function to hide the modal
+    const verifyCode = async () => { // Function to verify the code
        
-        setState({ ...state, visible: false}); // Set the visible to false
+        let message = "";
+        let messageTitle = "";
+        let modalVisible = false;
+      
+        
+        if(state.number1 == "" || state.number2 == "" || state.number3 == "" || state.number4 == ""){ // Check if the number1 or number2 or number3 or number4 is empty
+            message = "Please enter the 4 digits code"; // Set the message to "Please enter the 4 digits code"
+            messageTitle = "Error"; // Set the messageTitle to "Error"
+            modalVisible = true; // Set the modalVisible to true
+          
+        }else{
+            const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
+            const url = `${baseurlBack}/register/confirmation-code/${state.number1}${state.number2}${state.number3}${state.number4}`; // Set the url to the baseurlBack/register/verify-code/number1number2number3number4
+            console.log(token)
+            // fetch url and add token
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    "authorization": `Bearer ${token}`
+                }
+        }).then(response => {
+            console.log(response.status)
+            if(response.status == 200){ // Check if the response status is 200
+                navigation.navigate('Password'); // Navigate to the PasswordReset screen
+        }
+    })
+        console.log("here")
     }
-
+       
+        setState({...state, modalVisible:modalVisible,messageTitle:messageTitle, message: message})
+        
+    }
+    
     return(
         &lt;KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center',justifyContent: 'center'}}>
@@ -196,10 +225,12 @@ export default function EmailVerification({ navigation }) {
             &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>Didn’t receive the code? Click here!&lt;/Text>  
 
             &lt;Portal>
-                &lt;Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
-                &lt;Text variant="displaySmall" style={{marginBottom:"15%"}}>Error&lt;/Text>
-                &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>{state.message}&lt;/Text>     
-                &lt;/Modal>
+            &lt;ModalComp
+                Title={state.messageTitle}
+                Message={state.message}
+                getVisible={() => state.modalVisible}
+                onHide={() => setState({ ...state, modalVisible: false })}
+/>  
             &lt;/Portal>
         &lt;/KeyboardAvoidingView>
     )
@@ -217,7 +248,7 @@ export default function EmailVerification({ navigation }) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Wed May 29 2024 12:56:08 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Thu Jun 13 2024 20:38:23 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

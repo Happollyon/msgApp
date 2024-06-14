@@ -31,8 +31,9 @@ export default function EmailVerification({ navigation }) {
      * @property {string} number2 - The number2 state. this state is used to store the second number that the user typed.
      * @property {string} number3 - The number3 state. this state is used to store the third number that the user typed.
      * @property {string} number4 - The number4 state. this state is used to store the fourth number that the user typed.
-     * @property {boolean} visible - The visible state. this state is used by the Modal component to show the modal.
+     * @property {boolean} modalVisible - The modalVisible state. this state is used by the Modal component to show the modal.
      * @property {string} message - The message state. this state is used to show the message in the modal.
+     * @property {string} messageTitle - The messageTitle state. this state is used to show the message title in the modal.
      */
     const theme = useTheme();
     const [state, setState] = useState({
@@ -106,16 +107,34 @@ export default function EmailVerification({ navigation }) {
           
         }else{
             const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
-            const url = `${baseurlBack}/register/verify-code/${state.number1}${state.number2}${state.number3}${state.number4}`; // Set the url to the baseurlBack/register/verify-code/number1number2number3number4
+            const url = `${baseurlBack}/register/confirmation-code/${state.number1}${state.number2}${state.number3}${state.number4}`; // Set the url to the baseurlBack/register/verify-code/number1number2number3number4
+           
             // fetch url and add token
-            fetch(url, {
+             await fetch(url, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
-                    "authorization":token
+                    "authorization": `Bearer ${token}`
                 }
-        }).then(response => response.json())
-        console.log("here")
+        }).then( async response => {
+            
+            if(response.status == 200){ // Check if the response status is 200
+
+               await  response.json().then(data => { // Parse the response to json
+                    console.log(data)
+                    if(data.error){ // Check if there is an error
+                        message = data.errorMessage; // Set the message to data.errorMessage
+                        messageTitle = "Error"; // Set the messageTitle to "Error"
+                        modalVisible = true; // Set the modalVisible to true
+                        console.log("Error:", data.errorMessage);
+                    }else{
+                        navigation.navigate('Password'); // Navigate to the PasswordReset screen
+                    }
+                    
+                }); 
+               
+            
+        }
+    })
     }
        
         setState({...state, modalVisible:modalVisible,messageTitle:messageTitle, message: message})

@@ -1,4 +1,53 @@
-import * as React from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>screens/beforeLogin/Register.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">screens/beforeLogin/Register.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from 'react';
 import { useState } from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import { useTheme, Text,TextInput,Button} from 'react-native-paper';
@@ -93,7 +142,7 @@ export default function Register({navigation}) {
       message = "Please enter a valid email";
       modalVisible = true;
     }
-    if(state.name != "" && state.email != "" && !emailError && !nameError){ // if the name and email are not empty and the email is valid
+    if(state.name != "" &amp;&amp; state.email != "" &amp;&amp; !emailError &amp;&amp; !nameError){ // if the name and email are not empty and the email is valid
       // Fetch the URL
       const url = `${baseurlBack}/register/name-email/${encodeURIComponent(state.name)}/${encodeURIComponent(state.email)}`;
       
@@ -141,25 +190,52 @@ export default function Register({navigation}) {
   }
   
   return (
-    <KeyboardAvoidingView
+    &lt;KeyboardAvoidingView
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.surface, flex: 1, alignItems: 'center',justifyContent: 'center'}}>
-      <Image style={{marginBottom:"15%"}}source={require('../../assets/logo.png')} />
-      <Text variant="displaySmall">Create an account</Text>    
-      <Text variant="titleMedium" style={{marginBottom:"5%"}}>Welcome! Please enter your details. </Text>
+      &lt;Image style={{marginBottom:"15%"}}source={require('../../assets/logo.png')} />
+      &lt;Text variant="displaySmall">Create an account&lt;/Text>    
+      &lt;Text variant="titleMedium" style={{marginBottom:"5%"}}>Welcome! Please enter your details. &lt;/Text>
      
-      <TextInput onChangeText={(text)=>{setState({...state,name:text})}} error={state.nameerror} left={<TextInput.Icon  icon="account-outline" />} icon="account-outline" placeholder="Enter your name" label="Name" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
-      <TextInput onChangeText={(text)=>{setState({...state,email:text})}} error={state.emailerror} left={<TextInput.Icon  icon="email-outline" />}  placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
+      &lt;TextInput onChangeText={(text)=>{setState({...state,name:text})}} error={state.nameerror} left={&lt;TextInput.Icon  icon="account-outline" />} icon="account-outline" placeholder="Enter your name" label="Name" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
+      &lt;TextInput onChangeText={(text)=>{setState({...state,email:text})}} error={state.emailerror} left={&lt;TextInput.Icon  icon="email-outline" />}  placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
 
-      <Button onPress={submitNameEmail} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
+      &lt;Button onPress={submitNameEmail} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
         Next
-      </Button>
+      &lt;/Button>
 
-      <ModalComp
+      &lt;ModalComp
   Title={state.messageTitle}
   Message={state.message}
   getVisible={() => state.modalVisible}
   onHide={() => setState({ modalVisible: false })}
 />  
-    </KeyboardAvoidingView>
+    &lt;/KeyboardAvoidingView>
   );
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Thu Jun 13 2024 20:38:23 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

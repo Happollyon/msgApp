@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>screens/beforeLogin/Password - Documentation</title>
+    <title>screens/ModalComp - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">screens/beforeLogin/Password</h1>
+    <h1 class="page-title">screens/ModalComp</h1>
     
 
     
@@ -60,7 +60,7 @@
         <div class="container-overview">
         
             
-                <div class="description usertext"><p>This is the Password component. It is the screen where the user can enter a password that follows the secure passoword gideline.</p></div>
+                <div class="description usertext"><p>This is the ModalComp component. It is the component that shows the modal. It is used to show messages to the user.</p></div>
             
 
             
@@ -72,13 +72,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>This is the Password component. It is the screen where the user can enter a password that follows the secure passoword gideline.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>This is the ModalComp component. It is the component that shows the modal. It is used to show messages to the user.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="screens_beforeLogin_Password.js.html">screens/beforeLogin/Password.js</a>, <a href="screens_beforeLogin_Password.js.html#line7">line 7</a>
+        <a href="screens_ModalComp.js.html">screens/ModalComp.js</a>, <a href="screens_ModalComp.js.html#line4">line 4</a>
     </li></ul></dd>
     
 
@@ -98,6 +98,13 @@
 
     
 
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Fagner Nunes</li>
+        </ul>
+    </dd>
     
 
     
@@ -214,6 +221,102 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>Title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The title of the modal.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The message of the modal.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>getVisible</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The function that returns the visible state of the modal.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onHide</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The function to call to hide the modal.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -284,168 +387,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~passwordSanity"><span class="type-signature type-signature-inner">(inner) </span>passwordSanity<span class="signature">(text)</span><span class="type-signature"> &rarr; {void}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>This function is used to check the password. It is used to check if the password has at least 1 number, 1 capital letter and is at least 8 chars long.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="screens_beforeLogin_Password.js.html">screens/beforeLogin/Password.js</a>, <a href="screens_beforeLogin_Password.js.html#line42">line 42</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>text</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The text that the user typed.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>This function does not return anything.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
     
 
     
