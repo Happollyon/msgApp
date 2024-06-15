@@ -147,7 +147,7 @@ export default function EmailVerification({ navigation }) {
         let messageTitle = "";
         let modalVisible = false;
 
-        console.log("Resend code")
+        
         const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
         const url = `${baseurlBack}/register/resend-code`; // Set the url to the baseurlBack/register/resend-code
 

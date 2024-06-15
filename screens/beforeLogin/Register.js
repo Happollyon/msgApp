@@ -158,7 +158,7 @@ export default function Register({navigation}) {
   Title={state.messageTitle}
   Message={state.message}
   getVisible={() => state.modalVisible}
-  onHide={() => setState({ modalVisible: false })}
+  onHide={() => setState({ ...state,modalVisible: false })}
 />  
     </KeyboardAvoidingView>
   );

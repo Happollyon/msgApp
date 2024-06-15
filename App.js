@@ -29,7 +29,7 @@ export default function App() {
   return (
     <PaperProvider theme={theme} >
     <NavigationContainer theme={theme}>
-      <Stack.Navigator initialRouteName="EmailVerification">
+      <Stack.Navigator initialRouteName="Register">
         <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
         <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>

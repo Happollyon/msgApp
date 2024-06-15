@@ -2,7 +2,14 @@ import * as React from 'react';
 import { useState,setState} from 'react';
 import { View } from 'react-native';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
-import {useTheme,Checkbox, Text,TextInput,Button} from 'react-native-paper';
+import {useTheme,Checkbox, Text,TextInput,Button,Portal} from 'react-native-paper';
+import ModalComp from '../ModalComp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+const appConfig = require('../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
 
 /**
  * Password component.
@@ -36,7 +43,10 @@ export default function Password({navigation}) {
         check1:"unchecked",
         check2:"unchecked",
         check3:"unchecked",
-        password2:""
+        password2:"",
+        message:"",
+        messageTitle:"",
+        modalVisible:false,
     });
 
     /**
@@ -47,6 +57,7 @@ export default function Password({navigation}) {
      * @returns {void} This function does not return anything.
     */
     const passwordSanity=(text)=>{
+
 
         setState(prevState => ({...prevState, password1: text}));// Set the password1 to text in the state
 
@@ -70,8 +81,51 @@ export default function Password({navigation}) {
 
     }
 
-    const hideModal = () => { 
-        setState({...state,visible:false})
+
+   const  setPassword=  async () => {
+        let message = "";
+        let messageTitle = "";
+        let modalVisible = false;
+    
+        if(state.password1===state.password2 && state.check1==="checked" && state.check2==="checked" && state.check3==="checked"){
+
+           
+        const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
+        
+        console.log("setPassword",token)
+        const url = `${baseurlBack}/register/password/${state.password1}`; // Set the url to the backend
+        
+       await fetch(url, { 
+            method:'GET',
+            headers: {'Authorization': `Bearer ${token}`}
+
+        }).then(async response => {
+            console.log(response.status)
+            if(response.status===200){
+                await response.json().then( data => {
+                    if(data.error){
+                        message = data.errorMessage;
+                        messageTitle = "Error";
+                        modalVisible = true;
+                    }else{
+                        console.log("before navigate",data)
+                        //navigation.navigate('EmailVerification');
+                    }
+                })
+            }else{
+                message = "An error occurred. Try again.";
+                messageTitle = "Error";
+                modalVisible = true;
+            }
+        });
+        
+        }else{
+            message = "The passwords do not match";
+            messageTitle = "Error";
+            modalVisible = true;
+        }
+        setState({...state,message:message,messageTitle:messageTitle,modalVisible:modalVisible})
+   
     }
     return (
         <KeyboardAvoidingView
@@ -79,7 +133,7 @@ export default function Password({navigation}) {
             
             <Image style={{marginBottom:"15%"}}source={require('../../assets/logo.png')} />   
             <TextInput onChangeText={(text)=>{passwordSanity(text)}} error={state.error} left={<TextInput.Icon icon="lock-outline" />}  placeholder="Enter your password" label="Password" style={{width:"80%",marginBottom:"4%"}} mode="outlined" />
-            <TextInput error={state.error} left={<TextInput.Icon icon="lock-outline" />}  placeholder="Confirm your password" label="Confirm" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
+            <TextInput onChangeText={(text)=>{setState({...state,password2:text})}} error={state.error} left={<TextInput.Icon icon="lock-outline" />}  placeholder="Confirm your password" label="Confirm" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
             
             
             <View style={{display:"flex", flexDirection:"Column", marginBottom:"20%"}}>
@@ -97,9 +151,18 @@ export default function Password({navigation}) {
                 </View>
             </View>
 
-            <Button onPress={() => navigation.navigate('Password')} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
+            <Button onPress={setPassword} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
                 Next
             </Button>
+
+            <Portal>
+            <ModalComp
+                Title={state.messageTitle}
+                Message={state.message}
+                getVisible={() => state.modalVisible}
+                onHide={() => setState({ ...state, modalVisible: false })}
+                />  
+            </Portal>
         </KeyboardAvoidingView>    
     )
 }
