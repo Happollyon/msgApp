@@ -102,13 +102,16 @@ export default function Password({navigation}) {
         }).then(async response => {
             console.log(response.status)
             if(response.status===200){
-                await response.json().then( data => {
+                await response.json().then( async data => {
+                    console.log(data)
                     if(data.error){
                         message = data.errorMessage;
                         messageTitle = "Error";
                         modalVisible = true;
                     }else{
-                        console.log("before navigate",data)
+                        
+                        await AsyncStorage.setItem('token',data.token);
+                        
                         //navigation.navigate('EmailVerification');
                     }
                 })

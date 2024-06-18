@@ -104,7 +104,7 @@ export default function Register({navigation}) {
          await response.json().then(async (data) => {
             console.log("Data:", data); 
             if(!data.error){
-
+              
               // save token here to  with user id JWT
               await AsyncStorage.setItem('token', data.token);
               navigation.navigate('EmailVerification');
