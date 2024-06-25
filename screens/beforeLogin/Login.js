@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState , useContext} from 'react';
 import * as React from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import {useTheme, Text,TextInput,Button,Portal,Modal} from 'react-native-paper';
+import { AuthContext } from '../../AuthContext';
 
 import ModalComp from '../ModalComp';
  
@@ -48,7 +49,11 @@ export default function Login({navigation}) {
      * @returns {void} This function does not return anything.
      * 
      */
+
+    const { setLoggedIn,loggedIn } = useContext(AuthContext); 
     const login = () => {
+        setLoggedIn(true);
+        console.log(loggedIn);
         // Check if the email and password are correct
         if (state.email == state.userEmail && state.password == state.userPassword) {
             setState({ ...state, error: false}); // Set the error to false
@@ -84,7 +89,7 @@ export default function Login({navigation}) {
                 Next
             </Button>
 
-            <ModalComp Title="Error" Message="Please enter your email and password"/>
+           
         
             <Portal>
                 <Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >

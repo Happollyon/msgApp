@@ -1,9 +1,11 @@
 import { Appearance } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
 import { PaperProvider,DefaultTheme, DarkTheme  } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
+import { AuthProvider, AuthContext } from './AuthContext';
+
 
 
 // ################### Screen Imports before Login ###################
@@ -22,6 +24,9 @@ import ProfileScreen from './screens/afterLogin/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator()
+
+
+
 /**
  * @module App
  * @description This is the App component. It is the root component of the app.
@@ -31,6 +36,7 @@ const Tab = createBottomTabNavigator()
 
 
 function MainNavigation() {
+ 
   return (
     <Tab.Navigator>
       <Tab.Screen name="Chat" component={ChatScreen} />
@@ -41,35 +47,45 @@ function MainNavigation() {
   );
 }
 
-export default function App() {
-  const colorScheme = Appearance.getColorScheme();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Simulated logged-in state
-  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
 
-   // Simulate checking login status (e.g., from AsyncStorage or context)
-   useEffect(() => {
-    // Check login status here and update isLoggedIn accordingly
-    // For demonstration, let's assume the user is logged in
-    setIsLoggedIn(false);
-  }, []);
+const InsideApp = () =>{
+  const {loggedIn} = useContext(AuthContext);
+
+  const colorScheme = Appearance.getColorScheme();
+  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+  return(
+<PaperProvider theme={theme} >
+      
+      <NavigationContainer theme={theme}>
+
+        { 
+        loggedIn ?(
+          <MainNavigation />):(
+        <Stack.Navigator initialRouteName="Loggin">
+          <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
+          <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+          <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
+          <Stack.Screen name="Password" component={Password} options={{ headerShown: false }}/>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+        </Stack.Navigator>
+      )}
+      </NavigationContainer>
+     
+    </PaperProvider>
+  )
+}
+
+export default function App() {
+ 
+ 
+ 
+
+
 
   return (
-    <PaperProvider theme={theme} >
-    <NavigationContainer theme={theme}>
-
-      { 
-      isLoggedIn ?(
-        <MainNavigation />):(
-      <Stack.Navigator initialRouteName="Register">
-        <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
-        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
-        <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
-        <Stack.Screen name="Password" component={Password} options={{ headerShown: false }}/>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-      </Stack.Navigator>
-    )}
-    </NavigationContainer>
-    </PaperProvider>
+    <AuthProvider>
+      <InsideApp />
+  </AuthProvider>
   );
 }
 

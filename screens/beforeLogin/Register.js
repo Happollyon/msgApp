@@ -6,6 +6,7 @@ import ModalComp from '../ModalComp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+
 const appConfig = require('../../appConf.json');
 const baseurlBack = appConfig.baseurlBack;
 
@@ -75,6 +76,8 @@ export default function Register({navigation}) {
    */
   const submitNameEmail = async () => {
     //initialize the variables
+   
+    
     let nameError = false;
     let emailError = false;
     let message = "";

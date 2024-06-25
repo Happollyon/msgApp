@@ -82,47 +82,48 @@ export default function Password({navigation}) {
     }
 
 
-   const  setPassword=  async () => {
-        let message = "";
-        let messageTitle = "";
-        let modalVisible = false;
+   const  setPassword=  async () => { // user clicks on the next button
+        let message = "";// Initialize the message
+        let messageTitle = "";// Initialize the messageTitle
+        let modalVisible = false;// Initialize the modalVisible
     
-        if(state.password1===state.password2 && state.check1==="checked" && state.check2==="checked" && state.check3==="checked"){
+        if(state.password1===state.password2 && state.check1==="checked" && state.check2==="checked" && state.check3==="checked"){ // Check if the passwords match and the password follows the guidelines
 
            
         const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
-        
-        console.log("setPassword",token)
+       
         const url = `${baseurlBack}/register/password/${state.password1}`; // Set the url to the backend
         
-       await fetch(url, { 
+       await fetch(url, { // Fetch the URL
             method:'GET',
-            headers: {'Authorization': `Bearer ${token}`}
+            headers: {'Authorization': `Bearer ${token}`} // Set the headers to the token from the AsyncStorage 
 
-        }).then(async response => {
-            console.log(response.status)
-            if(response.status===200){
+        }).then(async response => { // Then get the response
+            
+            if(response.status===200){ // If the response status is 200 (OK)
                 await response.json().then( async data => {
-                    console.log(data)
-                    if(data.error){
-                        message = data.errorMessage;
-                        messageTitle = "Error";
-                        modalVisible = true;
-                    }else{
+                    
+                    if(data.error){ // If the response has an error message
+                        message = data.errorMessage; // Set the message to the error message
+                        messageTitle = "Error";//   Set the messageTitle to "Error"
+                        modalVisible = true; // Set the modalVisible to true
+                    }else{ // If the response does not have an error message because login is set to true   
                         
-                        await AsyncStorage.setItem('token',data.token);
-                        
+                        await AsyncStorage.setItem('token',data.token);// Set the token in the AsyncStorage to the token from the response
+                         // if no error set login to true in userProvider
+                         
+
                         //navigation.navigate('EmailVerification');
                     }
                 })
-            }else{
+            }else{ // If the response status is not 200 (OK)
                 message = "An error occurred. Try again.";
                 messageTitle = "Error";
                 modalVisible = true;
             }
         });
         
-        }else{
+        }else{ // If the passwords do not match
             message = "The passwords do not match";
             messageTitle = "Error";
             modalVisible = true;
