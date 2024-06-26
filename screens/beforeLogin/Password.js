@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { useState,setState} from 'react';
+import { useState,setState,useContext} from 'react';
 import { View } from 'react-native';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import {useTheme,Checkbox, Text,TextInput,Button,Portal} from 'react-native-paper';
 import ModalComp from '../ModalComp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../../AuthContext';
 
 
 
@@ -80,8 +81,8 @@ export default function Password({navigation}) {
         }
 
     }
-
-
+    
+    const { setLoggedIn,loggedIn } = useContext(AuthContext); 
    const  setPassword=  async () => { // user clicks on the next button
         let message = "";// Initialize the message
         let messageTitle = "";// Initialize the messageTitle
@@ -111,7 +112,7 @@ export default function Password({navigation}) {
                         
                         await AsyncStorage.setItem('token',data.token);// Set the token in the AsyncStorage to the token from the response
                          // if no error set login to true in userProvider
-                         
+                         setLoggedIn(true); // Set the loggedIn to true 
 
                         //navigation.navigate('EmailVerification');
                     }

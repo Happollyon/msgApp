@@ -4,6 +4,11 @@ import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import {useTheme, Text,TextInput,Button,Portal,Modal} from 'react-native-paper';
 import { AuthContext } from '../../AuthContext';
 
+
+
+const appConfig = require('../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
+
 import ModalComp from '../ModalComp';
  
 /**
@@ -32,14 +37,11 @@ export default function Login({navigation}) {
      * @property {string} message - The message state. this state is used to show the message in the modal.
      */
     const [state, setState] = useState({
-        error: false,
-        visible: false,
-        email: "fagner",
-        password: "fagner",
-        userEmail: "",
-        userPassword: "",
-        hideModal: false,
-        message: "Please enter your email and password"
+        message:"",
+        error:false,
+        modalVisible:false,
+        userEmail:"",
+        userPassword:"",
     });
 
     /**
@@ -51,17 +53,54 @@ export default function Login({navigation}) {
      */
 
     const { setLoggedIn,loggedIn } = useContext(AuthContext); 
-    const login = () => {
-        setLoggedIn(true);
-        console.log(loggedIn);
-        // Check if the email and password are correct
-        if (state.email == state.userEmail && state.password == state.userPassword) {
-            setState({ ...state, error: false}); // Set the error to false
-            navigation.navigate('Register') // Navigate to the Register screen
+    const login = async () => {
+        let message = "";
+        let error = false;
+        let messageTitle = "";
+        let modalVisible= false
 
-        } else {// If the email and password are incorrect
-            setState({ ...state, error: true,visible: true});// Set the error to true
-        }
+        if(state.userEmail === "" || state.userPassword === ""){
+            message = "Please, fill all the fields.";
+            error = true;
+            messageTitle = "Error";
+            modalVisible = true;
+            }else{
+                const url = `${baseurlBack}/login/${encodeURIComponent(state.userEmail)}/${encodeURIComponent(state.userPassword)}`;
+                
+                try{
+             await fetch(url).then(async (response) => {
+               
+                if(response.status === 200){
+                    
+                    await response.json().then( async (data) => {
+                        if(data.error){
+                           
+                            message = data.errorMessage;
+                            error = true;
+                            messageTitle = "Error";
+                            modalVisible = true;
+
+                        }else{
+                            
+                            setLoggedIn(true);
+                              // save token here to  with user id JWT
+                            await AsyncStorage.setItem('token', data.token);
+                        }
+                });
+                }});
+                    
+                        
+                }catch(e){
+                    message = "Net work error. Please, try again.";
+                            error = true;
+                            messageTitle = "Error";
+                            modalVisible = true;
+                    console.log(e);
+                
+                }
+            }
+       
+        setState({...state,message:message,error:error,messageTitle:messageTitle,modalVisible:modalVisible});
     };
 
      /**
@@ -82,8 +121,8 @@ export default function Login({navigation}) {
             <Text variant="displaySmall">Login into</Text>
             <Text variant="displaySmall">your account</Text>     
             <Text variant="titleMedium" style={{marginBottom:"15%"}}>Please, enter your details</Text>      
-            <TextInput onChangeText = {(text)=>{setState({...state,userEmail:text})}} error={state.error} left={<TextInput.Icon icon="email-outline" />} icon="account-outline" placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
-            <TextInput onChange={((text)=>{setState({...state,userPassword:text})})}  error={state.error} left={<TextInput.Icon icon="lock-outline" />}  placeholder="Enter your password" label="Password" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
+            <TextInput onChangeText = {(text)=>{setState({...state,userEmail:text})}}  left={<TextInput.Icon icon="email-outline" />} icon="account-outline" placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
+            <TextInput onChangeText={(text)=>{setState({...state,userPassword:text})}} left={<TextInput.Icon icon="lock-outline" />}  placeholder="Enter your password" label="Password" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
 
             <Button dark={true} onPress={login} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
                 Next
@@ -91,14 +130,12 @@ export default function Login({navigation}) {
 
            
         
-            <Portal>
-                <Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
-                    <Text variant="headlineLarge" style={{marginBottom:"15%"}}>2 Steps Verification</Text>
-                    <Text variant="titleMedium" style={{marginBottom:"15%"}}>Enter the code below</Text>
-                    <Text variant="titleMedium" style={{marginBottom:"15%"}}>in the verification app</Text>   
-                    <Text variant="displaySmall" style={{marginBottom:"15%"}}>55</Text>     
-                </Modal>
-            </Portal>
+            <ModalComp
+            Title={state.messageTitle}
+            Message={state.message}
+            getVisible={() => state.modalVisible}
+            onHide={() => setState({ ...state,modalVisible: false })}
+            />  
         </KeyboardAvoidingView>    
     )
 }

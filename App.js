@@ -61,7 +61,7 @@ const InsideApp = () =>{
         { 
         loggedIn ?(
           <MainNavigation />):(
-        <Stack.Navigator initialRouteName="Loggin">
+        <Stack.Navigator initialRouteName="LoginOrRegister">
           <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
           <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>

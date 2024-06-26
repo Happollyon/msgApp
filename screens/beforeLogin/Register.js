@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState} from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import { useTheme, Text,TextInput,Button} from 'react-native-paper';
 import ModalComp from '../ModalComp';
@@ -74,6 +74,8 @@ export default function Register({navigation}) {
    * @returns {void} This function does not return anything.
    * 
    */
+
+ 
   const submitNameEmail = async () => {
     //initialize the variables
    
@@ -110,7 +112,9 @@ export default function Register({navigation}) {
               
               // save token here to  with user id JWT
               await AsyncStorage.setItem('token', data.token);
+              // Navigate to the EmailVerification screen
               navigation.navigate('EmailVerification');
+             
             }else{
               console.log("Error:", data.errorMessage);
               // Update the message and modalVisible based on the error
@@ -158,11 +162,11 @@ export default function Register({navigation}) {
       </Button>
 
       <ModalComp
-  Title={state.messageTitle}
-  Message={state.message}
-  getVisible={() => state.modalVisible}
-  onHide={() => setState({ ...state,modalVisible: false })}
-/>  
+      Title={state.messageTitle}
+      Message={state.message}
+      getVisible={() => state.modalVisible}
+      onHide={() => setState({ ...state,modalVisible: false })}
+    />  
     </KeyboardAvoidingView>
   );
 }
