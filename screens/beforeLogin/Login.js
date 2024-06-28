@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import {useTheme, Text,TextInput,Button,Portal,Modal} from 'react-native-paper';
 import { AuthContext } from '../../AuthContext';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const appConfig = require('../../appConf.json');
@@ -11,6 +11,8 @@ const baseurlBack = appConfig.baseurlBack;
 
 import ModalComp from '../ModalComp';
  
+
+
 /**
  * Login component.
  * @module screens/beforeLogin/Login
@@ -72,10 +74,10 @@ export default function Login({navigation}) {
                
                 if(response.status === 200){
                     
-                    await response.json().then( async (data) => {
-                        if(data.error){
+                    await response.json().then( async (responseData) => {
+                        if(responseData.error){
                            
-                            message = data.errorMessage;
+                            message = responseData.errorMessage;
                             error = true;
                             messageTitle = "Error";
                             modalVisible = true;
@@ -84,7 +86,11 @@ export default function Login({navigation}) {
                             
                             setLoggedIn(true);
                               // save token here to  with user id JWT
-                            await AsyncStorage.setItem('token', data.token);
+                            await AsyncStorage.setItem('token', responseData.token);
+                            await AsyncStorage.setItem('isLoggedIn', "true");
+                            await AsyncStorage.setItem('loggedInTime', Date.now().toString());
+                           
+                           
                         }
                 });
                 }});

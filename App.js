@@ -1,10 +1,11 @@
 import { Appearance } from 'react-native';
-import React, {useContext } from 'react';
+import React, {useContext,useState,useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
 import { PaperProvider,DefaultTheme, DarkTheme  } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
 import { AuthProvider, AuthContext } from './AuthContext';
+
 
 
 
@@ -14,17 +15,18 @@ import Register from './screens/beforeLogin/Register';
 import Login from './screens/beforeLogin/Login';
 import Password from './screens/beforeLogin/Password';
 import EmailVerification from './screens/beforeLogin/EmailVerification';
+import LoadingScreen from './screens/beforeLogin/LoadingScreen';
 
 
 // ################### Screen Imports after Login ###################
 import ChatScreen from './screens/afterLogin/ChatScreen';
 import ConatctsScreen from './screens/afterLogin/ContactsScreen';
 import ProfileScreen from './screens/afterLogin/ProfileScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator()
-
 
 
 /**
@@ -35,7 +37,7 @@ const Tab = createBottomTabNavigator()
  */
 
 
-function MainNavigation() {
+function  MainNavigation () {
  
   return (
     <Tab.Navigator>
@@ -48,8 +50,32 @@ function MainNavigation() {
 }
 
 
-const InsideApp = () =>{
-  const {loggedIn} = useContext(AuthContext);
+ const InsideApp =  () =>{
+  const { loggedIn, setLoggedIn } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+
+  useEffect(() => {
+    const checkLoggedInStatus = async () => {
+      try {
+          
+        const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+      
+        if (isLoggedIn === "true") {
+          // If the value exists, update the context or state accordingly
+          setLoggedIn(isLoggedIn === 'true');
+        }
+      } catch (error) {
+        console.error('Failed to fetch logged in status', error);
+      }
+      setIsLoading(false); // Set loading to false after checking
+    };
+
+    checkLoggedInStatus();
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />; // Render a loading screen or null while checking
+  }
 
   const colorScheme = Appearance.getColorScheme();
   const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
@@ -77,10 +103,6 @@ const InsideApp = () =>{
 
 export default function App() {
  
- 
- 
-
-
 
   return (
     <AuthProvider>
