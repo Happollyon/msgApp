@@ -59,8 +59,16 @@ function  MainNavigation () {
       try {
           
         const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
-      
-        if (isLoggedIn === "true") {
+        // check that user hasnt being logged in for more than 24 hours
+        const lastLogin = await AsyncStorage.getItem('loggedInTime');
+
+        const typeOfLogin = typeof(lastLogin)
+        const now = new Date();
+        const lastLoginDate = new Date(parseInt(lastLogin,10));
+        const diff = now - lastLoginDate;
+        const diffHours = diff / (1000 * 60 * 60);
+        console.log(lastLogin,typeOfLogin,now,"last login date ",lastLoginDate, diff,"diff in hours ",diffHours);
+        if (isLoggedIn === "true" && diffHours < 24) {
           // If the value exists, update the context or state accordingly
           setLoggedIn(isLoggedIn === 'true');
         }
