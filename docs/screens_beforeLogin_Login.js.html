@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~resendcode">resendcode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~setPassword">setPassword</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
     
 </nav>
 
@@ -47,23 +47,34 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
+            <pre class="prettyprint source linenums"><code>import { useState , useContext} from 'react';
 import * as React from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import {useTheme, Text,TextInput,Button,Portal,Modal} from 'react-native-paper';
+import { AuthContext } from '../../AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const appConfig = require('../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
 
 import ModalComp from '../ModalComp';
  
+
+
 /**
  * Login component.
  * @module screens/beforeLogin/Login
  * @description This is the Login component. It is the screen where the user can login into the app.
+ * It is only rendered when the user is not logged in and selects the login option.
  * @author Fagmer Nunes
  * 
  * @param {Object} props - Component props.
  * @param {Object} props.navigation - Navigation object from react-navigation.
  * @returns {React.Element} Rendered component.
  */
+
+
 
 export default function Login({navigation}) {
 
@@ -73,39 +84,81 @@ export default function Login({navigation}) {
      * State for the component.
      * @type {Object}
      * @property {boolean} error - The error state. this state is used by the TextInput component to show the error.
-     * @property {boolean} visible - The visible state. this state is used by the Modal component to show the modal.
+     * @property {boolean} modalVisible -  The modalVisible state. this state is used to show the modal.
      * @property {string} userEmail - The userEmail state. this state is used to store the email that the user typed.
      * @property {string} userPassword - The userPassword state. this state is used to store the password that the user typed.
-     * @property {boolean} hideModal - The hideModal state. this state is used to hide the modal.
      * @property {string} message - The message state. this state is used to show the message in the modal.
      */
     const [state, setState] = useState({
-        error: false,
-        visible: false,
-        email: "fagner",
-        password: "fagner",
-        userEmail: "",
-        userPassword: "",
-        hideModal: false,
-        message: "Please enter your email and password"
+        message:"",
+        error:false,
+        modalVisible:false,
+        userEmail:"",
+        userPassword:"",
     });
 
     /**
      * Function to login.
      * @function login
-     * @description This function is used to login into the app.
+     * @description This function is used to login the user. It sends a request to the server to login the user.
+     * It also saves the token in the AsyncStorage. 
      * @returns {void} This function does not return anything.
      * 
      */
-    const login = () => {
-        // Check if the email and password are correct
-        if (state.email == state.userEmail &amp;&amp; state.password == state.userPassword) {
-            setState({ ...state, error: false}); // Set the error to false
-            navigation.navigate('Register') // Navigate to the Register screen
 
-        } else {// If the email and password are incorrect
-            setState({ ...state, error: true,visible: true});// Set the error to true
-        }
+    const { setLoggedIn,loggedIn } = useContext(AuthContext); // Get the setLoggedIn function from the AuthContext
+    const login = async () => {
+        let message = "";
+        let error = false;
+        let messageTitle = "";
+        let modalVisible= false
+
+        if(state.userEmail === "" || state.userPassword === ""){
+            message = "Please, fill all the fields.";
+            error = true;
+            messageTitle = "Error";
+            modalVisible = true;
+            }else{
+                const url = `${baseurlBack}/login/${encodeURIComponent(state.userEmail)}/${encodeURIComponent(state.userPassword)}`;
+                
+                try{
+             await fetch(url).then(async (response) => {
+               
+                if(response.status === 200){
+                    
+                    await response.json().then( async (responseData) => {
+                        if(responseData.error){
+                           
+                            message = responseData.errorMessage;
+                            error = true;
+                            messageTitle = "Error";
+                            modalVisible = true;
+
+                        }else{
+                            
+                            setLoggedIn(true);
+                              // save token here to  with user id JWT
+                            await AsyncStorage.setItem('token', responseData.token);
+                            await AsyncStorage.setItem('isLoggedIn', "true");
+                            await AsyncStorage.setItem('loggedInTime', Date.now().toString());
+                           
+                           
+                        }
+                });
+                }});
+                    
+                        
+                }catch(e){
+                    message = "Net work error. Please, try again.";
+                            error = true;
+                            messageTitle = "Error";
+                            modalVisible = true;
+                    console.log(e);
+                
+                }
+            }
+       
+        setState({...state,message:message,error:error,messageTitle:messageTitle,modalVisible:modalVisible});
     };
 
      /**
@@ -126,23 +179,21 @@ export default function Login({navigation}) {
             &lt;Text variant="displaySmall">Login into&lt;/Text>
             &lt;Text variant="displaySmall">your account&lt;/Text>     
             &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>Please, enter your details&lt;/Text>      
-            &lt;TextInput onChangeText = {(text)=>{setState({...state,userEmail:text})}} error={state.error} left={&lt;TextInput.Icon icon="email-outline" />} icon="account-outline" placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
-            &lt;TextInput onChange={((text)=>{setState({...state,userPassword:text})})}  error={state.error} left={&lt;TextInput.Icon icon="lock-outline" />}  placeholder="Enter your password" label="Password" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
+            &lt;TextInput onChangeText = {(text)=>{setState({...state,userEmail:text})}}  left={&lt;TextInput.Icon icon="email-outline" />} icon="account-outline" placeholder="Enter your email" label="Email" style={{width:"80%", marginBottom:"2%"}} mode="outlined" />
+            &lt;TextInput onChangeText={(text)=>{setState({...state,userPassword:text})}} left={&lt;TextInput.Icon icon="lock-outline" />}  placeholder="Enter your password" label="Password" style={{width:"80%", marginBottom:"20%"}} mode="outlined" />
 
             &lt;Button dark={true} onPress={login} style={{width:"50%", marginBottom:"2%"}} textColor='#fff' icon="arrow-right-thick" mode='elevated' buttonColor = {theme.colors.primary}>
                 Next
             &lt;/Button>
 
-            &lt;ModalComp Title="Error" Message="Please enter your email and password"/>
+           
         
-            &lt;Portal>
-                &lt;Modal visible={state.visible} onDismiss={hideModal} contentContainerStyle={{backgroundColor: 'white', padding: 20, height:"50%", width:"90%",borderRadius:30,alignSelf:"center",display:"flex",justifyContent:"center",alignItems:"center"}} >
-                    &lt;Text variant="headlineLarge" style={{marginBottom:"15%"}}>2 Steps Verification&lt;/Text>
-                    &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>Enter the code below&lt;/Text>
-                    &lt;Text variant="titleMedium" style={{marginBottom:"15%"}}>in the verification app&lt;/Text>   
-                    &lt;Text variant="displaySmall" style={{marginBottom:"15%"}}>55&lt;/Text>     
-                &lt;/Modal>
-            &lt;/Portal>
+            &lt;ModalComp
+            Title={state.messageTitle}
+            Message={state.message}
+            getVisible={() => state.modalVisible}
+            onHide={() => setState({ ...state,modalVisible: false })}
+            />  
         &lt;/KeyboardAvoidingView>    
     )
 }</code></pre>
@@ -159,7 +210,7 @@ export default function Login({navigation}) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Thu Jun 13 2024 20:38:23 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Mon Jul 01 2024 15:05:07 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

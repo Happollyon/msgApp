@@ -17,12 +17,15 @@ import ModalComp from '../ModalComp';
  * Login component.
  * @module screens/beforeLogin/Login
  * @description This is the Login component. It is the screen where the user can login into the app.
+ * It is only rendered when the user is not logged in and selects the login option.
  * @author Fagmer Nunes
  * 
  * @param {Object} props - Component props.
  * @param {Object} props.navigation - Navigation object from react-navigation.
  * @returns {React.Element} Rendered component.
  */
+
+
 
 export default function Login({navigation}) {
 
@@ -32,10 +35,9 @@ export default function Login({navigation}) {
      * State for the component.
      * @type {Object}
      * @property {boolean} error - The error state. this state is used by the TextInput component to show the error.
-     * @property {boolean} visible - The visible state. this state is used by the Modal component to show the modal.
+     * @property {boolean} modalVisible -  The modalVisible state. this state is used to show the modal.
      * @property {string} userEmail - The userEmail state. this state is used to store the email that the user typed.
      * @property {string} userPassword - The userPassword state. this state is used to store the password that the user typed.
-     * @property {boolean} hideModal - The hideModal state. this state is used to hide the modal.
      * @property {string} message - The message state. this state is used to show the message in the modal.
      */
     const [state, setState] = useState({
@@ -49,12 +51,13 @@ export default function Login({navigation}) {
     /**
      * Function to login.
      * @function login
-     * @description This function is used to login into the app.
+     * @description This function is used to login the user. It sends a request to the server to login the user.
+     * It also saves the token in the AsyncStorage. 
      * @returns {void} This function does not return anything.
      * 
      */
 
-    const { setLoggedIn,loggedIn } = useContext(AuthContext); 
+    const { setLoggedIn,loggedIn } = useContext(AuthContext); // Get the setLoggedIn function from the AuthContext
     const login = async () => {
         let message = "";
         let error = false;

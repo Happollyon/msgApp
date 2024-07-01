@@ -16,7 +16,7 @@ const baseurlBack = appConfig.baseurlBack;
  * Password component.
  * @module screens/beforeLogin/Password
  * @description This is the Password component. It is the screen where the user can enter a password that follows the secure passoword gideline.
- *
+ * It is only rendered when the user is not logged in and selects the register option.
  *@param {Object} props - Component props.
  *@param {Object} props.navigation - Navigation object from react-navigation. 
  *@returns {React.Element} Rendered component.
@@ -29,12 +29,14 @@ export default function Password({navigation}) {
      * State for the component.
      * @type {Object}
      * @property {boolean} error - The error state. this state is used by the TextInput component to show the error.
-     * @property {boolean} visible - The visible state. this state is used by the Modal component to show the modal.
      * @property {string} password1 - The password1 state. this state is used to store the password that the user typed.
      * @property {string} check1 - The check1 state. this state is used to show the checkbox.
      * @property {string} check2 - The check2 state. this state is used to show the checkbox.
      * @property {string} check3 - The check3 state. this state is used to show the checkbox.
      * @property {string} password2 - The password2 state. this state is used to store the password that the user typed.
+     * @property {string} message - The message state. this state is used to show the message in the modal.
+     * @property {string} messageTitle - The messageTitle state. this state is used to show the title of the modal.
+     * @property {boolean} modalVisible - The modalVisible state. this state is used to show the modal.
      * 
      */
     const [state,setState] = useState({
@@ -82,7 +84,14 @@ export default function Password({navigation}) {
 
     }
     
-    const { setLoggedIn,loggedIn } = useContext(AuthContext); 
+   const { setLoggedIn,loggedIn } = useContext(AuthContext); // Get the setLoggedIn function from the AuthContext
+   /**
+    * Function to set the password.
+    * @function setPassword
+    * @description This function is used to set the password. It sends a request to the server to set the password.
+    * It also saves the token in the AsyncStorage.
+    * @returns {void} This function does not return anything.
+    */
    const  setPassword=  async () => { // user clicks on the next button
         let message = "";// Initialize the message
         let messageTitle = "";// Initialize the messageTitle

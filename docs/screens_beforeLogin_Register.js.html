@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~resendcode">resendcode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~setPassword">setPassword</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
     
 </nav>
 
@@ -48,11 +48,12 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import * as React from 'react';
-import { useState } from 'react';
+import { useState} from 'react';
 import { Platform,Image,KeyboardAvoidingView } from 'react-native';
 import { useTheme, Text,TextInput,Button} from 'react-native-paper';
 import ModalComp from '../ModalComp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const appConfig = require('../../appConf.json');
@@ -62,6 +63,7 @@ const baseurlBack = appConfig.baseurlBack;
  * 
  *@module screens/beforeLogin/Register
  *@description This is the Register component. It is the screen where the user begin the registration flow into the app.
+
  *@author Fagner Nunes
  *
  *@param {Object} props - Component props.
@@ -81,6 +83,7 @@ export default function Register({navigation}) {
    * @property {boolean} emailerror - The emailerror state. this state is used by the TextInput component to show the error.
    * @property {string} message - The message state. this state is used to show the message in the modal.
    * @property {boolean} modalVisible - The modalVisible state. this state is used to show the modal.
+   * @property {string} messageTitle - The messageTitle state. this state is used to show the title of the modal.
    * 
    */
   const [state,setState] = useState({
@@ -122,8 +125,12 @@ export default function Register({navigation}) {
    * @returns {void} This function does not return anything.
    * 
    */
+
+ 
   const submitNameEmail = async () => {
     //initialize the variables
+   
+    
     let nameError = false;
     let emailError = false;
     let message = "";
@@ -153,10 +160,12 @@ export default function Register({navigation}) {
          await response.json().then(async (data) => {
             console.log("Data:", data); 
             if(!data.error){
-
+              
               // save token here to  with user id JWT
               await AsyncStorage.setItem('token', data.token);
+              // Navigate to the EmailVerification screen
               navigation.navigate('EmailVerification');
+             
             }else{
               console.log("Error:", data.errorMessage);
               // Update the message and modalVisible based on the error
@@ -204,11 +213,11 @@ export default function Register({navigation}) {
       &lt;/Button>
 
       &lt;ModalComp
-  Title={state.messageTitle}
-  Message={state.message}
-  getVisible={() => state.modalVisible}
-  onHide={() => setState({ modalVisible: false })}
-/>  
+      Title={state.messageTitle}
+      Message={state.message}
+      getVisible={() => state.modalVisible}
+      onHide={() => setState({ ...state,modalVisible: false })}
+    />  
     &lt;/KeyboardAvoidingView>
   );
 }
@@ -226,7 +235,7 @@ export default function Register({navigation}) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Thu Jun 13 2024 20:38:23 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Mon Jul 01 2024 15:05:07 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

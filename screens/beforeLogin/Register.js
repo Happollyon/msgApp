@@ -14,6 +14,7 @@ const baseurlBack = appConfig.baseurlBack;
  * 
  *@module screens/beforeLogin/Register
  *@description This is the Register component. It is the screen where the user begin the registration flow into the app.
+
  *@author Fagner Nunes
  *
  *@param {Object} props - Component props.
@@ -33,6 +34,7 @@ export default function Register({navigation}) {
    * @property {boolean} emailerror - The emailerror state. this state is used by the TextInput component to show the error.
    * @property {string} message - The message state. this state is used to show the message in the modal.
    * @property {boolean} modalVisible - The modalVisible state. this state is used to show the modal.
+   * @property {string} messageTitle - The messageTitle state. this state is used to show the title of the modal.
    * 
    */
   const [state,setState] = useState({

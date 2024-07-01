@@ -25,8 +25,8 @@ import ProfileScreen from './screens/afterLogin/ProfileScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator(); // Create a stack navigator
+const Tab = createBottomTabNavigator() // Create a bottom tab navigator
 
 
 /**
@@ -36,6 +36,13 @@ const Tab = createBottomTabNavigator()
  * @returns {React.Element} Rendered component.
  */
 
+/**
+ * @function MainNavigation
+ * @description This is the main navigation component. It contains the tabs for the app. 
+ * It is only rendered when the user is logged in.
+ * @memberof App 
+ * @returns {React.Element} Rendered component.
+ */
 
 function  MainNavigation () {
  
@@ -49,10 +56,26 @@ function  MainNavigation () {
   );
 }
 
+/**
+ * @function InsideApp
+ * @description This is the inside app component. It is the main component of the app.
+ * It contains the navigation container and the main navigation component.
+ * @memberof App
+ * @returns {React.Element} Rendered component.
+ * 
+*/
 
  const InsideApp =  () =>{
   const { loggedIn, setLoggedIn } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true); // Add a loading state
+
+  /**
+   * @function checkLoggedInStatus
+   * @description This function checks if the user is logged in by fetching the value from AsyncStorage.
+   * It also sets the loading state to false after checking.
+   * @memberof InsideApp
+   * @returns {void}
+  */
 
   useEffect(() => {
     const checkLoggedInStatus = async () => {
@@ -109,6 +132,13 @@ function  MainNavigation () {
   )
 }
 
+/**
+ * @function App
+ * @description This is the main app component. It is the root component of the app.
+ * It contains the AuthProvider and the InsideApp component.
+ * @memberof App
+ * @returns {React.Element} Rendered component.
+*/
 export default function App() {
  
 

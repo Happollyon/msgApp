@@ -13,6 +13,7 @@ const baseurlBack = appConfig.baseurlBack;
  * EmailVerification component.
  * @module screens/beforeLogin/EmailVerification
  * @description This is the EmailVerification component. It is the screen where the user can verify the email by entering the code.
+ * It is only rendered when the user is not logged in and selects the register option.
  * @author Fagmer Nunes
  * 
  * @param {Object} props - Component props.
@@ -49,7 +50,7 @@ export default function EmailVerification({ navigation }) {
     /**
      * Function to enter the code.
      * @function enterCode
-     * @description This function is used to enter the code.
+     * @description This function is used to enter the code. It is used to set the number1, number2, number3 and number4 states.
      * @param {number} input - The input number.
      * @param {string} numb - The number that the user typed.
      * @returns {void} This function does not return anything.
@@ -141,11 +142,17 @@ export default function EmailVerification({ navigation }) {
         
     }
 
+    /**
+     * Function to resend the code.
+     * @function resendcode
+     * @description This function is used to resend the code. It is used to resend the code to the user's email.
+     * @returns {void} This function does not return anything.
+     */
     const resendcode = async () => {
 
-        let message = "";
-        let messageTitle = "";
-        let modalVisible = false;
+        let message = ""; // Initialize the message
+        let messageTitle = ""; // Initialize the messageTitle
+        let modalVisible = false; // Initialize the modalVisible
 
         
         const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
@@ -153,8 +160,8 @@ export default function EmailVerification({ navigation }) {
 
         // fetch url and add token
         await fetch(url, {
-            method: 'GET',
-            headers: {'Authorization': `Bearer ${token}`}
+            method: 'GET', 
+            headers: {'Authorization': `Bearer ${token}`} // Add the token to the headers
         
         }).then( async response => {
             if(response.status ==200){

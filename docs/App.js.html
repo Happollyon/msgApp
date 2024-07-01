@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~resendcode">resendcode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~hideModal">hideModal</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~setPassword">setPassword</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
     
 </nav>
 
@@ -47,12 +47,15 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { StatusBar } from 'expo-status-bar';
-import { Appearance } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+            <pre class="prettyprint source linenums"><code>import { Appearance } from 'react-native';
+import React, {useContext,useState,useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
 import { PaperProvider,DefaultTheme, DarkTheme  } from 'react-native-paper';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
+import { AuthProvider, AuthContext } from './AuthContext';
+
+
 
 
 // ################### Screen Imports before Login ###################
@@ -61,9 +64,20 @@ import Register from './screens/beforeLogin/Register';
 import Login from './screens/beforeLogin/Login';
 import Password from './screens/beforeLogin/Password';
 import EmailVerification from './screens/beforeLogin/EmailVerification';
+import LoadingScreen from './screens/beforeLogin/LoadingScreen';
 
 
-const Stack = createNativeStackNavigator();
+// ################### Screen Imports after Login ###################
+import ChatScreen from './screens/afterLogin/ChatScreen';
+import ConatctsScreen from './screens/afterLogin/ContactsScreen';
+import ProfileScreen from './screens/afterLogin/ProfileScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const Stack = createNativeStackNavigator(); // Create a stack navigator
+const Tab = createBottomTabNavigator() // Create a bottom tab navigator
+
+
 /**
  * @module App
  * @description This is the App component. It is the root component of the app.
@@ -71,22 +85,116 @@ const Stack = createNativeStackNavigator();
  * @returns {React.Element} Rendered component.
  */
 
-export default function App() {
-  const colorScheme = Appearance.getColorScheme();
+/**
+ * @function MainNavigation
+ * @description This is the main navigation component. It contains the tabs for the app. 
+ * It is only rendered when the user is logged in.
+ * @memberof App 
+ * @returns {React.Element} Rendered component.
+ */
 
-  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+function  MainNavigation () {
+ 
   return (
-    &lt;PaperProvider theme={theme} >
-    &lt;NavigationContainer theme={theme}>
-      &lt;Stack.Navigator initialRouteName="LoginOrRegister">
-        &lt;Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
-        &lt;Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
-        &lt;Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
-        &lt;Stack.Screen name="Password" component={Password} options={{ headerShown: false }}/>
-        &lt;Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-      &lt;/Stack.Navigator>
-    &lt;/NavigationContainer>
+    &lt;Tab.Navigator>
+      &lt;Tab.Screen name="Chat" component={ChatScreen} />
+      &lt;Tab.Screen name="Contacts" component={ConatctsScreen} />
+      &lt;Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+      {/* Add more tabs as needed */}
+    &lt;/Tab.Navigator>
+  );
+}
+
+/**
+ * @function InsideApp
+ * @description This is the inside app component. It is the main component of the app.
+ * It contains the navigation container and the main navigation component.
+ * @memberof App
+ * @returns {React.Element} Rendered component.
+ * 
+*/
+
+ const InsideApp =  () =>{
+  const { loggedIn, setLoggedIn } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+
+  /**
+   * @function checkLoggedInStatus
+   * @description This function checks if the user is logged in by fetching the value from AsyncStorage.
+   * It also sets the loading state to false after checking.
+   * @memberof InsideApp
+   * @returns {void}
+  */
+
+  useEffect(() => {
+    const checkLoggedInStatus = async () => {
+      try {
+          
+        const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
+        // check that user hasnt being logged in for more than 24 hours
+        const lastLogin = await AsyncStorage.getItem('loggedInTime');
+
+        const typeOfLogin = typeof(lastLogin)
+        const now = new Date();
+        const lastLoginDate = new Date(parseInt(lastLogin,10));
+        const diff = now - lastLoginDate;
+        const diffHours = diff / (1000 * 60 * 60);
+        console.log(lastLogin,typeOfLogin,now,"last login date ",lastLoginDate, diff,"diff in hours ",diffHours);
+        if (isLoggedIn === "true" &amp;&amp; diffHours &lt; 24) {
+          // If the value exists, update the context or state accordingly
+          setLoggedIn(isLoggedIn === 'true');
+        }
+      } catch (error) {
+        console.error('Failed to fetch logged in status', error);
+      }
+      setIsLoading(false); // Set loading to false after checking
+    };
+
+    checkLoggedInStatus();
+  }, []);
+
+  if (isLoading) {
+    return &lt;LoadingScreen />; // Render a loading screen or null while checking
+  }
+
+  const colorScheme = Appearance.getColorScheme();
+  const theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+  return(
+&lt;PaperProvider theme={theme} >
+      
+      &lt;NavigationContainer theme={theme}>
+
+        { 
+        loggedIn ?(
+          &lt;MainNavigation />):(
+        &lt;Stack.Navigator initialRouteName="LoginOrRegister">
+          &lt;Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
+          &lt;Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+          &lt;Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
+          &lt;Stack.Screen name="Password" component={Password} options={{ headerShown: false }}/>
+          &lt;Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+        &lt;/Stack.Navigator>
+      )}
+      &lt;/NavigationContainer>
+     
     &lt;/PaperProvider>
+  )
+}
+
+/**
+ * @function App
+ * @description This is the main app component. It is the root component of the app.
+ * It contains the AuthProvider and the InsideApp component.
+ * @memberof App
+ * @returns {React.Element} Rendered component.
+*/
+export default function App() {
+ 
+
+  return (
+    &lt;AuthProvider>
+      &lt;InsideApp />
+  &lt;/AuthProvider>
   );
 }
 
@@ -104,7 +212,7 @@ export default function App() {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Thu Jun 13 2024 20:38:23 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Mon Jul 01 2024 15:05:07 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
