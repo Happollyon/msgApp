@@ -2,7 +2,7 @@ import { Appearance } from 'react-native';
 import React, {useContext,useState,useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
-import { PaperProvider,DefaultTheme, DarkTheme  } from 'react-native-paper';
+import { PaperProvider,DefaultTheme, DarkTheme,BottomNavigation,useTheme  } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
 import { AuthProvider, AuthContext } from './AuthContext';
 
@@ -20,7 +20,7 @@ import LoadingScreen from './screens/beforeLogin/LoadingScreen';
 
 // ################### Screen Imports after Login ###################
 import ChatScreen from './screens/afterLogin/ChatScreen';
-import ConatctsScreen from './screens/afterLogin/ContactsScreen';
+import ContactsScreen from './screens/afterLogin/ContactsScreen';
 import ProfileScreen from './screens/afterLogin/ProfileScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -44,17 +44,37 @@ const Tab = createBottomTabNavigator() // Create a bottom tab navigator
  * @returns {React.Element} Rendered component.
  */
 
-function  MainNavigation () {
- 
+
+const ChatRoute = () => <ChatScreen />;
+const ContactsRoute = () => <ContactsScreen />;
+const ProfileRoute = () => <ProfileScreen />;
+
+const MainNavigation = () => {
+  const theme = useTheme();
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: 'chat',title: 'Chat', focusedIcon: 'message-text',unfocusedIcon: 'message-text-outline' },
+    { key: 'contacts', title: 'Contacts', focusedIcon: 'account-multiple',unfocusedIcon: 'account-multiple-outline'},
+    { key: 'profile', title: 'Profile', focusedIcon: 'account-circle' ,unfocusedIcon: 'account-circle-outline'},
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    chat: ChatRoute,
+    contacts: ContactsRoute,
+    profile: ProfileRoute,
+  });
+
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Chat" component={ChatScreen} />
-      <Tab.Screen name="Contacts" component={ConatctsScreen} />
-      <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
-      {/* Add more tabs as needed */}
-    </Tab.Navigator>
+    <BottomNavigation
+      barStyle={{backgroundColor: theme.colors.primary}}
+      inactiveColor={theme.colors.onPrimary}
+      activeColor={theme.colors.onPrimaryContainer}
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
   );
-}
+};
 
 /**
  * @function InsideApp
@@ -95,9 +115,11 @@ function  MainNavigation () {
           // If the value exists, update the context or state accordingly
           setLoggedIn(isLoggedIn === 'true');
         }
+        setLoggedIn(isLoggedIn === 'true');
       } catch (error) {
         console.error('Failed to fetch logged in status', error);
       }
+
       setIsLoading(false); // Set loading to false after checking
     };
 

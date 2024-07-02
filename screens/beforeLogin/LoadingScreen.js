@@ -1,12 +1,12 @@
 // boiler plate code for ChatScreen.js
 
 import React from 'react';
-import { View, react } from 'react-native';
+import { View, Text } from 'react-native';
 
 export default function LoadingScreen() {
     return (
         <View>
-        
+        <Text>Loading...</Text>
         </View>
     );
     }
