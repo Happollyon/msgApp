@@ -20,9 +20,11 @@ import LoadingScreen from './screens/beforeLogin/LoadingScreen';
 
 // ################### Screen Imports after Login ###################
 import ChatScreen from './screens/afterLogin/ChatScreen';
+import ChatStack from './screens/afterLogin/ChatStack';
 import ContactsScreen from './screens/afterLogin/ContactsScreen';
 import ProfileScreen from './screens/afterLogin/ProfileScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const Stack = createNativeStackNavigator(); // Create a stack navigator
@@ -45,7 +47,7 @@ const Tab = createBottomTabNavigator() // Create a bottom tab navigator
  */
 
 
-const ChatRoute = () => <ChatScreen />;
+const ChatRoute = () => <ChatStack/>;
 const ContactsRoute = () => <ContactsScreen />;
 const ProfileRoute = () => <ProfileScreen />;
 

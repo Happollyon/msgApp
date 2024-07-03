@@ -1,24 +1,65 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
-import { Text,useTheme,Avatar} from 'react-native-paper';
+import { Text,useTheme,Avatar, Divider} from 'react-native-paper';
 
-export default function ChatItem({navigation}) {
+export default function ChatItem({name, msg, avatarUrl, lastMsgTimeStamp,msgCount, navigation}) {
     const theme = useTheme();
 
+    function convertTimeStamp(timestamp) {
+        // Convert timestamp to milliseconds to create a Date object
+        const msgDate = new Date(timestamp * 1000);
+        const currentDate = new Date();
+    
+        // Calculate difference in milliseconds
+        const diffInMs = currentDate - msgDate;
+    
+        // Convert milliseconds to days, hours, and minutes
+        const diffDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+        const diffHours = Math.floor((diffInMs / (1000 * 60 * 60)) % 24);
+        const diffMinutes = Math.floor((diffInMs / (1000 * 60)) % 60);
+    
+        // Return the difference as an object or formatted string
+        if (diffDays > 0) {
+            return `${diffDays} days ago`;
+        } else if (diffHours > 0) {
+            return `${diffHours} hours ago`;
+        } else if (diffMinutes > 0) {
+            return `${diffMinutes} minutes ago`;
+        } else {
+            return 'Just now';
+        }
+        // Or return as a formatted string
+        // return `${diffDays} days, ${diffHours} hours, ${diffMinutes} minutes ago`;
+    }
+
+    const workWithMsg=  (msg) => {
+        if(msg.length > 15){
+            return msg.substring(0,15) + "...";
+        }
+        return msg;
+    }
     return(
-        <View style={{marginBottom: "2%", width: "100%", display: 'flex', flexDirection: "row", alignItems: "center", justifyContent: 'space-between'}}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Avatar.Image size={64} source={{"uri": "https://scontent.cdninstagram.com/v/t39.30808-6/449442715_18442837969012232_2338445663121333116_n.jpg?stp=cp6_dst-jpegr_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDM3eDE0MzcuaGRyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=108&_nc_ohc=FG3fexBIk1UQ7kNvgEVnxLd&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzQwMDY1MDY2ODA5NzI4ODg1NQ%3D%3D.2-ccb7-5&oh=00_AYADT9gzdSt5u8zI8QenuEcXUTxCXXU0BmDXsO-RU22oTA&oe=6689C4C4&_nc_sid=10d13b"}} />
-            <View style={{ flexDirection: "column", marginLeft: "1%", alignItems: "start", justifyContent: "center" }}>
-                <Text variant="titleLarge">John Kiefel</Text>
-                <Text variant="titleSmall" style={{ color: theme.colors.onSurface }}>Hello</Text>
-            </View>
-        </View>
-        <View style={{ alignItems: "flex-end" }}>
-            <Text>2 mins</Text>
-            <Text style={{ backgroundColor: "pink", borderRadius: 100 }}>2</Text>
-        </View>
-    </View>
+      <TouchableOpacity  onPress={()=>navigation.navigate('ChatComponent')} style={{width:"100%",marginBottom: "3%", display:"flex",alignItems:"flex-end"}}>
+            <View style={{ width: "100%", display: 'flex', flexDirection: "row", alignItems: "center", justifyContent: 'space-between'}}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Avatar.Image size={64} source={{"uri": avatarUrl}} />
+                    <View style={{ flexDirection: "column", marginLeft: "3%", alignItems: "start", justifyContent: "center" }}>
+                        <Text variant="titleLarge" style={{color:theme.colors.primary}}>{name}</Text>
+                        <Text variant="titleSmall" style={{ color: theme.colors.secondary }}>{workWithMsg(msg)}</Text>
+                        
+                    </View>
+                </View>
+                <View style={{ alignItems: "flex-end" }}>
+                    <Text style={{color:theme.colors.secondary}}>{convertTimeStamp(lastMsgTimeStamp)}</Text>
+                    <View style={{ backgroundColor: theme.colors.secondary, borderRadius: "50%"}}>
+                    <Text style={{color: theme.colors.onSecondary}}> {msgCount} </Text>
+                    </View>
+                    
+                </View>
+            </View> 
+            <Divider style={{width: "80%",marginTop:"1%"}}/>
+        </TouchableOpacity>
+       
     )
 }
