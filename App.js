@@ -19,8 +19,8 @@ import LoadingScreen from './screens/beforeLogin/LoadingScreen';
 
 
 // ################### Screen Imports after Login ###################
-import ChatScreen from './screens/afterLogin/ChatScreen';
-import ChatStack from './screens/afterLogin/ChatStack';
+
+import ChatStack from './screens/afterLogin/ChatStack/ChatStack';
 import ContactsScreen from './screens/afterLogin/ContactsScreen';
 import ProfileScreen from './screens/afterLogin/ProfileScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';

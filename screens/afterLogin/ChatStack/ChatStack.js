@@ -8,9 +8,9 @@ const Stack = createNativeStackNavigator(); // Create a stack navigator
 
 export default function ChatStack({navigation}) {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="ChatScreen" navigation={navigation} component={ChatScreen} />
-            <Stack.Screen name="ChatComponent" component={ChatComponent} />
+        <Stack.Navigator initialRouteName='ChatComponent'>
+            <Stack.Screen name="ChatScreen" navigation={navigation} component={ChatScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="ChatComponent" navigation={navigation}component={ChatComponent}options={{ headerShown: false, gestureEnabled:false }} />
         </Stack.Navigator>
     );
 }

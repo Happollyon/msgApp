@@ -53,7 +53,7 @@ export default function ChatItem({name, msg, avatarUrl, lastMsgTimeStamp,msgCoun
                 <View style={{ alignItems: "flex-end" }}>
                     <Text style={{color:theme.colors.secondary}}>{convertTimeStamp(lastMsgTimeStamp)}</Text>
                     <View style={{ backgroundColor: theme.colors.secondary, borderRadius: "50%"}}>
-                    <Text style={{color: theme.colors.onSecondary}}> {msgCount} </Text>
+                        <Text style={{color: theme.colors.onSecondary}}> {msgCount} </Text>
                     </View>
                     
                 </View>
