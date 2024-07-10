@@ -1,16 +1,29 @@
 import * as React from 'react';
-import { View } from 'react-native';
-import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import { useEffect } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChatScreen from './ChatScreen';
 import ChatComponent from './ChatComponent';
+import { getFocusedRouteNameFromRoute, useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator(); // Create a stack navigator
 
-export default function ChatStack({navigation}) {
+export default function ChatStack({navigation, routes }) {
+   
+    
+
     return (
         <Stack.Navigator initialRouteName='ChatComponent'>
-            <Stack.Screen name="ChatScreen" navigation={navigation} component={ChatScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="ChatComponent" navigation={navigation}component={ChatComponent}options={{ headerShown: false, gestureEnabled:false }} />
+            <Stack.Screen 
+                name="ChatScreen" 
+                component={ChatScreen} 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="ChatComponent" 
+                component={ChatComponent}   
+                options={{ headerShown: false, gestureEnabled: false }} 
+
+            />
         </Stack.Navigator>
     );
 }

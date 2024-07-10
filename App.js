@@ -1,11 +1,11 @@
-import { Appearance } from 'react-native';
+import { Appearance,View } from 'react-native';
 import React, {useContext,useState,useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
 import { PaperProvider,DefaultTheme, DarkTheme,BottomNavigation,useTheme  } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
 import { AuthProvider, AuthContext } from './AuthContext';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 
@@ -47,10 +47,12 @@ const Tab = createBottomTabNavigator() // Create a bottom tab navigator
  */
 
 
-const ChatRoute = () => <ChatStack/>;
+const ChatRoute = () => <ChatStack />;
 const ContactsRoute = () => <ContactsScreen />;
 const ProfileRoute = () => <ProfileScreen />;
 
+
+/*
 const MainNavigation = () => {
   const theme = useTheme();
   const [index, setIndex] = useState(0);
@@ -77,7 +79,58 @@ const MainNavigation = () => {
     />
   );
 };
+*/
+const getTabBarVisibility = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? '';
+  console.log(routeName);
+  if (routeName === 'ChatComponent' || routeName === '') {
+    return false;
+  }
 
+  return true;
+};
+
+const MainNavigation = () => {
+  // bottom tab navigator using react navigation
+  const theme = useTheme();
+  return (
+    <Tab.Navigator style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
+      
+      tabBarStyle: {
+        display: getTabBarVisibility(route) ? 'flex' : 'none',
+        backgroundColor: theme.colors.primary,
+      },
+      tabBarActiveTintColor: theme.colors.onPrimary,
+      tabBarInactiveTintColor: theme.colors.onPrimaryContainer,
+      tabBarIcon: ({ color, size,focused }) => {
+        let iconName;
+
+        if (route.name === 'Chat') {
+          iconName = 'chat';
+          
+        } else if (route.name === 'Contacts') {
+          iconName = 'account-multiple';
+        } else if (route.name === 'Profile') {
+          iconName = 'account';
+        }
+
+        return (
+          <View style={{ 
+            backgroundColor: focused ? theme.colors.primaryContainer : 'transparent', 
+            borderRadius: 8, 
+            padding: 5 
+          }}>
+        <Icon name={iconName} color={color} size={size} />
+        </View>);
+      },
+    })}>
+      <Tab.Screen name="Chat" component={ChatRoute} options={{ headerShown: false }}/>
+      <Tab.Screen name="Contacts" component={ContactsRoute} options={{ headerShown: false }}/>
+      <Tab.Screen name="Profile" component={ProfileRoute}options={{ headerShown: false }} />
+    </Tab.Navigator>
+  );
+
+}
 /**
  * @function InsideApp
  * @description This is the inside app component. It is the main component of the app.
@@ -112,7 +165,7 @@ const MainNavigation = () => {
         const lastLoginDate = new Date(parseInt(lastLogin,10));
         const diff = now - lastLoginDate;
         const diffHours = diff / (1000 * 60 * 60);
-        console.log(lastLogin,typeOfLogin,now,"last login date ",lastLoginDate, diff,"diff in hours ",diffHours);
+        
         if (isLoggedIn === "true" && diffHours < 24) {
           // If the value exists, update the context or state accordingly
           setLoggedIn(isLoggedIn === 'true');
