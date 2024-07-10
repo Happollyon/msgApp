@@ -12,16 +12,21 @@ export default function ChatStack({navigation, routes }) {
     
 
     return (
-        <Stack.Navigator initialRouteName='ChatComponent'>
+        <Stack.Navigator initialRouteName='ChatScreen'>
             <Stack.Screen 
                 name="ChatScreen" 
                 component={ChatScreen} 
+                
                 options={{ headerShown: false }} 
             />
             <Stack.Screen 
                 name="ChatComponent" 
                 component={ChatComponent}   
-                options={{ headerShown: false, gestureEnabled: false }} 
+                options={{
+                    
+                     headerShown: false, gestureEnabled: false 
+                  }}
+               
 
             />
         </Stack.Navigator>

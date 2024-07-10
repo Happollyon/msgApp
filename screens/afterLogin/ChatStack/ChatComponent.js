@@ -5,6 +5,7 @@ import { Text, useTheme, Icon, Avatar, Switch, Button,TextInput} from 'react-nat
 import { StatusBar } from 'expo-status-bar';
 import MessageComponent from './MessageComponent';
 
+
 const ExpandedView = ({ expanded,setSwitch, switchOn}) => {
   const animation = useRef(new Animated.Value(0)).current;// Initial value for opacity: 0 (transparent) 
   const theme = useTheme();
@@ -109,7 +110,6 @@ export default function ChatComponent({ navigation }) {
     setState({ ...state, moreOptionsVisible: !state.moreOptionsVisible });
   }
   
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor:theme.colors.primary }}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -128,7 +128,7 @@ export default function ChatComponent({ navigation }) {
           </TouchableOpacity>
         </View>
         
-        <ScrollView  style={{ width: '90%', height: '5%'}} contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ScrollView  style={{ width: '90%', height: '72%',backgroundColor:"blue"}} contentContainerStyle={{  alignItems: 'center', justifyContent: 'center' }}>
           {
             message.map((item) => (
               <MessageComponent key={item.id} message={item} />
@@ -137,7 +137,7 @@ export default function ChatComponent({ navigation }) {
         </ScrollView>
 
        
-        <View style={{ width: '100%', height: '13%',flexDirection:"column",alignItems:'center',justifyContent:"center",display:"flex", backgroundColor: theme.colors.primary}}>
+        <View style={{ width: '100%', height: '13%',flexDirection:"column",alignItems:'center',justifyContent:"center",display:"flex",backgroundColor: theme.colors.primary}}>
             <View style={{borderRadius:10,backgroundColor:"#fff",width:"90%",height:"85%",display:"flex",flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
               <TouchableOpacity style={{marginLeft:"1%"}} onPress={setmoreOptionsVisible}>
                 <Icon source="plus" color={theme.colors.primary} size="35%" />

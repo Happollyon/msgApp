@@ -21,9 +21,11 @@ import LoadingScreen from './screens/beforeLogin/LoadingScreen';
 // ################### Screen Imports after Login ###################
 
 import ChatStack from './screens/afterLogin/ChatStack/ChatStack';
-import ContactsScreen from './screens/afterLogin/ContactsScreen';
+import ContactsScreen from './screens/afterLogin/ContactsStack/ContactsScreen';
 import ProfileScreen from './screens/afterLogin/ProfileScreen';
+import ContactsStack from './screens/afterLogin/ContactsStack/ContatctsStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TestScreen from './screens/afterLogin/ContactsStack/TestScreen';
 
 
 
@@ -51,7 +53,15 @@ const ChatRoute = () => <ChatStack />;
 const ContactsRoute = () => <ContactsScreen />;
 const ProfileRoute = () => <ProfileScreen />;
 
-
+const StackTest = () => {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="MainNavigation" component={MainNavigation} options={{ headerShown: false }}/>
+      <Stack.Screen name="ChatComponent" component={ChatRoute} options={{ headerShown: false }}/>
+      <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  )
+}
 /*
 const MainNavigation = () => {
   const theme = useTheme();
@@ -82,9 +92,9 @@ const MainNavigation = () => {
 */
 const getTabBarVisibility = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-  console.log(routeName);
-  if (routeName === 'ChatComponent' || routeName === '') {
-    return false;
+  
+  if (routeName === 'ChatComponent' ) {
+    return false
   }
 
   return true;
@@ -94,7 +104,7 @@ const MainNavigation = () => {
   // bottom tab navigator using react navigation
   const theme = useTheme();
   return (
-    <Tab.Navigator style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
+    <Tab.Navigator  style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
       
       tabBarStyle: {
         display: getTabBarVisibility(route) ? 'flex' : 'none',
@@ -194,8 +204,8 @@ const MainNavigation = () => {
 
         { 
         loggedIn ?(
-          <MainNavigation />):(
-        <Stack.Navigator initialRouteName="LoginOrRegister">
+          <StackTest />):(
+          <Stack.Navigator initialRouteName="LoginOrRegister">
           <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
           <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
@@ -225,4 +235,3 @@ export default function App() {
   </AuthProvider>
   );
 }
-
