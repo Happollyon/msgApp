@@ -65,21 +65,11 @@ const StackTest = () => {
   )
 }
 
-const getTabBarVisibility = (route) => {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-  
-  if (routeName === 'ChatComponent' ) {
-    return false
-  }
-
-  return true;
-};
-
 const MainNavigation = () => {
   // bottom tab navigator using react navigation
   const theme = useTheme();
   return (
-    <Tab.Navigator  style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
+    <Tab.Navigator initialRouteName='Contacts'  style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
       
       tabBarStyle: {
         

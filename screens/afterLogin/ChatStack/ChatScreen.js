@@ -57,7 +57,7 @@ export default function ChatScreen() {
                 onChangeText={(text) => {search(text)}}
                 style={{width:"90%",marginBottom:"4%"}}
             />
-            <ScrollView style={{width:"90%",height:"50%"}} contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <ScrollView  style={{width:"90%",height:"50%"}} contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {/* Place your chat content here */
                     state.msgsToRender.map((msg,index) => {
                         return <ChatItem navigation={navigation} key={index} name={msg.name} lastMsgTimeStamp={msg.lastMsgTimeStamp} avatarUrl={msg.avatarUrl} msgCount={msg.msgCount} msg={msg.msg}/>
