@@ -26,6 +26,8 @@ import ProfileScreen from './screens/afterLogin/ProfileScreen';
 import ContactsStack from './screens/afterLogin/ContactsStack/ContatctsStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TestScreen from './screens/afterLogin/ContactsStack/TestScreen';
+import ChatComponent from './screens/afterLogin/ChatStack/ChatComponent';
+import ChatScreen from './screens/afterLogin/ChatStack/ChatScreen';
 
 
 
@@ -49,7 +51,7 @@ const Tab = createBottomTabNavigator() // Create a bottom tab navigator
  */
 
 
-const ChatRoute = () => <ChatStack />;
+const ChatRoute = () => <ChatScreen />;
 const ContactsRoute = () => <ContactsScreen />;
 const ProfileRoute = () => <ProfileScreen />;
 
@@ -57,39 +59,12 @@ const StackTest = () => {
   return(
     <Stack.Navigator>
       <Stack.Screen name="MainNavigation" component={MainNavigation} options={{ headerShown: false }}/>
-      <Stack.Screen name="ChatComponent" component={ChatRoute} options={{ headerShown: false }}/>
+      <Stack.Screen name="ChatComponent" component={ChatComponent} options={{ headerShown: false }}/>
       <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
   )
 }
-/*
-const MainNavigation = () => {
-  const theme = useTheme();
-  const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    { key: 'chat',title: 'Chat', focusedIcon: 'message-text',unfocusedIcon: 'message-text-outline' },
-    { key: 'contacts', title: 'Contacts', focusedIcon: 'account-multiple',unfocusedIcon: 'account-multiple-outline'},
-    { key: 'profile', title: 'Profile', focusedIcon: 'account-circle' ,unfocusedIcon: 'account-circle-outline'},
-  ]);
 
-  const renderScene = BottomNavigation.SceneMap({
-    chat: ChatRoute,
-    contacts: ContactsRoute,
-    profile: ProfileRoute,
-  });
-
-  return (
-    <BottomNavigation
-      barStyle={{backgroundColor: theme.colors.primary}}
-      inactiveColor={theme.colors.onPrimary}
-      activeColor={theme.colors.onPrimaryContainer}
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-    />
-  );
-};
-*/
 const getTabBarVisibility = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? '';
   
@@ -107,7 +82,7 @@ const MainNavigation = () => {
     <Tab.Navigator  style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
       
       tabBarStyle: {
-        display: getTabBarVisibility(route) ? 'flex' : 'none',
+        
         backgroundColor: theme.colors.primary,
       },
       tabBarActiveTintColor: theme.colors.onPrimary,

@@ -12,6 +12,32 @@ import { Text,useTheme} from 'react-native-paper';
 // time: The time at which the message was sent
 // isMe: A boolean value indicating whether the message was sent by the user or not
 export default function MessageComponent  ({ message })  {
+  function convertTimeStamp(timestamp) {
+    // Convert timestamp to milliseconds to create a Date object
+    const msgDate = new Date(timestamp * 1000);
+    const currentDate = new Date();
+
+    // Calculate difference in milliseconds
+    const diffInMs = currentDate - msgDate;
+
+    // Convert milliseconds to days, hours, and minutes
+    const diffDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffInMs / (1000 * 60 * 60)) % 24);
+    const diffMinutes = Math.floor((diffInMs / (1000 * 60)) % 60);
+
+    // Return the difference as an object or formatted string
+    if (diffDays > 0) {
+        return `${diffDays} days ago`;
+    } else if (diffHours > 0) {
+        return `${diffHours} hours ago`;
+    } else if (diffMinutes > 0) {
+        return `${diffMinutes} minutes ago`;
+    } else {
+        return 'Just now';
+    }
+    // Or return as a formatted string
+    // return `${diffDays} days, ${diffHours} hours, ${diffMinutes} minutes ago`;
+}
 
     return (
       
@@ -19,6 +45,7 @@ export default function MessageComponent  ({ message })  {
         message.imageLink==null ? (
             <View key={message.id} style={ message.isMe ? styles.itIsMe: styles.itIsNotMe}>
               <Text style={{color:"white"}}>{message.message}</Text>
+              <Text style={{color:"white",fontStyle:"italic", alignSelf:"flex-end",fontWeight:"light"}}>{convertTimeStamp(message.time)}</Text>
             </View>):(
 
               <View key={message.id} style={ message.isMe ? styles.itIsMe: styles.itIsNotMe}>
@@ -27,6 +54,7 @@ export default function MessageComponent  ({ message })  {
           style={styles.image} 
           resizeMode="cover" // Adjust resizeMode as needed
         />
+            <Text style={{color:"white",fontStyle:"italic", alignSelf:"flex-end",fontWeight:"light"}}>{convertTimeStamp(message.time)}</Text>
             </View>
             )
       

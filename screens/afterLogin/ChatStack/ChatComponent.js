@@ -4,6 +4,7 @@ import { View, SafeAreaView, KeyboardAvoidingView, Platform, TouchableOpacity, S
 import { Text, useTheme, Icon, Avatar, Switch, Button,TextInput} from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import MessageComponent from './MessageComponent';
+import { useNavigation } from '@react-navigation/native';
 
 
 const ExpandedView = ({ expanded,setSwitch, switchOn}) => {
@@ -62,7 +63,8 @@ const message = [
   
 
 ];
-const MoreOptions = ({ expanded}) => {
+const MoreOptions = ({expanded}) => {
+  const navigation = useNavigation();
   const animation = useRef(new Animated.Value(0)).current;// Initial value for opacity: 0 (transparent) 
   const theme = useTheme();
   useEffect(() => { // Animation for expanding the view
@@ -90,7 +92,8 @@ const MoreOptions = ({ expanded}) => {
   );
 };
 
-export default function ChatComponent({ navigation }) {
+export default function ChatComponent( ) {
+  const navigation = useNavigation();
   const theme = useTheme();
   const [state, setState] = useState({
     visible: false,
@@ -128,7 +131,7 @@ export default function ChatComponent({ navigation }) {
           </TouchableOpacity>
         </View>
         
-        <ScrollView  style={{ width: '90%', height: '72%',backgroundColor:"blue"}} contentContainerStyle={{  alignItems: 'center', justifyContent: 'center' }}>
+        <ScrollView  style={{ width: '90%', height: '72%'}} contentContainerStyle={{  alignItems: 'center', justifyContent: 'center' }}>
           {
             message.map((item) => (
               <MessageComponent key={item.id} message={item} />
