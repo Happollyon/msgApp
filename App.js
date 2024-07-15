@@ -22,7 +22,7 @@ import LoadingScreen from './screens/beforeLogin/LoadingScreen';
 
 import ChatStack from './screens/afterLogin/ChatStack/ChatStack';
 import ContactsScreen from './screens/afterLogin/ContactsStack/ContactsScreen';
-import ProfileScreen from './screens/afterLogin/ProfileScreen';
+import ProfileScreen from './screens/afterLogin/ProfileStack/ProfileScreen';
 import ContactsStack from './screens/afterLogin/ContactsStack/ContatctsStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TestScreen from './screens/afterLogin/ContactsStack/TestScreen';
@@ -69,7 +69,7 @@ const MainNavigation = () => {
   // bottom tab navigator using react navigation
   const theme = useTheme();
   return (
-    <Tab.Navigator initialRouteName='Contacts'  style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
+    <Tab.Navigator initialRouteName='Profile'  style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
       
       tabBarStyle: {
         
@@ -143,9 +143,11 @@ const MainNavigation = () => {
         
         if (isLoggedIn === "true" && diffHours < 24) {
           // If the value exists, update the context or state accordingly
-          setLoggedIn(isLoggedIn === 'true');
+          setLoggedIn(true);
+          console.log("logged in")
         }
-        setLoggedIn(isLoggedIn === 'true');
+        setLoggedIn(true);
+        
       } catch (error) {
         console.error('Failed to fetch logged in status', error);
       }
