@@ -4,7 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { Searchbar, useTheme} from 'react-native-paper';
 import { View, Text, Touchable, TouchableOpacity ,KeyboardAvoidingView,SafeAreaView,Platform,ScrollView} from 'react-native';
 import ContactItem from './ContactItem';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const appConfig = require('../../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
 const contacts = 
 [
     {   "contact":false,
@@ -144,6 +147,9 @@ const contacts =
     const notContacts = contacts.filter(contact => contact.contact === false);
     
 
+/*
+*
+*/
 export default function ContactsScreen({}) {
     const navigation = useNavigation();
     const theme = useTheme();
@@ -152,18 +158,63 @@ export default function ContactsScreen({}) {
         contactsToRender: [...contacts.sort((a, b) => a.name.localeCompare(b.name))]
     });
 
+    /**
+     * @function search 
+     * @description This fucntion search for contacts by name in the contacts in local storage
+     * or in the contacts in the server. in order to search for users in the database, user must know the email. 
+     * calls are only made to the server if the user knows the email of the contact and a contact format is detected. 
+     * @memberof ContactsScreen
+     * @param {*} name // the name of the contact to search for or the email of the contact to search for
+     * @returns {void}   // nothing is returned. Instead the state is updated with the contacts that match the search query
+     * 
+     */
     const search = async (name) => {
         
         
         if(name === ""){
-            setState({contactsToRender: contacts});
+            setState({contactsToRender: contacts});//reset the contacts
         }else{
-            const filteredMsgs = contacts.filter(contact => contact.name.includes(name));
-            //sort by if is contact or not
-            filteredMsgs.sort((a, b) => b.contact - a.contact);
-            setState({contactsToRender: filteredMsgs});
-        }
-        console.log("state")
+
+            const token = await AsyncStorage.getItem('token');
+            // check if name is an email
+            const emailFormat = /\S+@\S+\.\S+/;
+            if(emailFormat.test(name)){
+                // send a request to server   
+                const url = `${baseurlBack}/contacts/search-user/${encodeURIComponent(name)}`;
+                
+                try{
+                        await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`}
+                        }).then(async (response) => {
+                            if(response.status ===200){ 
+                               await response.json().then(async (data) => {
+                                if(!data.error){
+                                    console.log(data)
+                                    //const filteredMsgs = data.filter(contact => contact.name.includes(name)); //filter by name
+                                    //filteredMsgs.sort((a, b) => b.contact - a.contact); //sort by if is contact or not
+                                    setState({contactsToRender: data.data});//update the state
+                                }else{
+                                    
+                                }
+                               }) 
+                            }else{
+                                console.log(response.status)
+                                console.log("answer not okay")
+                            }
+                        })
+                }catch(e){
+
+                }
+                
+            }else{
+                const filteredMsgs = contacts.filter(contact => contact.name.includes(name)); //filter by name
+                filteredMsgs.sort((a, b) => b.contact - a.contact); //sort by if is contact or not
+                setState({contactsToRender: filteredMsgs});//update the state
+            }
+    }
+
        
 
     }

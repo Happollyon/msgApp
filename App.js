@@ -135,18 +135,20 @@ const MainNavigation = () => {
         // check that user hasnt being logged in for more than 24 hours
         const lastLogin = await AsyncStorage.getItem('loggedInTime');
 
-        const typeOfLogin = typeof(lastLogin)
+        
         const now = new Date();
         const lastLoginDate = new Date(parseInt(lastLogin,10));
         const diff = now - lastLoginDate;
         const diffHours = diff / (1000 * 60 * 60);
-        
+      
         if (isLoggedIn === "true" && diffHours < 24) {
           // If the value exists, update the context or state accordingly
           setLoggedIn(true);
           console.log("logged in")
+        }else{
+          setLoggedIn(false);
         }
-        setLoggedIn(true);
+       
         
       } catch (error) {
         console.error('Failed to fetch logged in status', error);
@@ -173,11 +175,11 @@ const MainNavigation = () => {
         loggedIn ?(
           <StackTest />):(
           <Stack.Navigator initialRouteName="LoginOrRegister">
-          <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
-          <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
-          <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
-          <Stack.Screen name="Password" component={Password} options={{ headerShown: false }}/>
-          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
+            <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+            <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
+            <Stack.Screen name="Password" component={Password} options={{ headerShown: false }}/>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
         </Stack.Navigator>
       )}
       </NavigationContainer>
