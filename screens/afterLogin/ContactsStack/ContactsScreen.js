@@ -1,10 +1,11 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState,useContext,useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Searchbar, useTheme} from 'react-native-paper';
 import { View, Text, Touchable, TouchableOpacity ,KeyboardAvoidingView,SafeAreaView,Platform,ScrollView} from 'react-native';
 import ContactItem from './ContactItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../../../AuthContext';
 
 const appConfig = require('../../../appConf.json');
 const baseurlBack = appConfig.baseurlBack;
@@ -150,6 +151,7 @@ const contacts =
 /*
 *
 */
+
 export default function ContactsScreen({}) {
     const navigation = useNavigation();
     const theme = useTheme();
@@ -158,6 +160,45 @@ export default function ContactsScreen({}) {
         contactsToRender: [...contacts.sort((a, b) => a.name.localeCompare(b.name))]
     });
 
+    const {contactList,setContactList} = useContext(AuthContext);
+    // Inside your component
+useEffect(() => {
+    // Your function logic here
+    // For example, you might want to call the search function with a default value or perform an initial data fetch
+    const initializeContacts = async () => {
+      // Call your function here, e.g., search(""), or any other initialization logic
+      const url = `${baseurlBack}/contacts/get-contacts`;
+      const token = await AsyncStorage.getItem('token');
+
+        try{
+            await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`}
+            }).then(async (response) => {
+                if(response.status ===200){ 
+                    await response.json().then(async (data) => {
+                        if(!data.error){
+                            console.log(data)
+                            setContactList(data.data);
+                        }else{
+                            
+                        }
+                    }) 
+                }else{
+                    console.log(response.status)
+                    console.log("answer not okay")
+                }
+            })
+
+        }catch(e){
+
+        }
+      search(""); // If you want to load all contacts initially or perform any other initialization
+    };
+  
+    initializeContacts();
+  }, []); // The empty dependency array ensures this runs only once when the component mounts
     /**
      * @function search 
      * @description This fucntion search for contacts by name in the contacts in local storage
