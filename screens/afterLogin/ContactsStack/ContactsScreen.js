@@ -145,7 +145,7 @@ const contacts =
         "avatarUrl": "https://scontent.cdninstagram.com/v/t39.30808-6/223524276_18442837969012232_2345678901234567_n.jpg?stp=cp6_dst-jpegr_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDM3eDE0MzcuaGRyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=125&_nc_ohc=HIJKLMN8OPQRSTUVXWXYQ&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzQwMDY1MDY2ODA5NzI4ODg1NQ%3D%3D"
     }   ]
 
-    const notContacts = contacts.filter(contact => contact.contact === false);
+   
     
 
 /*
@@ -157,7 +157,7 @@ export default function ContactsScreen({}) {
     const theme = useTheme();
     const [state, setState] = useState({
         searchQuery: '',
-        contactsToRender: [...contacts.sort((a, b) => a.name.localeCompare(b.name))]
+        contactsToRender: []
     });
 
     const {contactList,setContactList} = useContext(AuthContext);
@@ -179,8 +179,11 @@ useEffect(() => {
                 if(response.status ===200){ 
                     await response.json().then(async (data) => {
                         if(!data.error){
-                            console.log(data)
+                         
                             setContactList(data.data);
+                            setState({...state,contactsToRender:[...data.data.sort((a, b) => a.name.localeCompare(b.name))]})
+                            await AsyncStorage.setItem('contacts', JSON.stringify(data.data));
+                            console.log(state.contactsToRender, "contacts to render state")
                         }else{
                             
                         }
@@ -194,7 +197,7 @@ useEffect(() => {
         }catch(e){
 
         }
-      search(""); // If you want to load all contacts initially or perform any other initialization
+      
     };
   
     initializeContacts();
@@ -210,10 +213,16 @@ useEffect(() => {
      * 
      */
     const search = async (name) => {
-        
+      
+        const contactsFromStorage = await AsyncStorage.getItem('contacts');
+        console.log("data type",    typeof contactsFromStorage)
+        console.log(contactsFromStorage, "Data from storage")
         
         if(name === ""){
-            setState({contactsToRender: contacts});//reset the contacts
+            const contacts = JSON.parse(contactsFromStorage);
+            setState({...state, contactsToRender: contacts});//reset the contacts
+            console.log("reset")
+          
         }else{
 
             const token = await AsyncStorage.getItem('token');
@@ -250,9 +259,13 @@ useEffect(() => {
                 }
                 
             }else{
-                const filteredMsgs = contacts.filter(contact => contact.name.includes(name)); //filter by name
+                console.log("searching by name")
+                //filter by name
+                const filteredMsgs = state.contactsToRender.filter(contact => contact.name.includes(name)); //filter by name
+                console.log("filtered msgs")    
                 filteredMsgs.sort((a, b) => b.contact - a.contact); //sort by if is contact or not
-                setState({contactsToRender: filteredMsgs});//update the state
+                setState({...state,contactsToRender: filteredMsgs});//update the state
+                console.log(state.contactsToRender, "contacts to render state search")
             }
     }
 
