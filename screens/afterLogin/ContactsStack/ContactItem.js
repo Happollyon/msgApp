@@ -67,7 +67,7 @@ export default function ContactItem({ contact }) {
     return(
         <View  style={{width:"100%",marginBottom: "3%",padding:4,borderRadius:10, display:"flex",alignItems:"cemer",justifyContent:"space-around",backgroundColor:contact.contact?"transparent":theme.colors.primaryContainer}}>
             <View style={{ width: "100%", display: 'flex', flexDirection: "row", alignItems: "center", justifyContent: 'space-between'}}>
-                <TouchableOpacity onPress={()=>navigation.navigate("ChatComponent")} style={{ flexDirection: "row", alignItems: "center" }}>
+                <TouchableOpacity onPress={()=>navigation.navigate("ChatComponent",{contactInfo:contact})} style={{ flexDirection: "row", alignItems: "center" }}>
                     <Avatar.Image size={64} source={{"uri": contact.avatarUrl}} />
                     <View style={{ flexDirection: "column", marginLeft: "3%", alignItems: "start", justifyContent: "center" }}>
                         <Text variant="titleLarge" style={{color:theme.colors.primary}}>{contact.name}</Text>

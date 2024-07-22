@@ -5,6 +5,7 @@ import { Text, useTheme, Icon, Avatar, Switch, Button,TextInput} from 'react-nat
 import { StatusBar } from 'expo-status-bar';
 import MessageComponent from './MessageComponent';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../../../AuthContext';
 
 
 const ExpandedView = ({ expanded,setSwitch, switchOn}) => {
@@ -92,13 +93,16 @@ const MoreOptions = ({expanded}) => {
   );
 };
 
-export default function ChatComponent( ) {
+export default function ChatComponent({route} ) {
+   const {socket} = React.useContext(AuthContext);
   const navigation = useNavigation();
+  const {contactInfo} = route.params;
   const theme = useTheme();
   const [state, setState] = useState({
     visible: false,
     switchOn: false,
-    moreOptionsVisible:false
+    moreOptionsVisible:false,
+    msg: '',
   });
 
   const setVisible = (visible) => {
@@ -112,6 +116,16 @@ export default function ChatComponent( ) {
   const setmoreOptionsVisible = () => {
     setState({ ...state, moreOptionsVisible: !state.moreOptionsVisible });
   }
+
+  const sendMessage = () => {
+    const input = state.msg;
+    console.log(input);
+    if (input && socket) {
+        console.log('Sending message:', input);
+        socket.send(input);
+        setState({ ...state, msg: '' });
+    }
+};
   
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor:theme.colors.primary }}>
@@ -124,7 +138,7 @@ export default function ChatComponent( ) {
           </TouchableOpacity>
           <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <Avatar.Image size={64} source={{ uri: 'https://scontent.cdninstagram.com/v/t39.30808-6/449442715_18442837969012232_2338445663121333116_n.jpg?stp=cp6_dst-jpegr_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDM3eDE0MzcuaGRyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=108&_nc_ohc=FG3fexBIk1UQ7kNvgEVnxLd&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzQwMDY1MDY2ODA5NzI4ODg1NQ%3D%3D.2-ccb7-5&oh=00_AYADT9gzdSt5u8zI8QenuEcXUTxCXXU0BmDXsO-RU22oTA&oe=6689C4C4&_nc_sid=10d13b' }} />
-            <Text variant="titleLarge" style={{ color: theme.colors.onPrimary, marginLeft: '5%' }}>Fagner Nunes</Text>
+            <Text variant="titleLarge" style={{ color: theme.colors.onPrimary, marginLeft: '5%' }}>{contactInfo.name}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setVisible(!state.visible)}>
             <Icon source={state.visible?"close":"dots-vertical"}color={theme.colors.onPrimary} size="35%" />
@@ -145,8 +159,8 @@ export default function ChatComponent( ) {
               <TouchableOpacity style={{marginLeft:"1%"}} onPress={setmoreOptionsVisible}>
                 <Icon source="plus" color={theme.colors.primary} size="35%" />
               </TouchableOpacity>
-              <TextInput style={{width:"70%",backgroundColor:"white"}} placeholder="" multiline={true} />
-              <TouchableOpacity style={{marginRight:"1%"}} onPress={() => { }}>
+              <TextInput style={{width:"70%",backgroundColor:"white"}} onChangeText={txt => setState({...state,msg:txt})} placeholder="" multiline={true} />
+              <TouchableOpacity style={{marginRight:"1%"}} onPress={sendMessage}>
                 <Icon source="send" color={theme.colors.primary} size="35%" />
               </TouchableOpacity>
             </View>

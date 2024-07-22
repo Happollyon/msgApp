@@ -29,7 +29,8 @@ import TestScreen from './screens/afterLogin/ContactsStack/TestScreen';
 import ChatComponent from './screens/afterLogin/ChatStack/ChatComponent';
 import ChatScreen from './screens/afterLogin/ChatStack/ChatScreen';
 
-
+const appConfig = require('./appConf.json');
+const webSocketUrl = appConfig.webSocketUrl;
 
 const Stack = createNativeStackNavigator(); // Create a stack navigator
 const Tab = createBottomTabNavigator() // Create a bottom tab navigator
@@ -128,6 +129,9 @@ const MainNavigation = () => {
   */
 
   useEffect(() => {
+    
+    // Clean up the WebSocket connection when the component unmounts
+   
     const checkLoggedInStatus = async () => {
       try {
           
@@ -158,6 +162,9 @@ const MainNavigation = () => {
     };
 
     checkLoggedInStatus();
+   /* return () => {
+      socket.close();
+    };*/
   }, []);
 
   if (isLoading) {

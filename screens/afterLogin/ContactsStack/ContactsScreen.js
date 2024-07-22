@@ -284,7 +284,7 @@ useEffect(() => {
                 onChangeText={(text) => {search(text)}}
                 style={{width:"90%",marginBottom:"4%"}}
             />
-             <ScrollView style={{width:"90%",height:"100%",backgroundColor:theme.colors.background}} contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
+             <ScrollView style={{width:"90%",height:"100%",backgroundColor:theme.colors.background}} contentContainerStyle={{ flexGrow: 1, alignItems: "center", justifyContent: 'flex-start' }}>
                 {
                     state.contactsToRender.map((contact,index) => {
                        return <ContactItem key={index} contact={contact} />

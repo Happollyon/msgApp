@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 
 import { Text,useTheme,Avatar, Divider} from 'react-native-paper';
 
-export default function ChatItem({name, msg, avatarUrl, lastMsgTimeStamp,msgCount, navigation}) {
+export default function ChatItem({contactInfo,name, msg, avatarUrl, lastMsgTimeStamp,msgCount, navigation}) {
     const theme = useTheme();
 
     function convertTimeStamp(timestamp) {
@@ -40,7 +40,7 @@ export default function ChatItem({name, msg, avatarUrl, lastMsgTimeStamp,msgCoun
         return msg;
     }
     return(
-      <TouchableOpacity  onPress={()=>navigation.navigate('ChatComponent')} style={{width:"100%",marginBottom: "3%", display:"flex",alignItems:"flex-end"}}>
+      <TouchableOpacity  onPress={()=>navigation.navigate('ChatComponent',{contactInfo:contactInfo})} style={{width:"100%",marginBottom: "3%", display:"flex",alignItems:"flex-end"}}>
             <View style={{ width: "100%", display: 'flex', flexDirection: "row", alignItems: "center", justifyContent: 'space-between'}}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Avatar.Image size={64} source={{"uri": avatarUrl}} />

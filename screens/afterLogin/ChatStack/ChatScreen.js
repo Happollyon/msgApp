@@ -61,7 +61,7 @@ export default function ChatScreen() {
             <ScrollView  style={{width:"90%",height:"50%"}} contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {/* Place your chat content here */
                     state.msgsToRender.map((msg,index) => {
-                        return <ChatItem navigation={navigation} key={index} name={msg.name} lastMsgTimeStamp={msg.lastMsgTimeStamp} avatarUrl={msg.avatarUrl} msgCount={msg.msgCount} msg={msg.msg}/>
+                        return <ChatItem contactInfo={msg} navigation={navigation} key={index} name={msg.name} lastMsgTimeStamp={msg.lastMsgTimeStamp} avatarUrl={msg.avatarUrl} msgCount={msg.msgCount} msg={msg.msg}/>
                     })
                 }
             </ScrollView>
