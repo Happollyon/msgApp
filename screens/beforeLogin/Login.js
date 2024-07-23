@@ -58,6 +58,35 @@ export default function Login({navigation}) {
      */
 
     const { setLoggedIn,loggedIn } = useContext(AuthContext); // Get the setLoggedIn function from the AuthContext
+    //get messages 
+    // get contacts 
+
+    const getContacts=  async () => {
+        const url = `${baseurlBack}/contacts/get-contacts'`;
+        
+        try{
+            await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`}
+            }).then(async (response) => {
+                if(response.status ===200){ 
+                   await response.json().then(async (data) => {
+                    if(!data.error){
+                        
+                    }else{
+                        
+                    }
+                   }) 
+                }else{
+                    console.log(response.status)
+                    console.log("answer not okay")
+                }
+            })
+    }catch(e){
+
+    }
+    }
     const login = async () => {
         let message = "";
         let error = false;
@@ -92,7 +121,7 @@ export default function Login({navigation}) {
                             await AsyncStorage.setItem('token', responseData.token);
                             await AsyncStorage.setItem('isLoggedIn', "true");
                             await AsyncStorage.setItem('loggedInTime', Date.now().toString());
-                           
+                            
                            
                         }
                 });

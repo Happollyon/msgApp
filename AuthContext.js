@@ -11,28 +11,42 @@ export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null); // Holds user information
   const [contactList, setContactList] = useState([]); // Holds the contact list
   const [socket, setSocket] = useState(null);
+ 
   useEffect(() => {
-    const ws = new WebSocket(webSocketUrl);
-
-    ws.onopen = () => {
+    let ws; // WebSocket instance
+  
+    const connectWebSocket = () => {
+      ws = new WebSocket(webSocketUrl); // Create a new WebSocket
+  
+      ws.onopen = () => { // When the WebSocket connection is opened
         console.log('WebSocket connection opened');
+        ws.send("id123456");
         setSocket(ws);
-    };
-
-    ws.onmessage = (event) => {
+      };
+  
+      ws.onmessage = (event) => { // When a message is received from the server
         console.log(`Message from server: ${event.data}`);
         // Handle incoming messages here if needed
-    };
-
-    ws.onclose = () => {
-        console.log('WebSocket connection closed');
+      };
+  
+      ws.onclose = (event) => {
+        console.log(`WebSocket connection closed with code: ${event.code}, reason: ${event.reason}`);
         setSocket(null);
+        // Attempt to reconnect after 5 seconds if the close code is 1001
+        if (event.code === 1001) {
+          setTimeout(connectWebSocket, 5000);
+        }
+      };
     };
-
-    /*return () => {
+  
+    connectWebSocket();
+  
+    return () => {
+      if (ws) {
         ws.close();
-    };*/
-}, []);
+      }
+    };
+  }, []);
 
 
   return (

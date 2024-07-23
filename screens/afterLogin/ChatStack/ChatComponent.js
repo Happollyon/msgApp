@@ -159,7 +159,7 @@ export default function ChatComponent({route} ) {
               <TouchableOpacity style={{marginLeft:"1%"}} onPress={setmoreOptionsVisible}>
                 <Icon source="plus" color={theme.colors.primary} size="35%" />
               </TouchableOpacity>
-              <TextInput style={{width:"70%",backgroundColor:"white"}} onChangeText={txt => setState({...state,msg:txt})} placeholder="" multiline={true} />
+              <TextInput value={state.msg} style={{width:"70%",backgroundColor:"white"}} onChangeText={txt => setState({...state,msg:txt})} placeholder="" multiline={true} />
               <TouchableOpacity style={{marginRight:"1%"}} onPress={sendMessage}>
                 <Icon source="send" color={theme.colors.primary} size="35%" />
               </TouchableOpacity>
