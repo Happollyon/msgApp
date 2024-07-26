@@ -58,11 +58,13 @@ export default function Login({navigation}) {
      */
 
     const { setLoggedIn,loggedIn } = useContext(AuthContext); // Get the setLoggedIn function from the AuthContext
+    const { contactList, setContactList } = useContext(AuthContext); // Get the setContactList function from the AuthContext
     //get messages 
     // get contacts 
 
     const getContacts=  async () => {
-        const url = `${baseurlBack}/contacts/get-contacts'`;
+        const url = `${baseurlBack}/contacts/get-contacts`;
+        const token = await AsyncStorage.getItem('token');
         
         try{
             await fetch(url, {
@@ -74,8 +76,23 @@ export default function Login({navigation}) {
                    await response.json().then(async (data) => {
                     if(!data.error){
                         
+                        console.log(data)
+                        const contactStrure = data.data.map(contact => ({
+                            [`contact_id_${contact.id}`]: {
+                                name: contact.name,
+                                email: contact.email,
+                                avatarUrl: contact.avatarUrl,
+                                id: contact.id,
+                                contact: contact.contact
+                            }
+                        }));
+                      await AsyncStorage.setItem('contacts', JSON.stringify(contactStrure));
+                      setContactList(contactStrure);
+                      console.log(contactStrure)
+
                     }else{
-                        
+                       
+                        console.log("error getting contacts")
                     }
                    }) 
                 }else{
@@ -84,7 +101,7 @@ export default function Login({navigation}) {
                 }
             })
     }catch(e){
-
+        console.log("networkerror ",e)
     }
     }
     const login = async () => {
@@ -116,11 +133,15 @@ export default function Login({navigation}) {
 
                         }else{
                             
-                            setLoggedIn(true);
-                              // save token here to  with user id JWT
+                            //get contacts before setting logged in
                             await AsyncStorage.setItem('token', responseData.token);
                             await AsyncStorage.setItem('isLoggedIn', "true");
                             await AsyncStorage.setItem('loggedInTime', Date.now().toString());
+                            await getContacts();
+                            setLoggedIn(true);
+                              // save token here to  with user id JWT
+                            
+                           
                             
                            
                         }
@@ -141,17 +162,8 @@ export default function Login({navigation}) {
         setState({...state,message:message,error:error,messageTitle:messageTitle,modalVisible:modalVisible});
     };
 
-     /**
-     * Function to hide the modal.
-     * @function hideModal
-     * @description This function is used to hide the modal.
-     * @returns {void} This function does not return anything.
-     * 
-     */
-    const hideModal = () => { // Function to hide the modal
-       
-        setState({ ...state, visible: false}); // Set the visible to false
-    }
+
+   
     return(
         <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center',justifyContent: 'center'}}>

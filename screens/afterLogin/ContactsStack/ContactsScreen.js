@@ -165,6 +165,7 @@ export default function ContactsScreen({}) {
 useEffect(() => {
     // Your function logic here
     // For example, you might want to call the search function with a default value or perform an initial data fetch
+    setState({...state,contactsToRender:[...contactList.sort((a, b) => a.name.localeCompare(b.name))]})
     const initializeContacts = async () => {
       // Call your function here, e.g., search(""), or any other initialization logic
       const url = `${baseurlBack}/contacts/get-contacts`;
@@ -180,10 +181,13 @@ useEffect(() => {
                     await response.json().then(async (data) => {
                         if(!data.error){
                          
-                            setContactList(data.data);
+                           /* setContactList(data.data);
                             setState({...state,contactsToRender:[...data.data.sort((a, b) => a.name.localeCompare(b.name))]})
                             await AsyncStorage.setItem('contacts', JSON.stringify(data.data));
                             console.log(state.contactsToRender, "contacts to render state")
+                            */
+
+
                         }else{
                             
                         }
@@ -200,7 +204,7 @@ useEffect(() => {
       
     };
   
-    initializeContacts();
+    //initializeContacts();
   }, []); // The empty dependency array ensures this runs only once when the component mounts
     /**
      * @function search 
@@ -215,14 +219,12 @@ useEffect(() => {
     const search = async (name) => {
       
         const contactsFromStorage = await AsyncStorage.getItem('contacts');
-        console.log("data type",    typeof contactsFromStorage)
-        console.log(contactsFromStorage, "Data from storage")
+       
         
         if(name === ""){
             const contacts = JSON.parse(contactsFromStorage);
-            setState({...state, contactsToRender: contacts});//reset the contacts
-            console.log("reset")
-          
+            setState({...state, contactsToRender: contactList});//reset the contacts
+            
         }else{
 
             const token = await AsyncStorage.getItem('token');
@@ -241,7 +243,7 @@ useEffect(() => {
                             if(response.status ===200){ 
                                await response.json().then(async (data) => {
                                 if(!data.error){
-                                    console.log(data)
+                                    
                                     //const filteredMsgs = data.filter(contact => contact.name.includes(name)); //filter by name
                                     //filteredMsgs.sort((a, b) => b.contact - a.contact); //sort by if is contact or not
                                     setState({contactsToRender: data.data});//update the state
@@ -259,13 +261,13 @@ useEffect(() => {
                 }
                 
             }else{
-                console.log("searching by name")
+                
                 //filter by name
                 const filteredMsgs = state.contactsToRender.filter(contact => contact.name.includes(name)); //filter by name
-                console.log("filtered msgs")    
+                 
                 filteredMsgs.sort((a, b) => b.contact - a.contact); //sort by if is contact or not
                 setState({...state,contactsToRender: filteredMsgs});//update the state
-                console.log(state.contactsToRender, "contacts to render state search")
+                
             }
     }
 
@@ -287,6 +289,7 @@ useEffect(() => {
              <ScrollView style={{width:"90%",height:"100%",backgroundColor:theme.colors.background}} contentContainerStyle={{ flexGrow: 1, alignItems: "center", justifyContent: 'flex-start' }}>
                 {
                     state.contactsToRender.map((contact,index) => {
+                        console.log(contact, "contact")
                        return <ContactItem key={index} contact={contact} />
                     })
                     

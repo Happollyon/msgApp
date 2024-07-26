@@ -16,6 +16,7 @@ import Login from './screens/beforeLogin/Login';
 import Password from './screens/beforeLogin/Password';
 import EmailVerification from './screens/beforeLogin/EmailVerification';
 import LoadingScreen from './screens/beforeLogin/LoadingScreen';
+import Calculator from './screens/beforeLogin/Calculator';
 
 
 // ################### Screen Imports after Login ###################
@@ -181,7 +182,8 @@ const MainNavigation = () => {
         { 
         loggedIn ?(
           <StackTest />):(
-          <Stack.Navigator initialRouteName="LoginOrRegister">
+          <Stack.Navigator initialRouteName="Calculator">
+            <Stack.Screen name="Calculator" component={Calculator} options={{ headerShown: false }}/>
             <Stack.Screen name="LoginOrRegister" component={Screen1} options={{ headerShown: false }}/>
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
             <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }}/>
