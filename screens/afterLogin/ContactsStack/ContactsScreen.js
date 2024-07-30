@@ -155,57 +155,21 @@ const contacts =
 export default function ContactsScreen({}) {
     const navigation = useNavigation();
     const theme = useTheme();
+    const {contactList,setContactList} = useContext(AuthContext);
     const [state, setState] = useState({
         searchQuery: '',
-        contactsToRender: []
+        contactsToRender: contactList
     });
 
-    const {contactList,setContactList} = useContext(AuthContext);
+    useEffect(() => {
+        setState((prevState) => ({
+            ...prevState,
+            contactsToRender: contactList
+        }));
+    }, [contactList]);
+   
     // Inside your component
-useEffect(() => {
-    // Your function logic here
-    // For example, you might want to call the search function with a default value or perform an initial data fetch
-    setState({...state,contactsToRender:[...contactList.sort((a, b) => a.name.localeCompare(b.name))]})
-    const initializeContacts = async () => {
-      // Call your function here, e.g., search(""), or any other initialization logic
-      const url = `${baseurlBack}/contacts/get-contacts`;
-      const token = await AsyncStorage.getItem('token');
-
-        try{
-            await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`}
-            }).then(async (response) => {
-                if(response.status ===200){ 
-                    await response.json().then(async (data) => {
-                        if(!data.error){
-                         
-                           /* setContactList(data.data);
-                            setState({...state,contactsToRender:[...data.data.sort((a, b) => a.name.localeCompare(b.name))]})
-                            await AsyncStorage.setItem('contacts', JSON.stringify(data.data));
-                            console.log(state.contactsToRender, "contacts to render state")
-                            */
-
-
-                        }else{
-                            
-                        }
-                    }) 
-                }else{
-                    console.log(response.status)
-                    console.log("answer not okay")
-                }
-            })
-
-        }catch(e){
-
-        }
-      
-    };
-  
-    //initializeContacts();
-  }, []); // The empty dependency array ensures this runs only once when the component mounts
+ // The empty dependency array ensures this runs only once when the component mounts
     /**
      * @function search 
      * @description This fucntion search for contacts by name in the contacts in local storage
@@ -289,7 +253,7 @@ useEffect(() => {
              <ScrollView style={{width:"90%",height:"100%",backgroundColor:theme.colors.background}} contentContainerStyle={{ flexGrow: 1, alignItems: "center", justifyContent: 'flex-start' }}>
                 {
                     state.contactsToRender.map((contact,index) => {
-                        console.log(contact, "contact")
+                        
                        return <ContactItem key={index} contact={contact} />
                     })
                     

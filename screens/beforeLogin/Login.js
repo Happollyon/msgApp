@@ -62,9 +62,9 @@ export default function Login({navigation}) {
     //get messages 
     // get contacts 
 
-    const getContacts=  async () => {
-        const url = `${baseurlBack}/contacts/get-contacts`;
-        const token = await AsyncStorage.getItem('token');
+    const getContacts=  async () => { // Get the contacts from the server
+        const url = `${baseurlBack}/contacts/get-contacts`; // The url to get the contacts
+        const token = await AsyncStorage.getItem('token'); // Get the token from the AsyncStorage
         
         try{
             await fetch(url, {
@@ -76,18 +76,9 @@ export default function Login({navigation}) {
                    await response.json().then(async (data) => {
                     if(!data.error){
                         
-                        console.log(data)
-                        const contactStrure = data.data.map(contact => ({
-                            [`contact_id_${contact.id}`]: {
-                                name: contact.name,
-                                email: contact.email,
-                                avatarUrl: contact.avatarUrl,
-                                id: contact.id,
-                                contact: contact.contact
-                            }
-                        }));
-                      await AsyncStorage.setItem('contacts', JSON.stringify(contactStrure));
-                      setContactList(contactStrure);
+                       
+                      await AsyncStorage.setItem('contacts', JSON.stringify(data.data));
+                      setContactList(data.data);
                       console.log(contactStrure)
 
                     }else{

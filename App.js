@@ -120,6 +120,7 @@ const MainNavigation = () => {
  const InsideApp =  () =>{
   const { loggedIn, setLoggedIn } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true); // Add a loading state
+  const {contactList, setContactList}= useContext(AuthContext) // Add a contactList state
 
   /**
    * @function checkLoggedInStatus
@@ -139,6 +140,7 @@ const MainNavigation = () => {
         const isLoggedIn = await AsyncStorage.getItem('isLoggedIn');
         // check that user hasnt being logged in for more than 24 hours
         const lastLogin = await AsyncStorage.getItem('loggedInTime');
+        const contactListFromLocalStorage = await AsyncStorage.getItem('contacts');
 
         
         const now = new Date();
@@ -149,6 +151,7 @@ const MainNavigation = () => {
         if (isLoggedIn === "true" && diffHours < 24) {
           // If the value exists, update the context or state accordingly
           setLoggedIn(true);
+          setContactList(JSON.parse(contactListFromLocalStorage));
           console.log("logged in")
         }else{
           setLoggedIn(false);

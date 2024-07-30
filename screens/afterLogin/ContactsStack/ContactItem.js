@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Avatar, Icon, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../../../AuthContext';
 
 const appConfig = require('../../../appConf.json');
 const baseurlBack = appConfig.baseurlBack;
@@ -10,6 +12,8 @@ const baseurlBack = appConfig.baseurlBack;
 export default function ContactItem({ contact }) {
     const theme = useTheme();
     const navigation = useNavigation();
+    const {contactList, setContactList}= useContext(AuthContext) // Add a contactList state
+
    
     const removeFriend = async () => {
         console.log("remove friend")
@@ -23,8 +27,17 @@ export default function ContactItem({ contact }) {
                 if(response.status === 200){
                     console.log("Response 200");
                     await response.json().then(async (data) => {
-                        console.log(data)
-                        console.log("Friend removed");
+                        //remove contact from the list of contacts [{id:},{},{}] by id
+                        let contacts = await AsyncStorage.getItem("contacts");
+                        if (contacts) {
+                            contacts = JSON.parse(contacts);
+                            const updatedContacts = contacts.filter(c => c.id !== contact.id); // remove contact from the list
+                            console.log(updatedContacts," updated contacts");
+                            await AsyncStorage.setItem("contacts", JSON.stringify(updatedContacts)); // save the updated list
+                            await setContactList(updatedContacts); // update the context
+                            console.log(contactList);
+                        }
+                        
                     })
                 }else{
                     console.log(response.status);
@@ -51,6 +64,16 @@ export default function ContactItem({ contact }) {
               await response.json().then(async (data) => {
                     console.log(data)
                     console.log("Friend added");
+                    // add contact to the list of contacts [{id:},{},{}] by id
+                    let contacts = await AsyncStorage.getItem("contacts");
+                    if (contacts) {
+                        contact.contact = true;
+                        contacts = JSON.parse(contacts);
+                        const updatedContacts = [...contacts, contact]; // add contact to the list
+                        console.log(updatedContacts," updated contacts");
+                        await AsyncStorage.setItem("contacts", JSON.stringify(updatedContacts)); // save the updated list
+                        await setContactList(updatedContacts); // update the context
+                        console.log(contactList);}
               })
 
             }else{

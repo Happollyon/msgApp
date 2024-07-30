@@ -14,7 +14,7 @@ export default function Calculator() {
             if (value === "+") {
                 plusPressCount.current += 1;
                 if (plusPressCount.current === 5) {
-                    navigation.navigate('Login');
+                    navigation.navigate('LoginOrRegister');
                     plusPressCount.current = 0; // Reset the counter after navigating
                 }
             } else {
