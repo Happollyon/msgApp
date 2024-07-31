@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TestScreen from './screens/afterLogin/ContactsStack/TestScreen';
 import ChatComponent from './screens/afterLogin/ChatStack/ChatComponent';
 import ChatScreen from './screens/afterLogin/ChatStack/ChatScreen';
+import UpdatePassword from './screens/afterLogin/ProfileStack/UpdatePassword';
 
 const appConfig = require('./appConf.json');
 const webSocketUrl = appConfig.webSocketUrl;
@@ -62,6 +63,7 @@ const StackTest = () => {
     <Stack.Navigator>
       <Stack.Screen name="MainNavigation" component={MainNavigation} options={{ headerShown: false }}/>
       <Stack.Screen name="ChatComponent" component={ChatComponent} options={{ headerShown: false }}/>
+      <Stack.Screen name="UpdatePassword" component={UpdatePassword} options={{ headerShown: false }}/>
       <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
   )
@@ -71,7 +73,7 @@ const MainNavigation = () => {
   // bottom tab navigator using react navigation
   const theme = useTheme();
   return (
-    <Tab.Navigator initialRouteName='Profile'  style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
+    <Tab.Navigator initialRouteName='Chat'  style={{backgroundColor:theme.colors.primary}} screenOptions={({ route }) => ({
       
       tabBarStyle: {
         
@@ -105,7 +107,7 @@ const MainNavigation = () => {
       <Tab.Screen name="Contacts" component={ContactsRoute} options={{ headerShown: false }}/>
       <Tab.Screen name="Profile" component={ProfileRoute}options={{ headerShown: false }} />
     </Tab.Navigator>
-  );
+  ); 
 
 }
 /**

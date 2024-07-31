@@ -5,9 +5,16 @@ import { useState } from 'react';
 import {SafeAreaView, ScrollView, KeyboardAvoidingView,Platform} from 'react-native';
 import { Searchbar,useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
+import { AuthContext } from '../../../AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// import app config
+const appConfig = require('../../../appConf.json');
 
 // import chatItem component
 import ChatItem from './ChatItem';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 const msgs = [
@@ -34,7 +41,57 @@ export default function ChatScreen() {
         searchQuery: '',
         msgsToRender: [...msgs]
     });
+     
+    const {userInfo, setUserInfo} = React.useContext(AuthContext);
 
+   
+    const getuserData = async () => {
+        const token = await AsyncStorage.getItem('token');
+        console.log("Screen loaded");
+        // Add any other logic you want to execute on load
+        try {
+            const baseurlBack = appConfig.baseurlBack+"/user/getUser";
+            
+            await fetch(baseurlBack, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`}
+            }).then(async (response) => {
+                if(response.status ===200){ 
+                    await response.json().then(async (response) => {
+                        if(!response.error){
+                            console.log(response);
+                            const userData = {
+                                name: response.data.name,
+                                email: response.data.email,
+                                avatarUrl: response.data.avatarUrl,
+                                status: response.data.status,
+                                messages: response.data.messages,
+                                description: response.data.description,
+                                vibration: response.data.vibration,
+                                sound: response.data.sound,
+                                notification:response.data.notification
+                            }
+                            
+                            setUserInfo(userData);
+                        }else{
+                            console.log("error getting data")
+                            console.log(response.error);
+                        }
+                    });
+                }else{
+                    console.log("error getting data")
+                    console.log(response.status);
+                }
+            });
+        }catch(e){
+                console.log("network Error",e);
+        }
+    };
+
+    useEffect(() => {
+        getuserData();
+    }, []);
     const search = async (name) => {
         
         

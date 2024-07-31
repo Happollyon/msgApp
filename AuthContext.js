@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null); // Holds user information
   const [contactList, setContactList] = useState([]); // Holds the contact list
   const [socket, setSocket] = useState(null);
+  
 
  
   useEffect(() => {

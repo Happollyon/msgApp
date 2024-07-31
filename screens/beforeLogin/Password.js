@@ -120,7 +120,8 @@ export default function Password({navigation}) {
                     }else{ // If the response does not have an error message because login is set to true   
                         
                         await AsyncStorage.setItem('token',data.token);// Set the token in the AsyncStorage to the token from the response
-                         // if no error set login to true in userProvider
+                       
+                        // if no error set login to true in userProvider
                          setLoggedIn(true); // Set the loggedIn to true 
 
                         //navigation.navigate('EmailVerification');
