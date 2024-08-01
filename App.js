@@ -17,6 +17,7 @@ import Password from './screens/beforeLogin/Password';
 import EmailVerification from './screens/beforeLogin/EmailVerification';
 import LoadingScreen from './screens/beforeLogin/LoadingScreen';
 import Calculator from './screens/beforeLogin/Calculator';
+import Camera from './screens/Camera';
 
 
 // ################### Screen Imports after Login ###################
@@ -65,6 +66,7 @@ const StackTest = () => {
       <Stack.Screen name="ChatComponent" component={ChatComponent} options={{ headerShown: false }}/>
       <Stack.Screen name="UpdatePassword" component={UpdatePassword} options={{ headerShown: false }}/>
       <Stack.Screen name="TestScreen" component={TestScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }}/>
     </Stack.Navigator>
   )
 }

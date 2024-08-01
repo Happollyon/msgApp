@@ -151,8 +151,8 @@ export default function ProfileScreen() {
         <View style={{marginBottom:"3%",display:"flex",flexDirection:"row", justifyContent:"space-around",alignItems:"center"}}>
             
             <View style={{}}>
-                <Avatar.Image size={64} source={{uri:"https://news.uchicago.edu/sites/default/files/styles/square_feature/public/images/2023-10/Adam-Mastroianni-square.jpg?h=daa376fd&itok=YR0-YXHv"}} />
-                <TouchableOpacity style={{position:"absolute",bottom:0,right:0,backgroundColor:"white",borderRadius:50}}><Icon color={theme.colors.secondary} size={20} name="image-edit-outline"/></TouchableOpacity>
+                <Avatar.Image size={64} source={{uri:userInformation.avatarUrl}} />
+                <TouchableOpacity onPress={()=>navigate.navigate('Camera')}style={{position:"absolute",bottom:0,right:0,backgroundColor:"white",borderRadius:50}}><Icon color={theme.colors.secondary} size={20} name="image-edit-outline"/></TouchableOpacity>
             </View>
             {/*when user clicks on icon he should be prompted to enter a new username */}
             <View style={{display:"flex",flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
