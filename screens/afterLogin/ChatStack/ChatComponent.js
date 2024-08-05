@@ -6,7 +6,9 @@ import { StatusBar } from 'expo-status-bar';
 import MessageComponent from './MessageComponent';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../../AuthContext';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const appConfig = require('../../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
 
 const ExpandedView = ({ expanded,setSwitch, switchOn}) => {
   const animation = useRef(new Animated.Value(0)).current;// Initial value for opacity: 0 (transparent) 
@@ -102,8 +104,11 @@ export default function ChatComponent({route} ) {
     visible: false,
     switchOn: false,
     moreOptionsVisible:false,
-    msg: '',
+    msg:'',
+    msgsToRender: []
   });
+  const {userInfo, setUserInfo} = React.useContext(AuthContext);
+  const {chats, setChats} = React.useContext(AuthContext);
 
   const setVisible = (visible) => {
     setState({ ...state, visible });
@@ -117,16 +122,106 @@ export default function ChatComponent({route} ) {
     setState({ ...state, moreOptionsVisible: !state.moreOptionsVisible });
   }
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     const input = state.msg;
+    const token = await AsyncStorage.getItem('token');
+    const message = {
+      type: 'message',
+      token:token,
+      delivered: false,
+      read: false,
+      msgObj: {
+        message: input,
+        sender: userInfo.id,
+        receiver: contactInfo.id,
+        imageLink: null
+      }
+    }
     console.log(input);
     if (input && socket) {
         console.log('Sending message:', input);
-        socket.send(input);
+        socket.send(JSON.stringify(message));
+        //const finalMessage = {...message.msgObj, msgTimestamp: new Date().getTime(),delivered:false,read:false};
+        //setState({ ...state, msgsToRender: [...state.msgsToRender, finalMessage] });
         setState({ ...state, msg: '' });
+       
     }
 };
-  
+function findChatByOtherUserId() {
+  for (let chat of chats) {
+    if (chat.otherUser.id === contactInfo.id) {
+      return chat;
+    }
+  }
+  return null;
+}
+// create the scroll view ref
+const scrollViewRef = useRef();
+  useEffect(() => {
+    scrollViewRef.current.scrollToEnd({ animated: true });
+  }, [state.msgsToRender]);
+  useEffect(() => {
+ 
+    const chat = findChatByOtherUserId();
+    setState({ ...state, msgsToRender: chat.messages });
+    
+   
+  }, [chats]);
+
+useEffect(() => {
+  const fetchMessages = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      
+      await fetch(`${baseurlBack}/messages/${userInfo.id}/${contactInfo.id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(async response => {
+        if(response.status === 200){
+          response.json().then(async data => {
+            if(!data.error){
+                console.log("Messages fetched successfully:",data.data);
+              data.data.forEach(async (msg) => {
+                
+                if (msg.receiver === userInfo.id && !msg.read) {
+                  await fetch(`${baseurlBack}/messages/read/${msg.id}`, {
+                    method: 'GET',
+                    headers: {
+                      'Authorization': `Bearer ${token}`
+                    }
+                  }).then(async response => {
+                    if(response.status === 200){
+                      console.log("Message read successfully");
+                    }else{
+                      console.log("Error reading message code:",response.status);
+                    }
+                  });
+                }
+              });
+            }else{
+              console.log("Error fetching messages");
+            }
+            
+          });
+        }else{
+          console.log("Error fetching messages code:",response.status);
+        }
+      });
+     
+      setState({ ...state, msgsToRender: data });
+
+     
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  //fetchMessages();
+}, []);
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor:theme.colors.primary }}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -137,7 +232,7 @@ export default function ChatComponent({route} ) {
             <Icon source="arrow-left" color={theme.colors.onPrimary} size="35%" />
           </TouchableOpacity>
           <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-            <Avatar.Image size={64} source={{ uri: 'https://scontent.cdninstagram.com/v/t39.30808-6/449442715_18442837969012232_2338445663121333116_n.jpg?stp=cp6_dst-jpegr_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDM3eDE0MzcuaGRyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=108&_nc_ohc=FG3fexBIk1UQ7kNvgEVnxLd&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzQwMDY1MDY2ODA5NzI4ODg1NQ%3D%3D.2-ccb7-5&oh=00_AYADT9gzdSt5u8zI8QenuEcXUTxCXXU0BmDXsO-RU22oTA&oe=6689C4C4&_nc_sid=10d13b' }} />
+            <Avatar.Image size={64} source={{ uri: contactInfo.avatarUrl }} />
             <Text variant="titleLarge" style={{ color: theme.colors.onPrimary, marginLeft: '5%' }}>{contactInfo.name}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setVisible(!state.visible)}>
@@ -145,10 +240,10 @@ export default function ChatComponent({route} ) {
           </TouchableOpacity>
         </View>
         
-        <ScrollView  style={{ width: '90%', height: '72%'}} contentContainerStyle={{  alignItems: 'center', justifyContent: 'center' }}>
+        <ScrollView ref={scrollViewRef} style={{ width: '90%', height: '72%'}} contentContainerStyle={{  alignItems: 'center', justifyContent: 'center' }}>
           {
-            message.map((item) => (
-              <MessageComponent key={item.id} message={item} />
+            state.msgsToRender.map((item) => (
+              <MessageComponent key={item.id} message={item} itsMe={item.sender===contactInfo.id?false:true} />
             ))
           }
         </ScrollView>

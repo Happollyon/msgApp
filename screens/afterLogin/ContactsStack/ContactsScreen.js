@@ -238,6 +238,7 @@ export default function ContactsScreen({}) {
        
 
     }
+    
     return (
         <SafeAreaView style={{flex:1,backgroundColor:"transparent"}}>
         <KeyboardAvoidingView

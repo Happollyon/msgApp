@@ -3,12 +3,13 @@ import { TouchableOpacity, View } from 'react-native';
 
 import { Text,useTheme,Avatar, Divider} from 'react-native-paper';
 
-export default function ChatItem({contactInfo,name, msg, avatarUrl, lastMsgTimeStamp,msgCount, navigation}) {
+export default function ChatItem({contactInfo, msg, lastMsgTimeStamp, navigation}) {
     const theme = useTheme();
 
     function convertTimeStamp(timestamp) {
+        
         // Convert timestamp to milliseconds to create a Date object
-        const msgDate = new Date(timestamp * 1000);
+        const msgDate = new Date(timestamp);
         const currentDate = new Date();
     
         // Calculate difference in milliseconds
@@ -18,6 +19,7 @@ export default function ChatItem({contactInfo,name, msg, avatarUrl, lastMsgTimeS
         const diffDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
         const diffHours = Math.floor((diffInMs / (1000 * 60 * 60)) % 24);
         const diffMinutes = Math.floor((diffInMs / (1000 * 60)) % 60);
+
     
         // Return the difference as an object or formatted string
         if (diffDays > 0) {
@@ -32,7 +34,16 @@ export default function ChatItem({contactInfo,name, msg, avatarUrl, lastMsgTimeS
         // Or return as a formatted string
         // return `${diffDays} days, ${diffHours} hours, ${diffMinutes} minutes ago`;
     }
-
+    function countUnreadMessages(messages) {
+        let unreadCount = 0;
+        
+        for (let i = 0; i < messages.length; i++) {
+            if (!messages[i].read) {
+                unreadCount++;
+            }
+        }
+        return unreadCount;
+    }
     const workWithMsg=  (msg) => {
         if(msg.length > 15){
             return msg.substring(0,15) + "...";
@@ -40,12 +51,12 @@ export default function ChatItem({contactInfo,name, msg, avatarUrl, lastMsgTimeS
         return msg;
     }
     return(
-      <TouchableOpacity  onPress={()=>navigation.navigate('ChatComponent',{contactInfo:contactInfo})} style={{width:"100%",marginBottom: "3%", display:"flex",alignItems:"flex-end"}}>
+      <TouchableOpacity  onPress={()=>navigation.navigate('ChatComponent',{contactInfo:contactInfo.otherUser,chatInformation:contactInfo})} style={{width:"100%",marginBottom: "3%", display:"flex",alignItems:"flex-end"}}>
             <View style={{ width: "100%", display: 'flex', flexDirection: "row", alignItems: "center", justifyContent: 'space-between'}}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Avatar.Image size={64} source={{"uri": avatarUrl}} />
+                    <Avatar.Image size={64} source={{"uri": contactInfo.otherUser.avatarUrl}} />
                     <View style={{ flexDirection: "column", marginLeft: "3%", alignItems: "start", justifyContent: "center" }}>
-                        <Text variant="titleLarge" style={{color:theme.colors.primary}}>{name}</Text>
+                        <Text variant="titleLarge" style={{color:theme.colors.primary}}>{contactInfo.otherUser.name}</Text>
                         <Text variant="titleSmall" style={{ color: theme.colors.secondary }}>{workWithMsg(msg)}</Text>
                         
                     </View>
@@ -53,7 +64,7 @@ export default function ChatItem({contactInfo,name, msg, avatarUrl, lastMsgTimeS
                 <View style={{ alignItems: "flex-end" }}>
                     <Text style={{color:theme.colors.secondary}}>{convertTimeStamp(lastMsgTimeStamp)}</Text>
                     <View style={{ backgroundColor: theme.colors.secondary, borderRadius: "50%"}}>
-                        <Text style={{color: theme.colors.onSecondary}}> {msgCount} </Text>
+                        <Text style={{color: theme.colors.onSecondary}}> {countUnreadMessages(contactInfo.messages)} </Text>
                     </View>
                     
                 </View>

@@ -39,10 +39,11 @@ export default function ChatScreen() {
     const theme = useTheme();
     const [state, setState] = useState({
         searchQuery: '',
-        msgsToRender: [...msgs]
+        msgsToRender: []
     });
      
     const {userInfo, setUserInfo} = React.useContext(AuthContext);
+    const {chats, setChats} = React.useContext(AuthContext);
 
    
     const getuserData = async () => {
@@ -62,6 +63,7 @@ export default function ChatScreen() {
                         if(!response.error){
                             console.log(response);
                             const userData = {
+                                id: response.data.id,
                                 name: response.data.name,
                                 email: response.data.email,
                                 avatarUrl: response.data.avatarUrl,
@@ -89,9 +91,16 @@ export default function ChatScreen() {
         }
     };
 
+
     useEffect(() => {
-        getuserData();
+       // getuserData();
     }, []);
+
+    useEffect(() => {
+        console.log("chats")
+        setState({msgsToRender: chats});
+    }, [chats]);
+
     const search = async (name) => {
         
         
@@ -118,7 +127,7 @@ export default function ChatScreen() {
             <ScrollView  style={{width:"90%",height:"50%"}} contentContainerStyle={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
                 {/* Place your chat content here */
                     state.msgsToRender.map((msg,index) => {
-                        return <ChatItem contactInfo={msg} navigation={navigation} key={index} name={msg.name} lastMsgTimeStamp={msg.lastMsgTimeStamp} avatarUrl={msg.avatarUrl} msgCount={msg.msgCount} msg={msg.msg}/>
+                        return <ChatItem contactInfo={msg} navigation={navigation} key={index}  lastMsgTimeStamp={msg.lastMessageTimestamp}  msg={msg.lastMessage}/>
                     })
                 }
             </ScrollView>

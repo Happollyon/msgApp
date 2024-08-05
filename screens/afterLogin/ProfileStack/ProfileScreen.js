@@ -17,6 +17,7 @@ export default function ProfileScreen() {
     const [switchDescription, setswitchDescription] = React.useState();
     const {userInfo,setUserInfo} = useContext(AuthContext);
     const [userInformation, setUserInformation] = React.useState(userInfo);
+    const {contactList, setContactList} = useContext(AuthContext);
     
     const { setLoggedIn } = useContext(AuthContext);
     const logout = async () => {
@@ -24,7 +25,12 @@ export default function ProfileScreen() {
         await AsyncStorage.removeItem('isLoggedIn');
         await AsyncStorage.removeItem('loggedInTime');
         await AsyncStorage.removeItem('token');
+        // set empty user info
         setLoggedIn(false);
+        setUserInfo(null);
+        // set contact list to empty
+        setContactList([]);
+        
     }
 
     const navigate = useNavigation();

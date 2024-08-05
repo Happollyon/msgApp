@@ -11,10 +11,10 @@ import { Text,useTheme} from 'react-native-paper';
 // imageLink: The link to the image of the sender
 // time: The time at which the message was sent
 // isMe: A boolean value indicating whether the message was sent by the user or not
-export default function MessageComponent  ({ message })  {
+export default function MessageComponent  ({ message,itsMe })  {
   function convertTimeStamp(timestamp) {
     // Convert timestamp to milliseconds to create a Date object
-    const msgDate = new Date(timestamp * 1000);
+    const msgDate = new Date(timestamp);
     const currentDate = new Date();
 
     // Calculate difference in milliseconds
@@ -43,18 +43,18 @@ export default function MessageComponent  ({ message })  {
       
       
         message.imageLink==null ? (
-            <View key={message.id} style={ message.isMe ? styles.itIsMe: styles.itIsNotMe}>
+            <View key={message.id} style={ itsMe ? styles.itIsMe: styles.itIsNotMe}>
               <Text style={{color:"white"}}>{message.message}</Text>
-              <Text style={{color:"white",fontStyle:"italic", alignSelf:"flex-end",fontWeight:"light"}}>{convertTimeStamp(message.time)}</Text>
+              <Text style={{color:"white",fontStyle:"italic", alignSelf:"flex-end",fontWeight:"light"}}>{convertTimeStamp(message.msgTimestamp)}</Text>
             </View>):(
 
-              <View key={message.id} style={ message.isMe ? styles.itIsMe: styles.itIsNotMe}>
+              <View key={message.id} style={ itsMe ? styles.itIsMe: styles.itIsNotMe}>
               <Image 
           source={{ uri: message.imageLink }} 
           style={styles.image} 
           resizeMode="cover" // Adjust resizeMode as needed
         />
-            <Text style={{color:"white",fontStyle:"italic", alignSelf:"flex-end",fontWeight:"light"}}>{convertTimeStamp(message.time)}</Text>
+            <Text style={{color:"white",fontStyle:"italic", alignSelf:"flex-end",fontWeight:"light"}}>{convertTimeStamp(message.msgTimestamp)}</Text>
             </View>
             )
       
