@@ -38,35 +38,8 @@ const ExpandedView = ({ expanded,setSwitch, switchOn}) => {
 };
 
 
-const message = [
-  
-    {"id":1,"message":"Hello! How are you?","imageLink":null,"time":"1720530597","isMe":true},
-    {"id":2,"message":"Hi! I'm good, thanks. How about you?","imageLink":null,"time":"1720530697","isMe":false},
-    {"id":3,"message":"I'm doing well, just finished some work.","imageLink":null,"time":"1720530797","isMe":true},
-    {"id":4,"message":"That's great to hear! Have any plans for the weekend?","imageLink":null,"time":"1720530897","isMe":false},
-    {"id":5,"message":"Not really, just planning to relax and maybe catch up on some reading.","imageLink":null,"time":"1720530997","isMe":true},
-    {"id":6,"message":"That sounds like a good idea. Any books you're particularly excited about?","imageLink":null,"time":"1720531097","isMe":false},
-    {"id":7,"message":"Yes, I've been meaning to start 'The Great Gatsby' for a while now.","imageLink":null,"time":"1720531197","isMe":true},
-    {"id":8,"message":"Oh, that's a classic! You'll enjoy it for sure.","imageLink":null,"time":"1720531297","isMe":false},
-    {"id":9,"message":"I hope so! Have you read it?","imageLink":null,"time":"1720531397","isMe":true},
-    {"id":10,"message":"Yes, a few years ago. The writing is beautiful and the story is captivating.","imageLink":null,"time":"1720531497","isMe":false},
-    {"id":11,"message":"I'm looking forward to it then. Thanks for the recommendation!","imageLink":null,"time":"1720531597","isMe":true},
-    {"id":12,"message":"You're welcome! If you like it, you should also check out 'To Kill a Mockingbird'.You're welcome! If you like it, you should also check out 'To Kill a Mockingbird'.You're welcome! If you like it, you should also check out 'To Kill a Mockingbird'.You're welcome! If you like it, you should also check out 'To Kill a Mockingbird'.You're welcome! If you like it, you should also check out 'To Kill a Mockingbird'.","imageLink":null,"time":"1720531697","isMe":false},
-    {"id":13,"message":"I've heard a lot about that one too. It's on my list!","imageLink":null,"time":"1720531797","isMe":true},
-    {"id":14,"message":"Great! Happy reading!","imageLink":null,"time":"1720531897","isMe":false},
-    {"id":15,"message":"","imageLink":"https://ichef.bbci.co.uk/news/976/cpsprodpb/174CE/production/_121483459_petportraitsgettyimages-1205315613.jpg.webp","time":"1720531997","isMe":true},
-    {"id":16,"message":"Sure, have a good one!","imageLink":null,"time":"1720532097","isMe":false},
-    {"id":17,"message":"Hey, did you see the game last night?","imageLink":null,"time":"1720532197","isMe":true},
-    {"id":18,"message":"Yes, it was incredible! That last-minute goal was insane.","imageLink":null,"time":"1720532297","isMe":false},
-    {"id":19,"message":"I know, right? I couldn't believe it!","imageLink":null,"time":"1720532397","isMe":true},
-    {"id":20,"message":"Same here. It was one of the best games I've seen in a while.","imageLink":null,"time":"1720532497","isMe":false},
-    {"id":21,"message":"Definitely! We should watch the next match together.","imageLink":null,"time":"1720532597","isMe":true},
-    {"id":22,"message":"Sounds like a plan!","imageLink":null,"time":"1720532697","isMe":false}
-  
-  
 
-];
-const MoreOptions = ({expanded}) => {
+const MoreOptions = ({expanded,contactInfo}) => {
   const navigation = useNavigation();
   const animation = useRef(new Animated.Value(0)).current;// Initial value for opacity: 0 (transparent) 
   const theme = useTheme();
@@ -85,10 +58,10 @@ const MoreOptions = ({expanded}) => {
 
   return (
     <Animated.View style={{ width: '100%', overflow: 'hidden',  height,backgroundColor:theme.colors.primary , display:"flex",flexDirection:"row",justifyContent:"space-around",alignItems:"center"}}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate('Camera',{fromChat:true,icon:'camera',contactInfo:contactInfo}) }}>
             <Icon source="camera" color={theme.colors.onPrimary} size="35%" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate('Camera',{fromChat:true,icon:'picker',contactInfo:contactInfo})}}>
             <Icon source="image" color={theme.colors.onPrimary} size="35%" />
           </TouchableOpacity>
     </Animated.View>
@@ -122,7 +95,7 @@ export default function ChatComponent({route} ) {
     setState({ ...state, moreOptionsVisible: !state.moreOptionsVisible });
   }
 
-  const sendMessage = async () => {
+  const sendMessage = async (imgUlr) => {
     const input = state.msg;
     const token = await AsyncStorage.getItem('token');
     const message = {
@@ -134,13 +107,14 @@ export default function ChatComponent({route} ) {
         message: input,
         sender: userInfo.id,
         receiver: contactInfo.id,
-        imageLink: null
+        imageLink: imgUlr
       }
     }
     console.log(input);
     if (input && socket) {
         console.log('Sending message:', input);
         socket.send(JSON.stringify(message));
+        console.log('Message sent' ,JSON.stringify(message));
         //const finalMessage = {...message.msgObj, msgTimestamp: new Date().getTime(),delivered:false,read:false};
         //setState({ ...state, msgsToRender: [...state.msgsToRender, finalMessage] });
         setState({ ...state, msg: '' });
@@ -217,7 +191,10 @@ useEffect(() => {
       console.error('Error fetching messages:', error);
     }
   };
-
+   // if route.params.imageUrl not undefined and not null
+    if(route.params.imageUrl){
+      console.log(route.params.imageUrl, "image url in chat component");
+    }
   //fetchMessages();
 }, []);
 
@@ -226,7 +203,7 @@ useEffect(() => {
     <SafeAreaView style={{ flex: 1, backgroundColor:theme.colors.primary }}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <StatusBar style="light" backgroundColor='blue' />
-        <ExpandedView expanded={state.visible} setSwitch={setSwitch} switchOn={state.switchOn}/>
+        <ExpandedView expanded={state.visible}  setSwitch={setSwitch} switchOn={state.switchOn}/>
         <View style={{ width: '100%', height: '15%', backgroundColor: theme.colors.primary, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <TouchableOpacity onPress={() => { navigation.goBack(); }}>
             <Icon source="arrow-left" color={theme.colors.onPrimary} size="35%" />
@@ -252,15 +229,15 @@ useEffect(() => {
         <View style={{ width: '100%', height: '13%',flexDirection:"column",alignItems:'center',justifyContent:"center",display:"flex",backgroundColor: theme.colors.primary}}>
             <View style={{borderRadius:10,backgroundColor:"#fff",width:"90%",height:"85%",display:"flex",flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
               <TouchableOpacity style={{marginLeft:"1%"}} onPress={setmoreOptionsVisible}>
-                <Icon source="plus" color={theme.colors.primary} size="35%" />
+                {state.moreOptionsVisible?<Icon source="close" color={theme.colors.primary} size="35%"/>:<Icon source="plus" color={theme.colors.primary} size="35%" />}
               </TouchableOpacity>
               <TextInput value={state.msg} style={{width:"70%",backgroundColor:"white"}} onChangeText={txt => setState({...state,msg:txt})} placeholder="" multiline={true} />
-              <TouchableOpacity style={{marginRight:"1%"}} onPress={sendMessage}>
+              <TouchableOpacity style={{marginRight:"1%"}} onPress={()=>sendMessage(null)}>
                 <Icon source="send" color={theme.colors.primary} size="35%" />
               </TouchableOpacity>
             </View>
         </View>
-        <MoreOptions expanded={state.moreOptionsVisible} />
+        <MoreOptions expanded={state.moreOptionsVisible} contactInfo={route.params} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

@@ -158,7 +158,7 @@ export default function ProfileScreen() {
             
             <View style={{}}>
                 <Avatar.Image size={64} source={{uri:userInformation.avatarUrl}} />
-                <TouchableOpacity onPress={()=>navigate.navigate('Camera')}style={{position:"absolute",bottom:0,right:0,backgroundColor:"white",borderRadius:50}}><Icon color={theme.colors.secondary} size={20} name="image-edit-outline"/></TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigate.navigate('Camera',{fromChat:false,contactInfo:{}})}style={{position:"absolute",bottom:0,right:0,backgroundColor:"white",borderRadius:50}}><Icon color={theme.colors.secondary} size={20} name="image-edit-outline"/></TouchableOpacity>
             </View>
             {/*when user clicks on icon he should be prompted to enter a new username */}
             <View style={{display:"flex",flexDirection:"row",justifyContent:"center",alignItems:"center"}}>

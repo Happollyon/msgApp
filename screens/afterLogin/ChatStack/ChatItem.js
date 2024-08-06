@@ -45,6 +45,10 @@ export default function ChatItem({contactInfo, msg, lastMsgTimeStamp, navigation
         return unreadCount;
     }
     const workWithMsg=  (msg) => {
+        // if message is undefied or null return string image
+        if(msg === undefined || msg === null){
+            return "image";
+        }
         if(msg.length > 15){
             return msg.substring(0,15) + "...";
         }
