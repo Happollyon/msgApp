@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>screens/afterLogin/ChatStack/ChatComponent.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a><ul class='methods'><li data-type='method'><a href="module-App.html#~App">App</a></li><li data-type='method'><a href="module-App.html#~ChatRoute">ChatRoute</a></li><li data-type='method'><a href="module-App.html#~ContactsRoute">ContactsRoute</a></li><li data-type='method'><a href="module-App.html#~InsideApp">InsideApp</a></li><li data-type='method'><a href="module-App.html#~MainNavigation">MainNavigation</a></li><li data-type='method'><a href="module-App.html#~ProfileRoute">ProfileRoute</a></li><li data-type='method'><a href="module-App.html#~StackTest">StackTest</a></li><li data-type='method'><a href="module-App.html#~checkLoggedInStatus">checkLoggedInStatus</a></li></ul></li><li><a href="module-AuthContext.html">AuthContext</a><ul class='methods'><li data-type='method'><a href="module-AuthContext.html#~AuthProvider">AuthProvider</a></li><li data-type='method'><a href="module-AuthContext.html#~connectWebSocket">connectWebSocket</a></li><li data-type='method'><a href="module-AuthContext.html#~getChatsAndMessages">getChatsAndMessages</a></li><li data-type='method'><a href="module-AuthContext.html#~getuserData">getuserData</a></li></ul></li><li><a href="module-Calculator.html">Calculator</a><ul class='methods'><li data-type='method'><a href="module-Calculator.html#~handleCalculate">handleCalculate</a></li><li data-type='method'><a href="module-Calculator.html#~handleClear">handleClear</a></li><li data-type='method'><a href="module-Calculator.html#~handleDelete">handleDelete</a></li><li data-type='method'><a href="module-Calculator.html#~handlePress">handlePress</a></li></ul></li><li><a href="module-Camera.html">Camera</a><ul class='methods'><li data-type='method'><a href="module-Camera.html#~pickImage">pickImage</a></li><li data-type='method'><a href="module-Camera.html#~sendMessage">sendMessage</a></li><li data-type='method'><a href="module-Camera.html#~takePhoto">takePhoto</a></li><li data-type='method'><a href="module-Camera.html#~toggleCameraFacing">toggleCameraFacing</a></li><li data-type='method'><a href="module-Camera.html#~uploadImage">uploadImage</a></li></ul></li><li><a href="module-ChatComponent.html">ChatComponent</a><ul class='methods'><li data-type='method'><a href="module-ChatComponent.html#~blockUser">blockUser</a></li><li data-type='method'><a href="module-ChatComponent.html#~findChatByOtherUserId">findChatByOtherUserId</a></li><li data-type='method'><a href="module-ChatComponent.html#~sendMessage">sendMessage</a></li><li data-type='method'><a href="module-ChatComponent.html#~unblockUser">unblockUser</a></li></ul></li><li><a href="module-ChatItem.html">ChatItem</a><ul class='methods'><li data-type='method'><a href="module-ChatItem.html#~convertTimeStamp">convertTimeStamp</a></li><li data-type='method'><a href="module-ChatItem.html#~countUnreadMessages">countUnreadMessages</a></li><li data-type='method'><a href="module-ChatItem.html#~workWithMsg">workWithMsg</a></li></ul></li><li><a href="module-ChatScreen.html">ChatScreen</a><ul class='methods'><li data-type='method'><a href="module-ChatScreen.html#~getuserData">getuserData</a></li><li data-type='method'><a href="module-ChatScreen.html#~search">search</a></li></ul></li><li><a href="module-ChatStack.html">ChatStack</a></li><li><a href="module-ContactItem.html">ContactItem</a><ul class='methods'><li data-type='method'><a href="module-ContactItem.html#~addFriend">addFriend</a></li><li data-type='method'><a href="module-ContactItem.html#~removeFriend">removeFriend</a></li></ul></li><li><a href="module-ContactsScreen.html">ContactsScreen</a></li><li><a href="module-ContactsStack.html">ContactsStack</a></li><li><a href="module-MessageComponent.html">MessageComponent</a><ul class='methods'><li data-type='method'><a href="module-MessageComponent.html#~convertTimeStamp">convertTimeStamp</a></li></ul></li><li><a href="module-ProfileScreen.html">ProfileScreen</a></li><li><a href="module-UpdatePassword.html">UpdatePassword</a><ul class='methods'><li data-type='method'><a href="module-UpdatePassword.html#~UpdatePassword">UpdatePassword</a></li><li data-type='method'><a href="module-UpdatePassword.html#~passwordSanity">passwordSanity</a></li></ul></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~resendcode">resendcode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~getContacts">getContacts</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_LoginOrRegister.html#~navigateToLogin">navigateToLogin</a></li><li data-type='method'><a href="module-screens_beforeLogin_LoginOrRegister.html#~navigateToRegister">navigateToRegister</a></li></ul></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~setPassword">setPassword</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">screens/afterLogin/ChatStack/ChatComponent.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { View, SafeAreaView, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView, Animated } from 'react-native';
+import { Text, useTheme, Icon, Avatar, Switch, Button, TextInput } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
+import MessageComponent from './MessageComponent';
+import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../../../AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const appConfig = require('../../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
+
+/**
+ * @module ChatComponent
+ * @description This module handles the chat functionality including sending, receiving, and displaying messages.
+ * @autho Fagner Nunes
+ */
+
+const ExpandedView = ({ expanded, setSwitch, switchOn, blockUser, unblockUser, isBlocked }) => {
+  const animation = useRef(new Animated.Value(0)).current;
+  const theme = useTheme();
+  
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: expanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  }, [expanded]);
+
+  const height = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 100],
+  });
+
+  return (
+    &lt;Animated.View style={{ width: '100%', overflow: 'hidden', height, backgroundColor: theme.colors.primary, display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
+      &lt;Button
+        mode="contained"
+        icon="lock"
+        textColor={theme.colors.primary}
+        style={{ backgroundColor: theme.colors.background }}
+        onPress={isBlocked ? unblockUser : blockUser}
+      >
+        {isBlocked ? 'Unblock' : 'Block'}
+      &lt;/Button>
+      &lt;View style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        &lt;Text style={{ color: theme.colors.onPrimary }}>Disappearing message&lt;/Text>
+        &lt;Switch color="#06D6A0" disabled={false} value={switchOn} onValueChange={setSwitch} />
+      &lt;/View>
+    &lt;/Animated.View>
+  );
+};
+
+const MoreOptions = ({ expanded, contactInfo }) => {
+  const navigation = useNavigation();
+  const animation = useRef(new Animated.Value(0)).current;
+  const theme = useTheme();
+  
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: expanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  }, [expanded]);
+
+  const height = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 100],
+  });
+
+  return (
+    &lt;Animated.View style={{ width: '100%', overflow: 'hidden', height, backgroundColor: theme.colors.primary, display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
+      &lt;TouchableOpacity onPress={() => { navigation.navigate('Camera', { fromChat: true, icon: 'camera', contactInfo: contactInfo }) }}>
+        &lt;Icon source="camera" color={theme.colors.onPrimary} size="35%" />
+      &lt;/TouchableOpacity>
+      &lt;TouchableOpacity onPress={() => { navigation.navigate('Camera', { fromChat: true, icon: 'picker', contactInfo: contactInfo }) }}>
+        &lt;Icon source="image" color={theme.colors.onPrimary} size="35%" />
+      &lt;/TouchableOpacity>
+    &lt;/Animated.View>
+  );
+};
+
+export default function ChatComponent({ route }) {
+  const { socket } = React.useContext(AuthContext);
+  const navigation = useNavigation();
+  const { contactInfo } = route.params;
+  const theme = useTheme();
+  const [state, setState] = useState({
+    visible: false,
+    switchOn: false,
+    moreOptionsVisible: false,
+    msg: '',
+    msgsToRender: [],
+    isBlocked: false,
+  });
+  const { userInfo, setUserInfo } = React.useContext(AuthContext);
+  const { chats, setChats } = React.useContext(AuthContext);
+
+  const setVisible = (visible) => {
+    setState({ ...state, visible });
+  };
+
+  const setSwitch = () => {
+    setState({ ...state, switchOn: !state.switchOn });
+  };
+
+  const setmoreOptionsVisible = () => {
+    setState({ ...state, moreOptionsVisible: !state.moreOptionsVisible });
+  };
+
+  /**
+   * @function blockUser
+   * @description Blocks the user by making an API call.
+   * @throws Will throw an error if the API call fails.
+   */
+  const blockUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await fetch(`${baseurlBack}/user/block/${contactInfo.id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.status === 200) {
+        setState({ ...state, isBlocked: true });
+      } else {
+        console.log('Error blocking user:', response.status);
+      }
+    } catch (error) {
+      console.error('Error blocking user:', error);
+    }
+  };
+
+  /**
+   * @function unblockUser
+   * @description Unblocks the user by making an API call. 
+   * @throws Will throw an error if the API call fails.
+   */
+  const unblockUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await fetch(`${baseurlBack}/user/unblock/${contactInfo.id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.status === 200) {
+        setState({ ...state, isBlocked: false });
+      } else {
+        console.log('Error unblocking user:', response.status);
+      }
+    } catch (error) {
+      console.error('Error unblocking user:', error);
+    }
+  };
+
+  /**
+   * @function sendMessage
+   * @description Sends a message through the socket. 
+   * @param {string} imgUlr - The URL of the image to send.
+   * @throws Will throw an error if the socket is not available.
+   */
+  const sendMessage = async (imgUlr) => {
+    const input = state.msg;
+    const token = await AsyncStorage.getItem('token');
+    const message = {
+      type: 'message',
+      token: token,
+      delivered: false,
+      read: false,
+      msgObj: {
+        message: input,
+        sender: userInfo.id,
+        receiver: contactInfo.id,
+        imageLink: imgUlr
+      }
+    };
+    if (input &amp;&amp; socket) {
+      socket.send(JSON.stringify(message));
+      setState({ ...state, msg: '' });
+    }
+  };
+
+  /**
+   * @function findChatByOtherUserId
+   * @description Finds the chat by the other user's ID. 
+   * @returns {Object|null} The chat object if found, otherwise null.
+   */
+  function findChatByOtherUserId() {
+    for (let chat of chats) {
+      if (chat.otherUser.id === contactInfo.id) {
+        return chat;
+      }
+    }
+    return null;
+  }
+
+  const scrollViewRef = useRef();
+  useEffect(() => {
+    scrollViewRef.current.scrollToEnd({ animated: true });
+  }, [state.msgsToRender]);
+
+  useEffect(() => {
+    const chat = findChatByOtherUserId();
+    if (chat) {
+      setState({ ...state, msgsToRender: chat.messages });
+    }
+  }, [chats]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        await fetch(`${baseurlBack}/messages/${userInfo.id}/${contactInfo.id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(async response => {
+          if (response.status === 200) {
+            response.json().then(async data => {
+              if (!data.error) {
+                data.data.forEach(async (msg) => {
+                  if (msg.receiver === userInfo.id &amp;&amp; !msg.read) {
+                    await fetch(`${baseurlBack}/messages/read/${msg.id}`, {
+                      method: 'GET',
+                      headers: {
+                        'Authorization': `Bearer ${token}`
+                      }
+                    }).then(async response => {
+                      if (response.status === 200) {
+                        console.log("Message read successfully");
+                      } else {
+                        console.log("Error reading message code:", response.status);
+                      }
+                    });
+                  }
+                });
+              } else {
+                console.log("Error fetching messages");
+              }
+            });
+          } else {
+            console.log("Error fetching messages code:", response.status);
+          }
+        });
+        setState({ ...state, msgsToRender: data });
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    };
+    if (route.params.imageUrl) {
+      console.log(route.params.imageUrl, "image url in chat component");
+    }
+    const chat = findChatByOtherUserId();
+    if (chat) {
+      setState({ ...state, msgsToRender: chat.messages, isBlocked: contactInfo.blocked });
+    } else {
+      setState({ ...state, isBlocked: contactInfo.blocked });
+    }
+  }, []);
+
+  return (
+    &lt;SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.primary }}>
+      &lt;KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        &lt;StatusBar style="light" backgroundColor='blue' />
+        &lt;ExpandedView expanded={state.visible} setSwitch={setSwitch} switchOn={state.switchOn} blockUser={blockUser} unblockUser={unblockUser} isBlocked={state.isBlocked} />
+        &lt;View style={{ width: '100%', height: '15%', backgroundColor: theme.colors.primary, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          &lt;TouchableOpacity onPress={() => { navigation.goBack(); }}>
+            &lt;Icon source="arrow-left" color={theme.colors.onPrimary} size="35%" />
+          &lt;/TouchableOpacity>
+          &lt;TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            &lt;Avatar.Image size={64} source={{ uri: contactInfo.avatarUrl }} />
+            &lt;Text variant="titleLarge" style={{ color: theme.colors.onPrimary, marginLeft: '5%' }}>{contactInfo.name}&lt;/Text>
+          &lt;/TouchableOpacity>
+          &lt;TouchableOpacity onPress={() => setVisible(!state.visible)}>
+            &lt;Icon source={state.visible ? "close" : "dots-vertical"} color={theme.colors.onPrimary} size="35%" />
+          &lt;/TouchableOpacity>
+        &lt;/View>
+        &lt;ScrollView ref={scrollViewRef} style={{ width: '90%', height: '72%' }} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
+          {
+            state.msgsToRender.map((item) => (
+              &lt;MessageComponent key={item.id} message={item} itsMe={item.sender === contactInfo.id ? false : true} />
+            ))
+          }
+        &lt;/ScrollView>
+        &lt;View style={{ width: '100%', height: '13%', flexDirection: "column", alignItems: 'center', justifyContent: "center", display: "flex", backgroundColor: theme.colors.primary }}>
+          &lt;View style={{ borderRadius: 10, backgroundColor: "#fff", width: "90%", height: "85%", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            &lt;TouchableOpacity style={{ marginLeft: "1%" }} onPress={setmoreOptionsVisible}>
+              {state.moreOptionsVisible ? &lt;Icon source="close" color={theme.colors.primary} size="35%" /> : &lt;Icon source="plus" color={theme.colors.primary} size="35%" />}
+            &lt;/TouchableOpacity>
+            &lt;TextInput 
+              value={state.isBlocked ? "User is blocked" : state.msg} 
+              style={{ width: "70%", backgroundColor: "white" }} 
+              onChangeText={txt => setState({ ...state, msg: txt })} 
+              placeholder="" 
+              multiline={true} 
+              disabled={state.isBlocked}
+            /> 
+            &lt;TouchableOpacity style={{ marginRight: "1%" }} onPress={() => sendMessage(null)}>
+              &lt;Icon source="send" color={theme.colors.primary} size="35%" />
+            &lt;/TouchableOpacity>
+          &lt;/View>
+        &lt;/View>
+        &lt;MoreOptions expanded={state.moreOptionsVisible} contactInfo={route.params} />
+      &lt;/KeyboardAvoidingView>
+    &lt;/SafeAreaView>
+  );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Wed Aug 07 2024 16:19:44 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

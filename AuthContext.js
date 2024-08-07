@@ -3,11 +3,23 @@ import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
+/**
+ * @module AuthContext
+ * @description Provides authentication context and WebSocket connection management. 
+ * @autho GitHub Copilot
+ */
+
 export const AuthContext = createContext();
 
 const appConfig = require('./appConf.json');
 const webSocketUrl = appConfig.webSocketUrl;
 
+/**
+ * @function AuthProvider
+ * @description Provides authentication context to its children.
+ * @param {Object} children - The child components that will consume the context.
+ * @returns {JSX.Element} The AuthContext provider with its value.
+ */
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null); // Holds user information
@@ -18,9 +30,13 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (loggedIn) {
+      /**
+       * @function getuserData
+       * @description Fetches user data from the backend.
+       * @throws Will throw an error if the network request fails.
+       */
       const getuserData = async () => {
         const token = await AsyncStorage.getItem('token');
-        console.log("Screen loaded");
         try {
           const baseurlBack = appConfig.baseurlBack + "/user/getUser";
 
@@ -50,15 +66,13 @@ export const AuthProvider = ({ children }) => {
 
               setUserInfo(userData);
             } else {
-              console.log("error getting data");
-              console.log(responseData.error);
+              console.error("Error getting data:", responseData.error);
             }
           } else {
-            console.log("error getting data");
-            console.log(response.status);
+            console.error("Error getting data:", response.status);
           }
         } catch (e) {
-          console.log("network Error", e);
+          console.error("Network Error:", e);
         }
       };
 
@@ -70,26 +84,23 @@ export const AuthProvider = ({ children }) => {
     if (loggedIn && userInfo && userInfo.id) { // If the user is logged in and the user info is available
       let ws; // WebSocket instance
 
+      /**
+       * @function connectWebSocket
+       * @description Establishes a WebSocket connection and handles events.
+       */
       const connectWebSocket = () => {
         ws = new WebSocket(webSocketUrl); // Create a new WebSocket
 
         ws.onopen = () => { // When the WebSocket connection is opened
-          console.log('WebSocket connection opened');
-          console.log(userInfo.id);
           ws.send(userInfo.id); // Send the user ID to the server
           setSocket(ws);
         };
 
         ws.onmessage = (event) => { // When a message is received from the server
-          console.log(`Message from server: ${event.data}`);
-          
-          // Handle incoming messages here if needed
           getChatsAndMessages();
-
         };
 
         ws.onclose = (event) => {
-          console.log(`WebSocket connection closed with code: ${event.code}, reason: ${event.reason}`);
           setSocket(null);
           // Attempt to reconnect after 5 seconds if the close code is 1001
           if (event.code === 1001) {
@@ -108,50 +119,45 @@ export const AuthProvider = ({ children }) => {
     }
   }, [loggedIn, userInfo]);
 
+  /**
+   * @function getChatsAndMessages
+   * @description Fetches chats and messages from the backend.
+   * @throws Will throw an error if the network request fails.
+   */
   const getChatsAndMessages = async () => {
     const token = await AsyncStorage.getItem('token');
     try {
       const baseurlBack = appConfig.baseurlBack + "/chats/getChatsAndMessages";
-      
       
       const response = await fetch(baseurlBack, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
         }
-      })
+      });
       if (response.status === 200) {
-        
         const responseData = await response.json();
         if (!responseData.error) {
-          console.log(responseData);
           setChats(responseData.chats);
-          // Process and set the chats and messages data as needed
-          // For example, you might want to update the contactList state or another state
-          //set(responseData.data.chats);
         } else {
-          console.log("error getting chats and messages");
-          console.log(responseData.error);
+          console.error("Error getting chats and messages:", responseData.error);
         }
       } else {
-        console.log("error getting chats and messages");
-        console.log(response.status);
+        console.error("Error getting chats and messages:", response.status);
       }
     } catch (e) {
-      console.log("network Error", e);
+      console.error("Network Error:", e);
     }
   };
+
   useEffect(() => {
-
     if (loggedIn && userInfo && userInfo.id) {
-     
-
       getChatsAndMessages();
     }
   }, [loggedIn, userInfo]);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, setLoggedIn, userInfo, setUserInfo, contactList, setContactList, socket,messages, setMessages,setChats,chats }}>
+    <AuthContext.Provider value={{ loggedIn, setLoggedIn, userInfo, setUserInfo, contactList, setContactList, socket, messages, setMessages, setChats, chats }}>
       {children}
     </AuthContext.Provider>
   );

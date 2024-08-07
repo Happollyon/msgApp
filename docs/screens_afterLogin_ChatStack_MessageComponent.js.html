@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>screens/beforeLogin/Login - Documentation</title>
+    <title>screens/afterLogin/ChatStack/MessageComponent.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,515 +37,109 @@
 
 <div id="main">
     
-    <h1 class="page-title">screens/beforeLogin/Login</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        
-            
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description usertext"><p>This is the Login component. It is the screen where the user can login into the app.
-It is only rendered when the user is not logged in and selects the login option.</p></div>
-            
-
-            
-                
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>This is the Login component. It is the screen where the user can login into the app.
-It is only rendered when the user is not logged in and selects the login option.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="screens_beforeLogin_Login.js.html">screens/beforeLogin/Login.js</a>, <a href="screens_beforeLogin_Login.js.html#line13">line 13</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Fagner Nunes</li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>props</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Component props.</p>
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>navigation</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Navigation object from react-navigation.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Rendered component.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">React.Element</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~getContacts"><span class="type-signature type-signature-inner">(inner) </span>getContacts<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>This function is used to get the contacts from the server.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="screens_beforeLogin_Login.js.html">screens/beforeLogin/Login.js</a>, <a href="screens_beforeLogin_Login.js.html#line47">line 47</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-    <div class="param-desc usertext">
-    
-        <p>Will throw an error if the network request fails.</p>
-    
-    </div>
-
-
-    
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>This function does not return anything.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~login"><span class="type-signature type-signature-inner">(inner) </span>login<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>This function is used to login the user. It sends a request to the server to login the user.
-It also saves the token in the AsyncStorage.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="screens_beforeLogin_Login.js.html">screens/beforeLogin/Login.js</a>, <a href="screens_beforeLogin_Login.js.html#line83">line 83</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-    <div class="param-desc usertext">
-    
-        <p>Will throw an error if the network request fails.</p>
-    
-    </div>
-
-
-    
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>This function does not return anything.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">screens/afterLogin/ChatStack/MessageComponent.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { View, Platform, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Text, useTheme } from 'react-native-paper';
+
+/**
+ * @module MessageComponent
+ * @description This component is used to display the messages in the chat screen. It displays the message and the timestamp of the message.
+ * @param {object} props - The properties passed to the component.
+ * @param {object} props.message - The message object to be displayed.
+ * @param {boolean} props.itsMe - A boolean value indicating whether the message was sent by the user or not.
+ * @returns {JSX.Element} The message component.
+ */
+export default function MessageComponent({ message, itsMe }) {
+    /**
+     * @function convertTimeStamp
+     * @description Converts a timestamp to a human-readable format. The function calculates the difference between the current date and the message date and returns a string with the time difference.
+     * @param {number} timestamp - The timestamp to be converted.
+     * @returns {string} The formatted time difference.
+     */
+    function convertTimeStamp(timestamp) {
+        const msgDate = new Date(timestamp);
+        const currentDate = new Date();
+
+        const diffInMs = currentDate - msgDate;
+
+        const diffDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+        const diffHours = Math.floor((diffInMs / (1000 * 60 * 60)) % 24);
+        const diffMinutes = Math.floor((diffInMs / (1000 * 60)) % 60);
+
+        if (diffDays > 0) {
+            return `${diffDays} days ago`;
+        } else if (diffHours > 0) {
+            return `${diffHours} hours ago`;
+        } else if (diffMinutes > 0) {
+            return `${diffMinutes} minutes ago`;
+        } else {
+            return 'Just now';
+        }
+    }
+
+    return (
+        message.imageLink == null ? (
+            &lt;View key={message.id} style={itsMe ? styles.itIsMe : styles.itIsNotMe}>
+                &lt;Text style={{ color: "white" }}>{message.message}&lt;/Text>
+                &lt;Text style={{ color: "white", fontStyle: "italic", alignSelf: "flex-end", fontWeight: "light" }}>{convertTimeStamp(message.msgTimestamp)}&lt;/Text>
+            &lt;/View>) : (
+            &lt;View key={message.id} style={itsMe ? styles.itIsMe : styles.itIsNotMe}>
+                &lt;Image
+                    source={{ uri: message.imageLink }}
+                    style={styles.image}
+                    resizeMode="cover"
+                />
+                &lt;Text style={{ color: "white", fontStyle: "italic", alignSelf: "flex-end", fontWeight: "light" }}>{convertTimeStamp(message.msgTimestamp)}&lt;/Text>
+            &lt;/View>
+        )
+    );
+}
+
+// Create styles for the message component
+const styles = StyleSheet.create({
+    itIsMe: {
+        width: '60%',
+        minHeight: 50,
+        height: "auto",
+        backgroundColor: '#7845AC',
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        margin: 10,
+        borderRadius: 10,
+        color: "white",
+        padding: 10
+    },
+    itIsNotMe: {
+        padding: 10,
+        width: '60%',
+        minHeight: 50,
+        margin: 10,
+        borderRadius: 10,
+        height: "auto",
+        backgroundColor: '#665A6F',
+        alignSelf: 'flex-start',
+        justifyContent: 'center',
+        color: "white"
+    },
+    image: {
+        width: '100%',
+        height: 200,
+        borderRadius: 10,
+    },
+});</code></pre>
+        </article>
+    </section>
 
 
 

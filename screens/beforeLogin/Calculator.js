@@ -3,42 +3,74 @@ import {useTheme,Text} from "react-native-paper"
 import {View,Platform,SafeAreaView,KeyboardAvoidingView,TouchableOpacity,PanResponder} from "react-native"
 import {useNavigation} from "@react-navigation/native"
 
+/**
+ * @module Calculator
+ * @description A simple calculator component for React Native.
+ * @autor Fagner Nunes
+ */
 export default function Calculator() {
-        const [input, setInput] = useState("");
-        const [result, setResult] = useState("");
-        
-        const navigation = useNavigation();
-        const plusPressCount = useRef(0);
+    const [input, setInput] = useState("");
+    const [result, setResult] = useState("");
     
-        const handlePress = (value) => {
-            if (value === "+") {
-                plusPressCount.current += 1;
-                if (plusPressCount.current === 5) {
-                    navigation.navigate('LoginOrRegister');
-                    plusPressCount.current = 0; // Reset the counter after navigating
-                }
-            } else {
-                plusPressCount.current = 0; // Reset the counter if any other button is pressed
+    const navigation = useNavigation();
+    const plusPressCount = useRef(0);
+
+    /**
+     * Handles button press events.
+     * @function handlePress
+     * @description Handles button press events.
+     * @param {string} value - The value of the button pressed.
+     * @returns {void}
+     */
+    const handlePress = (value) => {
+        if (value === "+") {
+            plusPressCount.current += 1;
+            if (plusPressCount.current === 5) {
+                navigation.navigate('LoginOrRegister');
+                plusPressCount.current = 0; // Reset the counter after navigating
             }
-            setInput((prev) => prev + value);
-        };
-    
-        const handleClear = () => {
-            setInput("");
-            setResult("");
-        };
-    
-        const handleDelete = () => {
-            setInput((prev) => prev.slice(0, -1));
-        };
-    
-        const handleCalculate = () => {
-            try {
-                setResult(eval(input).toString());
-            } catch (error) {
-                setResult("Error");
-            }
-        };
+        } else {
+            plusPressCount.current = 0; // Reset the counter if any other button is pressed
+        }
+        setInput((prev) => prev + value);
+    };
+
+    /**
+     * Clears the input and result.
+     * @function handleClear
+     * @description Clears the input and result
+     * @returns {void}
+     */
+    const handleClear = () => {
+        setInput("");
+        setResult("");
+    };
+
+    /**
+     * Deletes the last character from the input.
+     * @function handleDelete
+     * @description Deletes the last character from the input.
+     * @returns {void}
+     */
+    const handleDelete = () => {
+        setInput((prev) => prev.slice(0, -1));
+    };
+
+    /**
+     * Calculates the result of the input expression.
+     * @function handleCalculate
+     * @description Calculates the result of the input expression.
+     * @returns {void}
+     * @throws Will throw an error if the input expression is invalid.
+     */
+    const handleCalculate = () => {
+        try {
+            setResult(eval(input).toString());
+        } catch (error) {
+            setResult("Error");
+        }
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#17181A" }}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#17181A" }}>

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>screens/beforeLogin/Login - Documentation</title>
+    <title>screens/afterLogin/ContactsStack/ContatctsStack.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,515 +37,51 @@
 
 <div id="main">
     
-    <h1 class="page-title">screens/beforeLogin/Login</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        
-            
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description usertext"><p>This is the Login component. It is the screen where the user can login into the app.
-It is only rendered when the user is not logged in and selects the login option.</p></div>
-            
-
-            
-                
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>This is the Login component. It is the screen where the user can login into the app.
-It is only rendered when the user is not logged in and selects the login option.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="screens_beforeLogin_Login.js.html">screens/beforeLogin/Login.js</a>, <a href="screens_beforeLogin_Login.js.html#line13">line 13</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>Fagner Nunes</li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>props</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Component props.</p>
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>navigation</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Navigation object from react-navigation.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>Rendered component.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">React.Element</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~getContacts"><span class="type-signature type-signature-inner">(inner) </span>getContacts<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>This function is used to get the contacts from the server.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="screens_beforeLogin_Login.js.html">screens/beforeLogin/Login.js</a>, <a href="screens_beforeLogin_Login.js.html#line47">line 47</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-    <div class="param-desc usertext">
-    
-        <p>Will throw an error if the network request fails.</p>
-    
-    </div>
-
-
-    
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>This function does not return anything.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~login"><span class="type-signature type-signature-inner">(inner) </span>login<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>This function is used to login the user. It sends a request to the server to login the user.
-It also saves the token in the AsyncStorage.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="screens_beforeLogin_Login.js.html">screens/beforeLogin/Login.js</a>, <a href="screens_beforeLogin_Login.js.html#line83">line 83</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-throws">Throws:</h5>
-
-        
-
-    <div class="param-desc usertext">
-    
-        <p>Will throw an error if the network request fails.</p>
-    
-    </div>
-
-
-    
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>This function does not return anything.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">screens/afterLogin/ContactsStack/ContatctsStack.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module ContactsStack
+ * @description Stack navigator for the contacts-related screens.
+ * @author Fagner Nunes
+ */
+
+import * as React from 'react';
+import { useEffect } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ContactsScreen from './ContactsScreen';
+import { NavigationContainer, useNavigation, useRoute } from '@react-navigation/native';
+import TestScreen from './TestScreen';
+
+const Stack = createNativeStackNavigator(); // Create a stack navigator
+
+/**
+ * @function ContactsStack
+ * @description This function sets up the stack navigator for the contacts-related screens.
+ * @memberof ContactsStack
+ * @param {object} navigation - The navigation prop passed to the component.
+ * @returns {JSX.Element} The stack navigator component.
+ */
+export default function ContactsStack({ navigation }) {
+    return (
+        &lt;Stack.Navigator initialRouteName='ContactsScreen'>
+            &lt;Stack.Screen 
+                name="ContactsScreen" 
+                component={ContactsScreen} 
+                options={{ headerShown: false }} 
+            />
+        &lt;/Stack.Navigator>
+    );
+}</code></pre>
+        </article>
+    </section>
 
 
 

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>screens/afterLogin/ProfileStack/ProfileScreen.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a><ul class='methods'><li data-type='method'><a href="module-App.html#~App">App</a></li><li data-type='method'><a href="module-App.html#~ChatRoute">ChatRoute</a></li><li data-type='method'><a href="module-App.html#~ContactsRoute">ContactsRoute</a></li><li data-type='method'><a href="module-App.html#~InsideApp">InsideApp</a></li><li data-type='method'><a href="module-App.html#~MainNavigation">MainNavigation</a></li><li data-type='method'><a href="module-App.html#~ProfileRoute">ProfileRoute</a></li><li data-type='method'><a href="module-App.html#~StackTest">StackTest</a></li><li data-type='method'><a href="module-App.html#~checkLoggedInStatus">checkLoggedInStatus</a></li></ul></li><li><a href="module-AuthContext.html">AuthContext</a><ul class='methods'><li data-type='method'><a href="module-AuthContext.html#~AuthProvider">AuthProvider</a></li><li data-type='method'><a href="module-AuthContext.html#~connectWebSocket">connectWebSocket</a></li><li data-type='method'><a href="module-AuthContext.html#~getChatsAndMessages">getChatsAndMessages</a></li><li data-type='method'><a href="module-AuthContext.html#~getuserData">getuserData</a></li></ul></li><li><a href="module-Calculator.html">Calculator</a><ul class='methods'><li data-type='method'><a href="module-Calculator.html#~handleCalculate">handleCalculate</a></li><li data-type='method'><a href="module-Calculator.html#~handleClear">handleClear</a></li><li data-type='method'><a href="module-Calculator.html#~handleDelete">handleDelete</a></li><li data-type='method'><a href="module-Calculator.html#~handlePress">handlePress</a></li></ul></li><li><a href="module-Camera.html">Camera</a><ul class='methods'><li data-type='method'><a href="module-Camera.html#~pickImage">pickImage</a></li><li data-type='method'><a href="module-Camera.html#~sendMessage">sendMessage</a></li><li data-type='method'><a href="module-Camera.html#~takePhoto">takePhoto</a></li><li data-type='method'><a href="module-Camera.html#~toggleCameraFacing">toggleCameraFacing</a></li><li data-type='method'><a href="module-Camera.html#~uploadImage">uploadImage</a></li></ul></li><li><a href="module-ChatComponent.html">ChatComponent</a><ul class='methods'><li data-type='method'><a href="module-ChatComponent.html#~blockUser">blockUser</a></li><li data-type='method'><a href="module-ChatComponent.html#~findChatByOtherUserId">findChatByOtherUserId</a></li><li data-type='method'><a href="module-ChatComponent.html#~sendMessage">sendMessage</a></li><li data-type='method'><a href="module-ChatComponent.html#~unblockUser">unblockUser</a></li></ul></li><li><a href="module-ChatItem.html">ChatItem</a><ul class='methods'><li data-type='method'><a href="module-ChatItem.html#~convertTimeStamp">convertTimeStamp</a></li><li data-type='method'><a href="module-ChatItem.html#~countUnreadMessages">countUnreadMessages</a></li><li data-type='method'><a href="module-ChatItem.html#~workWithMsg">workWithMsg</a></li></ul></li><li><a href="module-ChatScreen.html">ChatScreen</a><ul class='methods'><li data-type='method'><a href="module-ChatScreen.html#~getuserData">getuserData</a></li><li data-type='method'><a href="module-ChatScreen.html#~search">search</a></li></ul></li><li><a href="module-ChatStack.html">ChatStack</a></li><li><a href="module-ContactItem.html">ContactItem</a><ul class='methods'><li data-type='method'><a href="module-ContactItem.html#~addFriend">addFriend</a></li><li data-type='method'><a href="module-ContactItem.html#~removeFriend">removeFriend</a></li></ul></li><li><a href="module-ContactsScreen.html">ContactsScreen</a></li><li><a href="module-ContactsStack.html">ContactsStack</a></li><li><a href="module-MessageComponent.html">MessageComponent</a><ul class='methods'><li data-type='method'><a href="module-MessageComponent.html#~convertTimeStamp">convertTimeStamp</a></li></ul></li><li><a href="module-ProfileScreen.html">ProfileScreen</a></li><li><a href="module-UpdatePassword.html">UpdatePassword</a><ul class='methods'><li data-type='method'><a href="module-UpdatePassword.html#~UpdatePassword">UpdatePassword</a></li><li data-type='method'><a href="module-UpdatePassword.html#~passwordSanity">passwordSanity</a></li></ul></li><li><a href="module-screens_ModalComp.html">screens/ModalComp</a></li><li><a href="module-screens_beforeLogin_EmailVerification.html">screens/beforeLogin/EmailVerification</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~enterCode">enterCode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~resendcode">resendcode</a></li><li data-type='method'><a href="module-screens_beforeLogin_EmailVerification.html#~verifyCode">verifyCode</a></li></ul></li><li><a href="module-screens_beforeLogin_Login.html">screens/beforeLogin/Login</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~getContacts">getContacts</a></li><li data-type='method'><a href="module-screens_beforeLogin_Login.html#~login">login</a></li></ul></li><li><a href="module-screens_beforeLogin_LoginOrRegister.html">screens/beforeLogin/LoginOrRegister</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_LoginOrRegister.html#~navigateToLogin">navigateToLogin</a></li><li data-type='method'><a href="module-screens_beforeLogin_LoginOrRegister.html#~navigateToRegister">navigateToRegister</a></li></ul></li><li><a href="module-screens_beforeLogin_Password.html">screens/beforeLogin/Password</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~passwordSanity">passwordSanity</a></li><li data-type='method'><a href="module-screens_beforeLogin_Password.html#~setPassword">setPassword</a></li></ul></li><li><a href="module-screens_beforeLogin_Register.html">screens/beforeLogin/Register</a><ul class='methods'><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleEmailChange">handleEmailChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~handleNameChange">handleNameChange</a></li><li data-type='method'><a href="module-screens_beforeLogin_Register.html#~submitNameEmail">submitNameEmail</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">screens/afterLogin/ProfileStack/ProfileScreen.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module ProfileScreen
+ * @description Screen component for displaying and updating user profile information.
+ * @author Fagner Nunes
+ */
+
+import React from 'react';
+import { View, KeyboardAvoidingView, Platform, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Avatar, Button, useTheme, Text, Divider, Switch, TextInput } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '../../../AuthContext';
+import { useContext, useEffect } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
+
+const appConfig = require('../../../appConf.json');
+const baseurlBack = appConfig.baseurlBack;
+
+export default function ProfileScreen() {
+    const [switchSound, setSwitchSound] = React.useState(false);
+    const [switchVibration, setSwitchVibration] = React.useState();
+    const [switchNotifications, setSwitchNotifications] = React.useState();
+    const [switchDescription, setswitchDescription] = React.useState();
+    const { userInfo, setUserInfo } = useContext(AuthContext);
+    const [userInformation, setUserInformation] = React.useState(userInfo);
+    const { contactList, setContactList } = useContext(AuthContext);
+    const { setLoggedIn } = useContext(AuthContext);
+    const navigate = useNavigation();
+    const [username, setUsername] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const [toggleUsername, setToggleUsername] = React.useState(false);
+    const theme = useTheme();
+
+    /**
+     * @function logout
+     * @description Logs out the user by clearing stored data and resetting context.
+     * @memberof ProfileScreen
+     * @returns {Promise&lt;void>} Nothing is returned.
+     * @throws Will throw an error if the AsyncStorage operations fail.
+     */
+    const logout = async () => {
+        await AsyncStorage.removeItem('isLoggedIn');
+        await AsyncStorage.removeItem('loggedInTime');
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('contacts');
+        setLoggedIn(false);
+        setUserInfo(null);
+        setContactList([]);
+    }
+
+    /**
+     * @function updateDescripton
+     * @description Updates the user's description.
+     * @memberof ProfileScreen
+     * @param {boolean} toggle - Indicates whether to toggle the description edit mode.
+     * @returns {Promise&lt;void>} Nothing is returned.
+     * @throws Will throw an error if the fetch request fails.
+     */
+    const updateDescripton = async (toggle) => {
+        const token = await AsyncStorage.getItem('token');
+        const url = `${baseurlBack}/user/update-description/${description}`;
+
+        if (toggle) {
+            try {
+                await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).then(async (response) => {
+                    if (response.status === 200) {
+                        await response.json().then((data) => {
+                            if (!data.error) {
+                                setUserInfo({ ...userInfo, description: description });
+                                setswitchDescription(!switchDescription); // Toggle after successful update
+                            }
+                        });
+                    }
+                });
+            } catch (e) {
+                throw new Error('Failed to update description');
+            }
+        } else {
+            setswitchDescription(!switchDescription); // Toggle after successful update
+        }
+    }
+
+    /**
+     * @function updateToggles
+     * @description Updates the user's sound, notification, and vibration settings.
+     * @memberof ProfileScreen
+     * @param {boolean} sound - The new sound setting.
+     * @param {boolean} notification - The new notification setting.
+     * @param {boolean} vibration - The new vibration setting.
+     * @returns {Promise&lt;void>} Nothing is returned.
+     * @throws Will throw an error if the fetch request fails.
+     */
+    const updateToggles = async (sound, notification, vibration) => {
+        setUserInformation({ ...userInformation, sound: sound, notification: notification, vibration: vibration });
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const url = `${baseurlBack}/user/update-toggles/${sound}/${notification}/${vibration}`;
+            await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(async (response) => {
+                if (response.status === 200) {
+                    await response.json().then((data) => {
+                        if (!data.error) {
+                            setUserInfo({ ...userInfo, sound: sound, notification: notification, vibration: vibration });
+                            setUserInformation({ ...userInformation, sound: sound, notification: notification, vibration: vibration });
+                        }
+                    });
+                }
+            });
+        } catch (e) {
+            throw new Error('Failed to update toggles');
+        }
+    }
+
+    /**
+     * @function updateUsername
+     * @description Updates the user's username.
+     * @memberof ProfileScreen
+     * @param {boolean} toggle - Indicates whether to toggle the username edit mode.
+     * @returns {Promise&lt;void>} Nothing is returned.
+     * @throws Will throw an error if the fetch request fails.
+     */
+    const updateUsername = async (toggle) => {
+        const token = await AsyncStorage.getItem('token');
+        const url = `${baseurlBack}/user/update-name/${username}`;
+
+        if (toggle) {
+            try {
+                await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).then(async (response) => {
+                    if (response.status === 200) {
+                        await response.json().then((data) => {
+                            if (!data.error) {
+                                setUserInfo({ ...userInfo, name: username });
+                                setToggleUsername(!toggleUsername); // Toggle after successful update
+                            }
+                        });
+                    }
+                });
+            } catch (e) {
+                throw new Error('Failed to update username');
+            }
+        } else {
+            setToggleUsername(!toggleUsername); // Toggle after successful update
+        }
+    }
+
+    useEffect(() => {
+        setUserInfo(userInfo);
+        setUserInformation(userInfo);
+    }, [userInfo]);
+
+    return (
+        &lt;SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
+            &lt;KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.colors.background, flex: 1, alignItems: "flex-start", paddingLeft: "3%", justifyContent: 'space-around' }}>
+                &lt;View style={{ marginBottom: "3%", display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
+                    &lt;View>
+                        &lt;Avatar.Image size={64} source={{ uri: userInformation.avatarUrl }} />
+                        &lt;TouchableOpacity onPress={() => navigate.navigate('Camera', { fromChat: false, contactInfo: {} })} style={{ position: "absolute", bottom: 0, right: 0, backgroundColor: "white", borderRadius: 50 }}>
+                            &lt;Icon color={theme.colors.secondary} size={20} name="image-edit-outline" />
+                        &lt;/TouchableOpacity>
+                    &lt;/View>
+                    &lt;View style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                        {toggleUsername ?
+                            &lt;TextInput onChangeText={(text) => setUsername(text)} style={{ width: "60%" }} /> :
+                            &lt;Text variant="titleLarge">{userInformation.name}&lt;/Text>
+                        }
+                        &lt;TouchableOpacity onPress={() => updateUsername(toggleUsername)} style={{ marginLeft: "5%" }}>
+                            &lt;Icon size={16} name="circle-edit-outline" />
+                        &lt;/TouchableOpacity>
+                    &lt;/View>
+                &lt;/View>
+                &lt;Divider style={{ width: "90%", marginBottom: "3%" }} />
+                &lt;View style={{ display: "flex", backgroundColor: theme.colors.primaryContainer, flexDirection: "row", justifyContent: "space-between", alignItems: "center", height: "10%", width: "80%" }}>
+                    {!switchDescription ?
+                        &lt;Text variant='bodyMedium' style={{ alignSelf: "flex-start", color: theme.colors.onPrimaryContainer, paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%" }}>{userInformation.description}&lt;/Text> :
+                        &lt;TextInput style={{ width: "60%" }} onChangeText={(text) => setDescription(text)} />
+                    }
+                    &lt;TouchableOpacity onPress={() => updateDescripton(switchDescription)} style={{ position: "absolute", right: 3, bottom: 3 }}>
+                        &lt;Icon name="circle-edit-outline" size={24} color={theme.colors.primary} />
+                    &lt;/TouchableOpacity>
+                &lt;/View>
+                &lt;Divider style={{ width: "90%", marginBottom: "3%" }} />
+                &lt;Text variant='titleLarge' style={{ alignSelf: "flex-start" }}>Disguise&lt;/Text>
+                &lt;View style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                    &lt;TouchableOpacity>
+                        &lt;Icon name="calculator-variant" size={50} color={theme.colors.primary} />
+                    &lt;/TouchableOpacity>
+                    &lt;TouchableOpacity style={{ backgroundColor: theme.colors.primary, height: 37, width: 37, borderRadius: 5, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        &lt;Icon name="gamepad" size={35} color={theme.colors.onPrimary} />
+                    &lt;/TouchableOpacity>
+                &lt;/View>
+                &lt;Divider style={{ width: "90%", marginBottom: "3%" }} />
+                &lt;Button onPress={() => navigate.navigate('UpdatePassword')} style={{ width: "50%", marginBottom: "2%" }} textColor='#fff' icon="pen" mode='elevated' buttonColor={theme.colors.primary}>
+                    Update Password
+                &lt;/Button>
+                &lt;Button onPress={logout} style={{ width: "50%", marginBottom: "2%" }} textColor='#fff' icon="clock" mode='elevated' buttonColor={theme.colors.primary}>
+                    Logout
+                &lt;/Button>
+                &lt;Divider style={{ width: "90%", marginBottom: "3%" }} />
+                &lt;View>
+                    &lt;View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        &lt;Text variant="labelLarge">Sound&lt;/Text>
+                        &lt;Switch color="#06D6A0" disabled={false} value={userInformation.sound} onValueChange={() => updateToggles(!userInformation.sound, userInformation.notification, userInformation.vibration)} />
+                    &lt;/View>
+                    &lt;View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        &lt;Text variant="labelLarge">Notification&lt;/Text>
+                        &lt;Switch color="#06D6A0" style={{ marginLeft: "2%" }} disabled={false} value={userInformation.notification} onValueChange={() => updateToggles(userInformation.sound, !userInformation.notification, userInformation.vibration)} />
+                    &lt;/View>
+                    &lt;View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        &lt;Text variant="labelLarge">Vibration&lt;/Text>
+                        &lt;Switch color="#06D6A0" disabled={false} style={{ marginLeft: "2%" }} value={userInformation.vibration} onValueChange={() => updateToggles(userInformation.sound, userInformation.notification, !userInformation.vibration)} />
+                    &lt;/View>
+                &lt;/View>
+            &lt;/KeyboardAvoidingView>
+        &lt;/SafeAreaView>
+    );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Wed Aug 07 2024 16:19:44 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

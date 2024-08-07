@@ -2,7 +2,6 @@ import { Text, Portal, Modal, useTheme } from 'react-native-paper';
 import React from 'react';
 
 /**
- * 
  * @module screens/ModalComp
  * @description This is the ModalComp component. It is the component that shows the modal. It is used to show messages to the user.
  * @param {Object} props - Component props.
@@ -12,8 +11,8 @@ import React from 'react';
  * @param {function} props.getVisible - The function that returns the visible state of the modal.
  * @param {function} props.onHide - The function to call to hide the modal.
  * @returns {React.Element} Rendered component.
+ * @throws Will throw an error if the required props are not provided.
  * @author Fagner Nunes
- * 
  */
 
 export default function ModalComp({ navigation, Title, Message, getVisible, onHide }) {
