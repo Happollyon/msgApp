@@ -20,5 +20,5 @@ This is the frontend of the Messaging App, built with React Native. It provides 
 
 1. Clone the repository:
  
-   git clone https://github.com/yourusername/messaging-app-frontend.git
+   git clone (https://github.com/Happollyon/msgApp.git)
    cd messaging-app-frontend
